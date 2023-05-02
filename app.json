@@ -1,0 +1,16 @@
+{
+  "expo": {
+    "name": "diabetes_mate",
+    "slug": "diabetes-mate",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "d9dc4bf1-edfb-4a80-8379-e2afa56c73bb"
+      }
+    },
+    "owner": "3drds3hin"
+  }
+}
