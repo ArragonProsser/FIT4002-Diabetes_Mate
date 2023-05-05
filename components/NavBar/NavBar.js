@@ -8,12 +8,12 @@ import IonIcons from 'react-native-vector-icons/Ionicons'
 // Screens
 import AppointmentScreen from './tabs/AppointmentScreen';
 import BiomarkerScreen from './tabs/BiomarkerScreen';
-import ResourceScreen from './tabs/ResourceScreen';
+import EducationScreen from './tabs/EducationScreen';
 
 // Screen Names:
 const appointmentName = 'Appointments';
 const biomarkerName = 'Biomarkers';
-const resourcesName = 'Resources';
+const educationName = 'Education';
 
 const Tab = createBottomTabNavigator();
 
@@ -34,7 +34,7 @@ export default function NavBar() {
                             iconName = focused ? 'calendar' : 'calendar-outline'
                         } else if (routeName == biomarkerName) {
                             iconName = focused ? 'stats-chart' : 'stats-chart-outline'
-                        } else if (routeName == resourcesName) {
+                        } else if (routeName == educationName) {
                             iconName = focused ? 'book' : 'book-outline'
                         }
                         
@@ -44,12 +44,12 @@ export default function NavBar() {
                 })}
                 >
                     {/*
-                    Appointment, Biomarker, Resource Tabs 
+                    Appointment, Biomarker, Education Tabs 
                     options field hides the word name & only displays in the Icon.
                     */}
                     <Tab.Screen name={appointmentName} component={AppointmentScreen} options={{tabBarLabel: '',}}/>
                     <Tab.Screen name={biomarkerName} component={BiomarkerScreen} options={{tabBarLabel: '',}}/>
-                    <Tab.Screen name={resourcesName} component={ResourceScreen} options={{tabBarLabel: '',}}/>
+                    <Tab.Screen name={educationName} component={EducationScreen} options={{tabBarLabel: '',}}/>
             </Tab.Navigator>
         </NavigationContainer>
     )
