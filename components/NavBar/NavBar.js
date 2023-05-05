@@ -47,9 +47,9 @@ export default function NavBar() {
                     Appointment, Biomarker, Education Tabs 
                     options field hides the word name & only displays in the Icon.
                     */}
-                    <Tab.Screen name={appointmentName} component={AppointmentScreen} options={{tabBarLabel: '',}}/>
-                    <Tab.Screen name={biomarkerName} component={BiomarkerScreen} options={{tabBarLabel: '',}}/>
-                    <Tab.Screen name={educationName} component={EducationScreen} options={{tabBarLabel: '',}}/>
+                    <Tab.Screen name={appointmentName} component={AppointmentScreen} options={{tabBarLabel: '', headerTitleAlign: 'center',}}/>
+                    <Tab.Screen name={biomarkerName} component={BiomarkerScreen} options={{tabBarLabel: '', headerTitleAlign: 'center',}}/>
+                    <Tab.Screen name={educationName} component={EducationScreen} options={{tabBarLabel: '', headerTitleAlign: 'center',}}/>
             </Tab.Navigator>
         </NavigationContainer>
     )
