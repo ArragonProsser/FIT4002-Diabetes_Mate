@@ -40,7 +40,7 @@ export default function Resources() {
                 </ListItem.Title>
               </ListItem.Content>
               
-              <IonIcons name="open-outline" size={"1.25rem"}/>
+              <IonIcons name="open-outline" size={20}/>
             </ListItem>
           </>
         }
