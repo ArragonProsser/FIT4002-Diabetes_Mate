@@ -8,8 +8,14 @@ export default function Resources() {
 
     const styles = StyleSheet.create({
       container: {
-        flex: 1
+        flex: 1,
       },
+      listItem: {
+        paddingTop: 10,
+        paddingBottom: 10,
+        textAlignVertical: 'center',
+        textAlign: 'center',
+      }
     });
 
     return (
@@ -29,12 +35,12 @@ export default function Resources() {
           <>
             <ListItem bottomDivider>
               <ListItem.Content>
-                <ListItem.Title>
+                <ListItem.Title style={styles.listItem}>
                   {item.label}
                 </ListItem.Title>
               </ListItem.Content>
               
-              <IonIcons name="open-outline"/>
+              <IonIcons name="open-outline" size={"1.25rem"}/>
             </ListItem>
           </>
         }
