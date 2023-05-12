@@ -1,11 +1,13 @@
 import React from 'react';
 
-import {View, Text, StyleSheet, FlatList} from 'react-native';
+import {View, Text, StyleSheet, FlatList, TouchableOpacity} from 'react-native';
 import {ListItem} from "@rneui/themed";
+import { Ionicons } from '@expo/vector-icons';
 
 export default function Upcoming(navigation) {
 
     const styles = StyleSheet.create({
+
         listContainer: {
             flex: 1,
             paddingVertical: 40,
@@ -26,10 +28,22 @@ export default function Upcoming(navigation) {
             marginVertical: 10,
             color: "#7A889F",
             fontSize: 12,
+        },
+        addButtonContainer: {
+            position: 'absolute',
+            bottom: 30,
+            right: 30,
+            backgroundColor: '#5398FF',
+            borderRadius: 30,
+            width: 60,
+            height: 60,
+            justifyContent: 'center',
+            alignItems: 'center',
         }
     });
 
     return (
+        <View style={{ flex: 1 }}>
         <FlatList style={styles.listContainer}
                   data={[
                       {type: 'General Practitioner', time: 'Mon 23 Feb, 9:30am', dateReminder: 'Today'},
@@ -64,5 +78,11 @@ export default function Upcoming(navigation) {
                   ItemSeparatorComponent={() => <View style={{height: 15}}/>}
                   ListFooterComponent={<View style={{height: 80}}></View>}
         />
-    )
+        <TouchableOpacity style={styles.addButtonContainer}>
+        <Ionicons name="add" size={30} color="white" />
+      </TouchableOpacity>
+    </View>
+    );
 }
+
+
