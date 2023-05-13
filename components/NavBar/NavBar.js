@@ -1,5 +1,4 @@
 import * as React from 'react';
-import {View, Text} from 'react-native'
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -26,16 +25,16 @@ export default function NavBar() {
                 
                 // Sequentially define the Icons
                 screenOptions={({route}) => ({
-                    tabBarStyle: { height: 70 },
+                    tabBarStyle: { height: 80 },
                     tabBarIcon: ({focused, color, size}) => {
                         let iconName;
                         let routeName = route.name;
 
                         if (routeName === appointmentName) {
                             iconName = focused ? 'calendar' : 'calendar-outline'
-                        } else if (routeName == biomarkerName) {
+                        } else if (routeName === biomarkerName) {
                             iconName = focused ? 'stats-chart' : 'stats-chart-outline'
-                        } else if (routeName == educationName) {
+                        } else if (routeName === educationName) {
                             iconName = focused ? 'book' : 'book-outline'
                         }
                         
