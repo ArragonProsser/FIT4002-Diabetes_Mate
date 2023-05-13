@@ -11,6 +11,9 @@
         "projectId": "5ff42208-1a2f-4026-a074-07458b3b3e9e"
       }
     },
-    "owner": "3drds3hin"
+    "owner": "3drds3hin",
+    "ios": {
+      "bundleIdentifier": "org.name.diabetesmate"
+    }
   }
 }

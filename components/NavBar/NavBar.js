@@ -26,7 +26,7 @@ export default function NavBar() {
                 
                 // Sequentially define the Icons
                 screenOptions={({route}) => ({
-                    tabBarStyle: { height: 70 },
+                    tabBarStyle: { height: 80 },
                     tabBarIcon: ({focused, color, size}) => {
                         let iconName;
                         let routeName = route.name;
