@@ -54,8 +54,7 @@ export default function Upcoming(navigation) {
           modalContent: {
             backgroundColor: 'white',
     borderRadius: 10,
-    margin: 20,
-    padding: 20,
+    padding: 5,
           },
         modalHeader: {
             flexDirection: "row",
@@ -130,19 +129,19 @@ export default function Upcoming(navigation) {
                 <Ionicons name="add" size={30} color="white" />
             </TouchableOpacity>
             <Modal isVisible={isModalVisible} presentationStyle="pageSheet" transparent="false" style={styles.modalContainer}>
-            {/* <View style={styles.modalContainer}>
-                {/* <View style={styles.modalContent}> */}
-                    {/* <View style={styles.modalHeader}> */}
+            <View style={styles.modalContainer}>
+                <View style={styles.modalContent}>
+                    <View style={styles.modalHeader}>
                         <Text style={[styles.modalTitle]}>Appointment</Text>
                         <TouchableOpacity onPress={handleModal} style={styles.closeButton}>
                             <Ionicons name="close" size={24} color="black" />
                         </TouchableOpacity>
-                    {/* </View> */}
-                    {/* <View style={styles.modalBody}> */}
+                    </View>
+                    <View style={styles.modalBody}>
                         <Text>Hello!</Text>
-                    {/* </View> */}
-                {/* </View>
-            </View> */}
+                    </View>
+                </View>
+            </View>
             </Modal>
         </View>
     );
