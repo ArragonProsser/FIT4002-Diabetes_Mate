@@ -5,6 +5,8 @@ import { ListItem } from "@rneui/themed";
 import { Ionicons } from '@expo/vector-icons';
 import Modal from "react-native-modal";
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { Calendar } from 'react-native-calendars';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 export default function Upcoming(navigation) {
 
@@ -155,14 +157,66 @@ export default function Upcoming(navigation) {
         }
     });
 
+    const dateTimeStyles = StyleSheet.create({
+        modalContainer: {
+            flex: 1,
+        },
+        modalHeader: {
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            padding: 20,
+            borderBottomColor: '#ccc',
+            borderBottomWidth: 1,
+        },
+        modalTitle: {
+            fontSize: 20,
+            fontWeight: 'bold',
+            color: '#4b5e7d',
+        },
+        closeButton: {
+            padding: 10,
+        },
+        modalContent: {
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+        },
+        timePickerContainer: {
+            marginTop: 20,
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+        },
+        timePickerLabel: {
+            fontSize: 16,
+            color: 'grey',
+            marginBottom: 10,
+            marginLeft: 13,
+            justifyContent: 'flex-start',
+        },
+        calendarContainer: {
+            padding: 5,
+            marginBottom: 15
+        }
+    });
+
+
     const [isModalVisible, setIsModalVisible] = React.useState(false);
     const [isReminderEnabled, setIsReminderEnabled] = React.useState(false);
 
     const [isDoctorModalVisible, setIsDoctorModalVisible] = React.useState(false);
     const [selectedDoctorType, setSelectedDoctorType] = React.useState('');
 
+    const [isDateModalVisible, setIsDateModalVisible] = React.useState(false);
+    const [selectedDate, setSelectedDate] = React.useState('');
+
     const handleModal = () => setIsModalVisible(() => !isModalVisible);
     const handleDoctorModal = () => setIsDoctorModalVisible(() => !isDoctorModalVisible);
+    const handleDateModal = () => setIsDateModalVisible(() => !isDateModalVisible);
+
+    const [isTimePickerVisible, setTimePickerVisibility] = React.useState(false);
+    const [selectedTime, setSelectedTime] = React.useState(new Date());
 
     const handleToggleReminder = () => setIsReminderEnabled(prevState => !prevState);
 
@@ -197,9 +251,27 @@ export default function Upcoming(navigation) {
 
     const handleDoctorTypeSelection = (type) => {
         setSelectedDoctorType(type);
-
-
     };
+
+    const handleDateSelection = (type) => {
+        setSelectedDate(type)
+        console.log(selectedDate)
+    };
+
+    const handleTimePicker = () => {
+        setTimePickerVisibility(true);
+    }
+
+    const handleTimeSelection = (newTime) => {
+        if (newTime) {
+            const selectedDateTime = new Date(selectedDate);
+            const time = new Date(newTime);
+        
+            selectedDateTime.setHours(time.getHours());
+            selectedDateTime.setMinutes(time.getMinutes());
+            setSelectedTime(selectedDateTime);
+          }
+    }
 
     return (
         <View style={{ flex: 1 }}>
@@ -259,13 +331,17 @@ export default function Upcoming(navigation) {
                                 <Icon name="angle-right" size={25} color="#333" style={styles.arrowIcon} />
                             </View>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.appointmentCard}>
-                            <Text style={styles.appointmentCardTitle}>Appointment Type</Text>
+
+                        <TouchableOpacity onPress={handleDateModal} style={styles.appointmentCard}>
+                            <Text style={styles.appointmentCardTitle}>Appointment Date/Time</Text>
                             <View style={styles.appointmentCardRow}>
-                                <Text style={styles.appointmentCardLabel}>Select appointment type</Text>
+                                <Text style={styles.appointmentCardLabel}>
+                                    {selectedDate ? `${selectedDate}` : "Select appointment date/time"}
+                                </Text>
                                 <Icon name="angle-right" size={25} color="#333" style={styles.arrowIcon} />
                             </View>
                         </TouchableOpacity>
+
                         <View style={styles.appointmentCard}>
                             <View style={[styles.appointmentCardRow]}>
                                 <Text style={styles.appointmentCardTitle}>Appointment reminders</Text>
@@ -324,7 +400,7 @@ export default function Upcoming(navigation) {
                                                     <Ionicons
                                                         name="checkmark"
                                                         size={25}
-                                                        style={{ marginLeft: 10 , color: "blue"}}
+                                                        style={{ marginLeft: 10, color: "blue" }}
                                                     />
                                                 )}
                                             </View>
@@ -337,7 +413,48 @@ export default function Upcoming(navigation) {
                         />
                     </View>
                 </Modal>
-                
+                <Modal isVisible={isDateModalVisible} presentationStyle='pageSheet' transparent={false} style={styles.modalContainer}>
+                    <View style={dateTimeStyles.modalContainer}>
+                        <View style={styles.modalHeader}>
+                            <Text style={styles.modalTitle}>Appointment Type</Text>
+                            <TouchableOpacity onPress={handleDateModal} style={styles.closeButton}>
+                                <Ionicons name="close" size={24} color="#4b5e7d" />
+                            </TouchableOpacity>
+                        </View>
+
+                        <View>
+                            <Calendar style={dateTimeStyles.calendarContainer}
+                                hideExtraDays={true}
+                                onDayPress={(day) => handleDateSelection(day.dateString)}
+
+                                ideExtraDays={true}
+                                markedDates={{
+                                    [selectedDate]: { selected: true, marked: true },
+                                }}
+
+                            />
+
+                            <Text style={dateTimeStyles.timePickerLabel}>Select time: </Text>
+
+                            <View style={dateTimeStyles.timePickerContainer}>
+
+                                <DateTimePicker
+                                    value={selectedTime}
+                                    mode="time"
+                                    is24Hour={true}
+                                    display="default"
+                                    onChange={handleTimeSelection}
+
+                                />
+
+                            </View>
+
+
+                        </View>
+
+                    </View>
+                </Modal>
+
             </Modal >
 
         </View >
