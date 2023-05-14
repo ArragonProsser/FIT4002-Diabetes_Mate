@@ -1,9 +1,10 @@
 import React from 'react';
 
-import { Button, View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { Button, View, Text, StyleSheet, FlatList, TouchableOpacity, Switch } from 'react-native';
 import { ListItem } from "@rneui/themed";
 import { Ionicons } from '@expo/vector-icons';
 import Modal from "react-native-modal";
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default function Upcoming(navigation) {
 
@@ -47,15 +48,10 @@ export default function Upcoming(navigation) {
         },
         modalContainer: {
             flex: 1,
-            justifyContent: 'flex-end',
+            justifyContent: 'flex-start',
             margin: 0,
             backgroundColor: 'white',
-          },
-          modalContent: {
-            backgroundColor: 'white',
-    borderRadius: 10,
-    padding: 5,
-          },
+        },
         modalHeader: {
             flexDirection: "row",
             alignItems: "center",
@@ -65,29 +61,145 @@ export default function Upcoming(navigation) {
             backgroundColor: "white",
             borderTopLeftRadius: 10,
             borderTopRightRadius: 10,
-          },
-          modalTitle: {
+        },
+        modalTitle: {
             flex: 1,
             fontSize: 20,
-            fontWeight: "bold",
+            fontWeight: "400",
             marginBottom: 20,
             textAlign: "center",
-          },
-          modalBody: {
+            color: '#25437b'
+        },
+        modalBody: {
             backgroundColor: "white",
             marginBottom: 20,
-          },
+        },
         closeButton: {
             position: 'absolute',
             left: 20,
             top: 20,
 
         },
+        appointmentCard: {
+            backgroundColor: "white",
+            borderRadius: 10,
+            padding: 20,
+            marginBottom: 20,
+        },
+        appointmentCardTitle: {
+            fontSize: 16,
+            fontWeight: 'bold',
+            marginBottom: 10,
+            color: "#2a477e"
+        },
+        appointmentCardRow: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginBottom: 5,
+            justifyContent: 'space-between'
+        },
+        appointmentCardLabel: {
+            flex: 1,
+            fontSize: 14,
+            color: '#666',
+        },
+        appointmentCardValue: {
+            flex: 2,
+            fontSize: 14,
+            color: '#333',
+        },
+        bottomSection: {
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            backgroundColor: '#fff',
+            padding: 20,
+            borderTopWidth: 1,
+            borderTopColor: '#ddd',
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginBottom: 15,
+        },
+        createButton: {
+            backgroundColor: '#5398ff',
+            borderRadius: 20,
+            paddingVertical: 12,
+            paddingHorizontal: 40,
+            alignSelf: 'center',
+            marginBottom: 20,
+        },
+        createButtonText: {
+            color: '#fff',
+            fontSize: 18,
+            fontWeight: 'bold',
+            textAlign: 'center',
+        },
+        disabledButton: {
+            backgroundColor: '#a6c8fb'
+        },
+    });
+
+    const doctorTypeStyles = StyleSheet.create({
+        typeItem: {
+            borderBottomColor: '#ddd',
+            borderBottomWidth: 1,
+            height: 60
+        },
+        typeText: {
+            color: "#25437B",
+            fontSize: 16,
+            fontWeight: 600,
+            flexGrow: 1
+        }
     });
 
     const [isModalVisible, setIsModalVisible] = React.useState(false);
+    const [isReminderEnabled, setIsReminderEnabled] = React.useState(false);
+
+    const [isDoctorModalVisible, setIsDoctorModalVisible] = React.useState(false);
+    const [selectedDoctorType, setSelectedDoctorType] = React.useState('');
 
     const handleModal = () => setIsModalVisible(() => !isModalVisible);
+    const handleDoctorModal = () => setIsDoctorModalVisible(() => !isDoctorModalVisible);
+
+    const handleToggleReminder = () => setIsReminderEnabled(prevState => !prevState);
+
+    const formCompleted = false
+
+    const handleSubmit = () => {
+        // handle form submission
+    }
+
+    const renderDoctorType = ({ item }) => {
+        return (
+            <TouchableOpacity
+                style={styles.doctorType}
+                onPress={() => {
+                    setSelectedDoctorType(item.type);
+                    handleDoctorModal();
+                }}>
+                <Text>{item.type}</Text>
+            </TouchableOpacity>
+        );
+    };
+
+    const DoctorTypeModal = () => {
+        const doctorTypes = [
+            { id: 1, type: 'GP' },
+            { id: 2, type: 'Dietitian' },
+            { id: 3, type: 'Cardiologist' },
+            { id: 4, type: 'Dentist' },
+        ];
+
+    };
+
+    const handleDoctorTypeSelection = (type) => {
+        setSelectedDoctorType(type);
+
+
+    };
 
     return (
         <View style={{ flex: 1 }}>
@@ -129,21 +241,106 @@ export default function Upcoming(navigation) {
                 <Ionicons name="add" size={30} color="white" />
             </TouchableOpacity>
             <Modal isVisible={isModalVisible} presentationStyle="pageSheet" transparent="false" style={styles.modalContainer}>
-            <View style={styles.modalContainer}>
-                <View style={styles.modalContent}>
-                    <View style={styles.modalHeader}>
-                        <Text style={[styles.modalTitle]}>Appointment</Text>
+                <View style={styles.modalContainer}>
+
+                    <View style={styles.modalHeader} >
+                        <Text style={[styles.modalTitle]}>Create Appointment</Text>
                         <TouchableOpacity onPress={handleModal} style={styles.closeButton}>
-                            <Ionicons name="close" size={24} color="black" />
+                            <Ionicons name="close" size={24} color="#4b5e7d" />
                         </TouchableOpacity>
                     </View>
                     <View style={styles.modalBody}>
-                        <Text>Hello!</Text>
+                        <TouchableOpacity onPress={handleDoctorModal} style={styles.appointmentCard} >
+                            <Text style={styles.appointmentCardTitle}>Appointment Type</Text>
+                            <View style={styles.appointmentCardRow}>
+                                <Text style={styles.appointmentCardLabel}>
+                                    {selectedDoctorType ? `${selectedDoctorType}` : "Select appointment type"}
+                                </Text>
+                                <Icon name="angle-right" size={25} color="#333" style={styles.arrowIcon} />
+                            </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.appointmentCard}>
+                            <Text style={styles.appointmentCardTitle}>Appointment Type</Text>
+                            <View style={styles.appointmentCardRow}>
+                                <Text style={styles.appointmentCardLabel}>Select appointment type</Text>
+                                <Icon name="angle-right" size={25} color="#333" style={styles.arrowIcon} />
+                            </View>
+                        </TouchableOpacity>
+                        <View style={styles.appointmentCard}>
+                            <View style={[styles.appointmentCardRow]}>
+                                <Text style={styles.appointmentCardTitle}>Appointment reminders</Text>
+                                <Switch
+                                    value={isReminderEnabled}
+                                    onValueChange={handleToggleReminder}
+                                    trackColor={{ true: "#457fd6", false: "#767577" }}
+                                    thumbColor={isReminderEnabled ? "#f4f3f4" : "#f4f3f4"}
+                                    style={styles.toggleSwitch}
+                                />
+                            </View>
+                        </View>
                     </View>
+                    <View style={styles.bottomSection}>
+                        <TouchableOpacity
+                            style={[styles.createButton, !formCompleted && styles.disabledButton]}
+                            onPress={() => handleSubmit()}
+                            disabled={!formCompleted}>
+                            <Text style={styles.createButtonText}>Create</Text>
+                        </TouchableOpacity>
+                    </View>
+
                 </View>
-            </View>
-            </Modal>
-        </View>
+                <Modal isVisible={isDoctorModalVisible} presentationStyle="pageSheet" transparent={false} style={styles.modalContainer}>
+                    <View style={styles.modalContainer}>
+                        <View style={styles.modalHeader}>
+                            <Text style={styles.modalTitle}>Appointment Type</Text>
+                            <TouchableOpacity onPress={handleDoctorModal} style={styles.closeButton}>
+                                <Ionicons name="close" size={24} color="#4b5e7d" />
+                            </TouchableOpacity>
+                        </View>
+
+                        {/* List of doctor types */}
+                        <FlatList style={styles.listContainer}
+                            data={[
+                                { id: 1, type: 'GP' },
+                                { id: 2, type: 'Dietitian' },
+                                { id: 3, type: 'Cardiologist' },
+                                { id: 4, type: 'Dentist' },
+                            ]}
+                            renderItem={({ item }) => {
+                                const isSelected = item.type === selectedDoctorType;
+                                return (
+                                    <ListItem
+                                        style={doctorTypeStyles.typeItem}
+                                        onPress={() => handleDoctorTypeSelection(item.type)}
+                                    >
+
+                                        <ListItem.Content
+                                        >
+                                            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                                <ListItem.Title style={doctorTypeStyles.typeText}>
+                                                    {item.type}
+                                                </ListItem.Title>
+                                                {isSelected && (
+                                                    <Ionicons
+                                                        name="checkmark"
+                                                        size={25}
+                                                        style={{ marginLeft: 10 , color: "blue"}}
+                                                    />
+                                                )}
+                                            </View>
+                                        </ListItem.Content>
+                                    </ListItem>
+                                )
+                            }}
+                            ItemSeparatorComponent={() => <View style={{ height: 15 }} />}
+                            ListFooterComponent={<View style={{ height: 80 }}></View>}
+                        />
+                    </View>
+                </Modal>
+                
+            </Modal >
+
+        </View >
     );
 }
 
