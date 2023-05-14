@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import {NavigationContainer} from '@react-navigation/native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import IonIcons from 'react-native-vector-icons/Ionicons'
 
 // Screens
@@ -25,7 +25,7 @@ export default function NavBar() {
                 
                 // Sequentially define the Icons
                 screenOptions={({route}) => ({
-                    tabBarStyle: { height: 80 },
+                    tabBarStyle: {height: 80, paddingVertical: 10},
                     tabBarIcon: ({focused, color, size}) => {
                         let iconName;
                         let routeName = route.name;
@@ -42,7 +42,7 @@ export default function NavBar() {
                         return <IonIcons name={iconName} size={size} color={color}/>;
                     },
                 })}
-                >
+            >
                     {/*
                     Appointment, Biomarker, Education Tabs 
                     options field hides the word name & only displays in the Icon.
