@@ -18,9 +18,9 @@ function UpcomingStackScreen() {
                                         options={{
                                             headerTitle: '',
                                             headerBackTitleVisible: false,
-                                            headerStyle: {backgroundColor: '#457FD6'},
                                             headerTintColor: 'white',
-                                            headerShadowVisible: false
+                                            headerShadowVisible: false,
+                                            headerTransparent: true
                                         }}/>
         </UpcomingScreenStack.Navigator>
     );

@@ -7,7 +7,7 @@ export default function Detail({route}) {
     const styles = StyleSheet.create({
         topContainer: {
             paddingHorizontal: 20,
-            paddingTop: 10,
+            paddingTop: 60,
             paddingBottom: 20,
             backgroundColor: '#447FD6'
         },
@@ -30,14 +30,14 @@ export default function Detail({route}) {
         dateReminderContainer: {
             backgroundColor: '#6A99DE',
             paddingVertical: 10,
-            paddingHorizontal: 15,
-            borderRadius: 20
+            paddingHorizontal: 16,
+            borderRadius: 25
         },
         button: {
             backgroundColor: "#5398FF",
             borderRadius: 50,
             marginHorizontal: 30,
-            marginVertical: 20
+            marginVertical: 15
         },
         buttonText: {
             color: 'white',
@@ -106,6 +106,12 @@ export default function Detail({route}) {
                     </View>
                 </View>
             </ScrollView>
+            <View
+                style={{
+                    borderBottomColor: '#E8EBF0',
+                    borderBottomWidth: 1,
+                }}
+            />
             <TouchableOpacity style={styles.button}>
                 <Text style={styles.buttonText}>Start Appointment</Text>
             </TouchableOpacity>
