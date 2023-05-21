@@ -18,7 +18,6 @@ const Tab = createBottomTabNavigator();
 
 export default function NavBar() {
     return (
-        <NavigationContainer>
             <Tab.Navigator
                 // Start in the appointments tab.
                 initalRouteName={appointmentName}
@@ -51,6 +50,5 @@ export default function NavBar() {
                     <Tab.Screen name={biomarkerName} component={BiomarkerScreen} options={{tabBarLabel: '', headerTitleAlign: 'center',}}/>
                     <Tab.Screen name={educationName} component={EducationScreen} options={{tabBarLabel: '', headerTitleAlign: 'center',}}/>
             </Tab.Navigator>
-        </NavigationContainer>
     )
 }
