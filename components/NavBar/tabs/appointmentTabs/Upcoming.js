@@ -220,11 +220,11 @@ export default function Upcoming(navigation) {
 
     const handleToggleReminder = () => setIsReminderEnabled(prevState => !prevState);
 
-    const formCompleted = false
+    const formCompleted = false;
 
     const handleSubmit = () => {
         // handle form submission
-    }
+    };
 
     const renderDoctorType = ({ item }) => {
         return (
@@ -246,7 +246,6 @@ export default function Upcoming(navigation) {
             { id: 3, type: 'Cardiologist' },
             { id: 4, type: 'Dentist' },
         ];
-
     };
 
     const handleDoctorTypeSelection = (type) => {
@@ -254,24 +253,24 @@ export default function Upcoming(navigation) {
     };
 
     const handleDateSelection = (type) => {
-        setSelectedDate(type)
-        console.log(selectedDate)
+        setSelectedDate(type);
+        console.log(selectedDate);
     };
 
     const handleTimePicker = () => {
         setTimePickerVisibility(true);
-    }
+    };
 
     const handleTimeSelection = (newTime) => {
         if (newTime) {
             const selectedDateTime = new Date(selectedDate);
             const time = new Date(newTime);
-        
+
             selectedDateTime.setHours(time.getHours());
             selectedDateTime.setMinutes(time.getMinutes());
             setSelectedTime(selectedDateTime);
-          }
-    }
+        }
+    };
 
     return (
         <View style={{ flex: 1 }}>
@@ -309,18 +308,20 @@ export default function Upcoming(navigation) {
                 ItemSeparatorComponent={() => <View style={{ height: 15 }} />}
                 ListFooterComponent={<View style={{ height: 80 }}></View>}
             />
+
             <TouchableOpacity onPress={handleModal} style={styles.addButtonContainer}>
                 <Ionicons name="add" size={30} color="white" />
             </TouchableOpacity>
-            <Modal isVisible={isModalVisible} presentationStyle="pageSheet" transparent="false" style={styles.modalContainer}>
-                <View style={styles.modalContainer}>
 
+            <Modal isVisible={isModalVisible} presentationStyle="pageSheet" transparent={false} style={styles.modalContainer}>
+                <View style={styles.modalContainer}>
                     <View style={styles.modalHeader} >
                         <Text style={[styles.modalTitle]}>Create Appointment</Text>
                         <TouchableOpacity onPress={handleModal} style={styles.closeButton}>
                             <Ionicons name="close" size={24} color="#4b5e7d" />
                         </TouchableOpacity>
                     </View>
+
                     <View style={styles.modalBody}>
                         <TouchableOpacity onPress={handleDoctorModal} style={styles.appointmentCard} >
                             <Text style={styles.appointmentCardTitle}>Appointment Type</Text>
@@ -355,6 +356,7 @@ export default function Upcoming(navigation) {
                             </View>
                         </View>
                     </View>
+
                     <View style={styles.bottomSection}>
                         <TouchableOpacity
                             style={[styles.createButton, !formCompleted && styles.disabledButton]}
@@ -406,7 +408,7 @@ export default function Upcoming(navigation) {
                                             </View>
                                         </ListItem.Content>
                                     </ListItem>
-                                )
+                                );
                             }}
                             ItemSeparatorComponent={() => <View style={{ height: 15 }} />}
                             ListFooterComponent={<View style={{ height: 80 }}></View>}
@@ -426,39 +428,27 @@ export default function Upcoming(navigation) {
                             <Calendar style={dateTimeStyles.calendarContainer}
                                 hideExtraDays={true}
                                 onDayPress={(day) => handleDateSelection(day.dateString)}
-
                                 ideExtraDays={true}
                                 markedDates={{
                                     [selectedDate]: { selected: true, marked: true },
                                 }}
-
                             />
 
                             <Text style={dateTimeStyles.timePickerLabel}>Select time: </Text>
 
                             <View style={dateTimeStyles.timePickerContainer}>
-
                                 <DateTimePicker
                                     value={selectedTime}
                                     mode="time"
                                     is24Hour={true}
                                     display="default"
                                     onChange={handleTimeSelection}
-
                                 />
-
                             </View>
-
-
                         </View>
-
                     </View>
                 </Modal>
-
             </Modal >
-
         </View >
     );
 }
-
-

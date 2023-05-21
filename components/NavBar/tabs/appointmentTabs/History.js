@@ -1,7 +1,7 @@
 import React from 'react';
 
-import {View, Text, StyleSheet, FlatList, TouchableOpacity} from 'react-native';
-import {ListItem} from "@rneui/themed";
+import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { ListItem } from "@rneui/themed";
 import { Ionicons } from '@expo/vector-icons';
 
 export default function History() {
@@ -21,13 +21,13 @@ export default function History() {
 
     return (
 
-        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
             <Text>
                 History
             </Text>
             <TouchableOpacity style={styles.addButtonContainer}>
-        <Ionicons name="add" size={30} color="white" />
-      </TouchableOpacity>
+                <Ionicons name="add" size={30} color="white" />
+            </TouchableOpacity>
         </View>
-    )
+    );
 }
