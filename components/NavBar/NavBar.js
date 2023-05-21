@@ -11,7 +11,7 @@ import EducationScreen from './tabs/EducationScreen';
 
 // Screen Names:
 const appointmentName = 'Appointments';
-const biomarkerName = 'Biomarkers';
+const biomarkerName = 'Biomarker History';
 const educationName = 'Education';
 
 const Tab = createBottomTabNavigator();
@@ -21,7 +21,7 @@ export default function NavBar() {
             <Tab.Navigator
                 // Start in the appointments tab.
                 initalRouteName={appointmentName}
-                
+
                 // Sequentially define the Icons
                 screenOptions={({route}) => ({
                     tabBarStyle: {height: 80, paddingVertical: 10},
@@ -36,14 +36,14 @@ export default function NavBar() {
                         } else if (routeName === educationName) {
                             iconName = focused ? 'book' : 'book-outline'
                         }
-                        
+
                         // Icons (IonIcons happened to match figma diagram icons).
                         return <IonIcons name={iconName} size={size} color={color}/>;
                     },
                 })}
             >
                     {/*
-                    Appointment, Biomarker, Education Tabs 
+                    Appointment, Biomarker, Education Tabs
                     options field hides the word name & only displays in the Icon.
                     */}
                     <Tab.Screen name={appointmentName} component={AppointmentScreen} options={{tabBarLabel: '', headerTitleAlign: 'center',}}/>
