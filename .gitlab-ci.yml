@@ -1,0 +1,18 @@
+stages:
+  - build
+  - backend-test
+
+# Build stage
+build:
+  image: "node:19"
+  stage: build
+  script:
+    - echo "Installing dependencies"
+    - npm install
+
+backend-test:
+  image: "node:19"
+  stage: backend-test
+  script:
+    - echo "Testing"
+
