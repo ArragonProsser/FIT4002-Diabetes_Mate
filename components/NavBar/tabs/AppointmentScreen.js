@@ -4,6 +4,7 @@ import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs
 import {Upcoming, History} from "./appointmentTabs/Appointment";
 import Detail from "./appointmentTabs/Detail";
 import {createStackNavigator} from "@react-navigation/stack";
+import During from "./appointmentTabs/During";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -19,6 +20,14 @@ function UpcomingStackScreen() {
                                             headerTitle: '',
                                             headerBackTitleVisible: false,
                                             headerTintColor: 'white',
+                                            headerShadowVisible: false,
+                                            headerTransparent: true
+                                        }}/>
+            <UpcomingScreenStack.Screen name="During"
+                                        component={During}
+                                        options={{
+                                            headerTitle: '',
+                                            headerBackTitleVisible: false,
                                             headerShadowVisible: false,
                                             headerTransparent: true
                                         }}/>

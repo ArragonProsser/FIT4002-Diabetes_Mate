@@ -2,7 +2,7 @@ import React from 'react';
 
 import {View, Text, StyleSheet, ScrollView, TouchableOpacity} from 'react-native';
 
-export default function Detail({route}) {
+export default function Detail({route, navigation}) {
     const spacerHeight = 1000;
     const styles = StyleSheet.create({
         topContainer: {
@@ -112,7 +112,9 @@ export default function Detail({route}) {
                     borderBottomWidth: 1,
                 }}
             />
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button} onPress={() => {
+                navigation.navigate('During')
+            }}>
                 <Text style={styles.buttonText}>Start Appointment</Text>
             </TouchableOpacity>
         </View>
