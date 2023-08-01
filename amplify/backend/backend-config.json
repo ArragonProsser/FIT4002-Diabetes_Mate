@@ -49,5 +49,23 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     }
+  },
+  "parameters": {
+    "AMPLIFY_function_amplifyreactappbf5dfd79_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "amplifyreactappbf5dfd79"
+        }
+      ]
+    },
+    "AMPLIFY_function_amplifyreactappbf5dfd79_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "amplifyreactappbf5dfd79"
+        }
+      ]
+    }
   }
 }

@@ -25,6 +25,13 @@ const awsmobile = {
     },
     "aws_cognito_verification_mechanisms": [
         "EMAIL"
+    ],
+    "aws_cloud_logic_custom": [
+        {
+            "name": "apicaf82dd0",
+            "endpoint": "https://928zoew1c3.execute-api.ap-southeast-2.amazonaws.com/dev",
+            "region": "ap-southeast-2"
+        }
     ]
 };
 

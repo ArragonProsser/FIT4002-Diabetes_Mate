@@ -16,7 +16,13 @@
         "amplifyreactappc94f87b5": {}
       },
       "function": {
-        "amplifyreactappbf5dfd79": {}
+        "amplifyreactappbf5dfd79": {
+          "deploymentBucketName": "amplify-amplifyreactapp-dev-135857-deployment",
+          "s3Key": "amplify-builds/amplifyreactappbf5dfd79-4e4c3368724579646358-build.zip"
+        }
+      },
+      "api": {
+        "apicaf82dd0": {}
       }
     }
   }
