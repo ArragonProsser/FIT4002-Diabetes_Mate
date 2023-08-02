@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
 import {View, Text, StyleSheet, ScrollView, TouchableOpacity} from 'react-native';
 
@@ -67,6 +67,13 @@ export default function Detail({route, navigation}) {
         }
     });
     const {type, time, dateReminder} = route.params;
+
+    useEffect(() => {
+        navigation.getParent()?.setOptions({ tabBarStyle: { display: 'none' }, tabBarVisible: false });
+        return () =>
+            navigation.getParent()?.setOptions({ tabBarStyle: undefined, tabBarVisible: undefined });
+    }, [navigation]);
+
     return (
         <View style={{flex: 1, backgroundColor: 'white'}}>
             <ScrollView style={{flex: 1, backgroundColor: 'white'}}>
