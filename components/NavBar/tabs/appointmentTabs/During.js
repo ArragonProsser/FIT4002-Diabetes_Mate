@@ -124,7 +124,7 @@ function Biomarkers() {
         weight: '',
         HbA1c: '',
         urineAlbuminToCreatinineRatio: '',
-        liastolicBP: '',
+        diastolicBP: '',
         systolicBP: '',
         totalCholesterol: '',
         LDL: '',
@@ -147,7 +147,7 @@ function Biomarkers() {
                     </View>
                 </View>
                 <View style={styles.biomarkerContainer}>
-                    <Text style={styles.biomarkerSubtitle}>Weight (kg)</Text>
+                    <Text style={styles.biomarkerTitle}>Weight (kg)</Text>
                     <TextInput
                         style={styles.biomarkerPlaceholder}
                         placeholder="Enter weight"
@@ -161,7 +161,7 @@ function Biomarkers() {
                 </View>
                 <View style={styles.biomarkerDivider}/>
                 <View style={styles.biomarkerContainer}>
-                    <Text style={styles.biomarkerSubtitle}>Blood HbA1c Level</Text>
+                    <Text style={styles.biomarkerTitle}>Blood HbA1c Level</Text>
                     <TextInput
                         style={styles.biomarkerPlaceholder}
                         placeholder="Enter HbA1c Level"
@@ -175,7 +175,7 @@ function Biomarkers() {
                 </View>
                 <View style={styles.biomarkerDivider}/>
                 <View style={styles.biomarkerContainer}>
-                    <Text style={styles.biomarkerSubtitle}>Urine Albumin to Creatinine Ratio</Text>
+                    <Text style={styles.biomarkerTitle}>Urine Albumin to Creatinine Ratio</Text>
                     <TextInput
                         style={styles.biomarkerPlaceholder}
                         placeholder="Enter Urine Albumin to Creatinine Ratio"
@@ -192,14 +192,14 @@ function Biomarkers() {
                     <Text style={styles.biomarkerTitle}>Blood Pressure (BP)</Text>
                     <View style={styles.biomarkerRowFlexContainer}>
                         <View style={{width: '50%'}}>
-                            <Text style={styles.biomarkerSubtitle}>Liastolic BP</Text>
+                            <Text style={styles.biomarkerSubtitle}>Diastolic BP</Text>
                             <TextInput
                                 style={styles.biomarkerPlaceholder}
                                 placeholder="Enter Liastolic BP"
                                 keyboardType="numeric"
-                                value={biomarker.liastolicBP}
+                                value={biomarker.diastolicBP}
                                 onChangeText={(text) => {
-                                    setBiomarker({...biomarker, liastolicBP: text});
+                                    setBiomarker({...biomarker, diastolicBP: text});
                                 }}
                                 onEndEditing={toggleInputAlert}
                             />
@@ -234,7 +234,6 @@ function Biomarkers() {
                             onEndEditing={toggleInputAlert}
                         />
                     </View>
-                    <View style={styles.biomarkerDivider}/>
                     <View style={styles.biomarkerRowFlexContainer}>
                         <View style={{width: '33.33%'}}>
                             <Text style={styles.biomarkerSubtitle}>LDL</Text>
