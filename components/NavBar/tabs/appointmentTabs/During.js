@@ -2,6 +2,7 @@ import React from 'react';
 
 import {View, Text, StyleSheet, ScrollView, TouchableOpacity, KeyboardAvoidingView} from 'react-native';
 import {createMaterialTopTabNavigator} from "@react-navigation/material-top-tabs";
+import {Snackbar} from 'react-native-paper';
 import {TextInput} from "react-native-gesture-handler";
 
 const styles = StyleSheet.create({
@@ -62,7 +63,6 @@ const styles = StyleSheet.create({
     },
     biomarkerPlaceholder: {
         fontSize: 14,
-        color: '#A8B2C1',
         fontWeight: '400'
     },
     buttonDivider: {
@@ -119,6 +119,21 @@ export default function During() {
 }
 
 function Biomarkers() {
+    const [visible, setVisible] = React.useState(false);
+    const [biomarker, setBiomarker] = React.useState({
+        weight: '',
+        HbA1c: '',
+        urineAlbuminToCreatinineRatio: '',
+        liastolicBP: '',
+        systolicBP: '',
+        totalCholesterol: '',
+        LDL: '',
+        HDL: '',
+        TG: '',
+    });
+    const toggleInputAlert = () => setVisible(true);
+    const dismissInputAlert = () => setVisible(false);
+
     return (
         <KeyboardAvoidingView style={{flex: 1, backgroundColor: 'white'}}>
             <ScrollView style={styles.contentContainer}>
@@ -137,6 +152,11 @@ function Biomarkers() {
                         style={styles.biomarkerPlaceholder}
                         placeholder="Enter weight"
                         keyboardType="numeric"
+                        value={biomarker.weight}
+                        onChangeText={(text) => {
+                            setBiomarker({...biomarker, weight: text})
+                        }}
+                        onEndEditing={toggleInputAlert}
                     />
                 </View>
                 <View style={styles.biomarkerDivider}/>
@@ -146,6 +166,11 @@ function Biomarkers() {
                         style={styles.biomarkerPlaceholder}
                         placeholder="Enter HbA1c Level"
                         keyboardType="numeric"
+                        value={biomarker.HbA1c}
+                        onChangeText={(text) => {
+                            setBiomarker({...biomarker, HbA1c: text});
+                        }}
+                        onEndEditing={toggleInputAlert}
                     />
                 </View>
                 <View style={styles.biomarkerDivider}/>
@@ -155,6 +180,11 @@ function Biomarkers() {
                         style={styles.biomarkerPlaceholder}
                         placeholder="Enter Urine Albumin to Creatinine Ratio"
                         keyboardType="numeric"
+                        value={biomarker.urineAlbuminToCreatinineRatio}
+                        onChangeText={(text) => {
+                            setBiomarker({...biomarker, urineAlbuminToCreatinineRatio: text});
+                        }}
+                        onEndEditing={toggleInputAlert}
                     />
                 </View>
                 <View style={styles.biomarkerDivider}/>
@@ -167,6 +197,11 @@ function Biomarkers() {
                                 style={styles.biomarkerPlaceholder}
                                 placeholder="Enter Liastolic BP"
                                 keyboardType="numeric"
+                                value={biomarker.liastolicBP}
+                                onChangeText={(text) => {
+                                    setBiomarker({...biomarker, liastolicBP: text});
+                                }}
+                                onEndEditing={toggleInputAlert}
                             />
                         </View>
                         <View style={{width: '50%'}}>
@@ -175,6 +210,11 @@ function Biomarkers() {
                                 style={styles.biomarkerPlaceholder}
                                 placeholder="Enter Systolic BP"
                                 keyboardType="numeric"
+                                value={biomarker.systolicBP}
+                                onChangeText={(text) => {
+                                    setBiomarker({...biomarker, systolicBP: text});
+                                }}
+                                onEndEditing={toggleInputAlert}
                             />
                         </View>
                     </View>
@@ -187,6 +227,11 @@ function Biomarkers() {
                             style={styles.biomarkerPlaceholder}
                             placeholder="Enter Total Cholesterol"
                             keyboardType="numeric"
+                            value={biomarker.totalCholesterol}
+                            onChangeText={(text) => {
+                                setBiomarker({...biomarker, totalCholesterol: text});
+                            }}
+                            onEndEditing={toggleInputAlert}
                         />
                     </View>
                     <View style={styles.biomarkerDivider}/>
@@ -197,14 +242,24 @@ function Biomarkers() {
                                 style={styles.biomarkerPlaceholder}
                                 placeholder="Enter LDL"
                                 keyboardType="numeric"
+                                value={biomarker.LDL}
+                                onChangeText={(text) => {
+                                    setBiomarker({...biomarker, LDL: text});
+                                }}
+                                onEndEditing={toggleInputAlert}
                             />
                         </View>
                         <View style={{width: '33.33%'}}>
                             <Text style={styles.biomarkerSubtitle}>HDL</Text>
                             <TextInput
                                 style={styles.biomarkerPlaceholder}
-                                placeholder="HDL"
+                                placeholder="Enter HDL"
                                 keyboardType="numeric"
+                                value={biomarker.HDL}
+                                onChangeText={(text) => {
+                                    setBiomarker({...biomarker, HDL: text});
+                                }}
+                                onEndEditing={toggleInputAlert}
                             />
                         </View>
                         <View style={{width: '33.33%'}}>
@@ -213,6 +268,11 @@ function Biomarkers() {
                                 style={styles.biomarkerPlaceholder}
                                 placeholder="Enter TG"
                                 keyboardType="numeric"
+                                value={biomarker.TG}
+                                onChangeText={(text) => {
+                                    setBiomarker({...biomarker, TG: text});
+                                }}
+                                onEndEditing={toggleInputAlert}
                             />
                         </View>
                     </View>
@@ -220,6 +280,21 @@ function Biomarkers() {
                 </View>
                 <View style={{height: 65}}></View>
             </ScrollView>
+            <View>
+                <Snackbar
+                    visible={visible}
+                    onDismiss={dismissInputAlert}
+                    duration={4000}
+                    style={{
+                        backgroundColor: '#3DCE66',
+                        height: 20,
+                        alignSelf: 'flex-end',
+                        width: 250
+                    }}
+                >
+                    ✓  Biomarker has been updated!
+                </Snackbar>
+            </View>
             <View style={styles.buttonDivider}/>
             <TouchableOpacity style={styles.button}>
                 <Text style={styles.buttonText}>Complete Appointment</Text>
