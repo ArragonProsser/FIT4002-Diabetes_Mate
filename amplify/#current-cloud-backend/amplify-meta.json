@@ -1,0 +1,112 @@
+{
+  "providers": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-amplifyreactapp-dev-135857-authRole",
+      "UnauthRoleArn": "arn:aws:iam::847394109558:role/amplify-amplifyreactapp-dev-135857-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::847394109558:role/amplify-amplifyreactapp-dev-135857-authRole",
+      "Region": "ap-southeast-2",
+      "DeploymentBucketName": "amplify-amplifyreactapp-dev-135857-deployment",
+      "UnauthRoleName": "amplify-amplifyreactapp-dev-135857-unauthRole",
+      "StackName": "amplify-amplifyreactapp-dev-135857",
+      "StackId": "arn:aws:cloudformation:ap-southeast-2:847394109558:stack/amplify-amplifyreactapp-dev-135857/03bd9320-dc0b-11ed-9058-0234c1611f70",
+      "AmplifyAppId": "d298jcvzkiy2pg"
+    }
+  },
+  "auth": {
+    "amplifyreactappc94f87b5": {
+      "customAuth": false,
+      "dependsOn": [],
+      "frontendAuthConfig": {
+        "mfaConfiguration": "OFF",
+        "mfaTypes": [
+          "SMS"
+        ],
+        "passwordProtectionSettings": {
+          "passwordPolicyMinLength": 8,
+          "passwordPolicyCharacters": []
+        },
+        "signupAttributes": [
+          "EMAIL"
+        ],
+        "socialProviders": [],
+        "usernameAttributes": [
+          "EMAIL"
+        ],
+        "verificationMechanisms": [
+          "EMAIL"
+        ]
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "Cognito",
+      "output": {
+        "UserPoolId": "ap-southeast-2_4VgmXSEFc",
+        "AppClientIDWeb": "12amkc27da016p962lbue3luma",
+        "AppClientID": "78o4temqsg15ka9oc2ffqr7shu",
+        "IdentityPoolId": "ap-southeast-2:14ecab0e-7001-476e-85bb-45b6023af797",
+        "UserPoolArn": "arn:aws:cognito-idp:ap-southeast-2:847394109558:userpool/ap-southeast-2_4VgmXSEFc",
+        "IdentityPoolName": "amplifyreactappc94f87b5_identitypool_c94f87b5__dev",
+        "UserPoolName": "amplifyreactappc94f87b5_userpool_c94f87b5"
+      },
+      "lastPushTimeStamp": "2023-08-01T06:55:05.156Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-amplifyreactapp-dev-135857-deployment/amplify-cfn-templates/auth/amplifyreactappc94f87b5-cloudformation-template.json",
+        "logicalId": "authamplifyreactappc94f87b5"
+      }
+    }
+  },
+  "function": {
+    "amplifyreactappbf5dfd79": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "lastBuildTimeStamp": "2023-08-01T06:52:59.882Z",
+      "lastBuildType": "PROD",
+      "lastPackageTimeStamp": "2023-08-01T06:53:00.003Z",
+      "distZipFilename": "amplifyreactappbf5dfd79-4e4c3368724579646358-build.zip",
+      "s3Bucket": {
+        "deploymentBucketName": "amplify-amplifyreactapp-dev-135857-deployment",
+        "s3Key": "amplify-builds/amplifyreactappbf5dfd79-4e4c3368724579646358-build.zip"
+      },
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-amplifyreactapp-dev-135857-deployment/amplify-cfn-templates/function/amplifyreactappbf5dfd79-cloudformation-template.json",
+        "logicalId": "functionamplifyreactappbf5dfd79"
+      },
+      "lastPushTimeStamp": "2023-08-01T06:55:05.829Z",
+      "output": {
+        "LambdaExecutionRoleArn": "arn:aws:iam::847394109558:role/amplifyreactappLambdaRole57dd457b-dev",
+        "Region": "ap-southeast-2",
+        "Arn": "arn:aws:lambda:ap-southeast-2:847394109558:function:amplifyreactappbf5dfd79-dev",
+        "Name": "amplifyreactappbf5dfd79-dev",
+        "LambdaExecutionRole": "amplifyreactappLambdaRole57dd457b-dev"
+      },
+      "lastPushDirHash": "KBwQhIBP02hn1FXiiiQ/sB1iijg="
+    }
+  },
+  "api": {
+    "apicaf82dd0": {
+      "service": "API Gateway",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [
+        {
+          "category": "function",
+          "resourceName": "amplifyreactappbf5dfd79",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        }
+      ],
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-amplifyreactapp-dev-135857-deployment/amplify-cfn-templates/api/apicaf82dd0-cloudformation-template.json",
+        "logicalId": "apiapicaf82dd0"
+      },
+      "lastPushTimeStamp": "2023-08-01T06:55:05.829Z",
+      "output": {
+        "ApiName": "apicaf82dd0",
+        "RootUrl": "https://928zoew1c3.execute-api.ap-southeast-2.amazonaws.com/dev",
+        "ApiId": "928zoew1c3"
+      },
+      "lastPushDirHash": "CP5xrvxZ4UgsPwXxYnhcIlGCCwE="
+    }
+  }
+}
