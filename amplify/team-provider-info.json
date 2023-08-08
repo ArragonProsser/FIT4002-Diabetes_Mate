@@ -1,29 +1,15 @@
 {
   "dev": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-amplifyreactapp-dev-135857-authRole",
-      "UnauthRoleArn": "arn:aws:iam::847394109558:role/amplify-amplifyreactapp-dev-135857-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::847394109558:role/amplify-amplifyreactapp-dev-135857-authRole",
+      "AuthRoleName": "amplify-diabetesmate-dev-184512-authRole",
+      "UnauthRoleArn": "arn:aws:iam::144314603306:role/amplify-diabetesmate-dev-184512-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::144314603306:role/amplify-diabetesmate-dev-184512-authRole",
       "Region": "ap-southeast-2",
-      "DeploymentBucketName": "amplify-amplifyreactapp-dev-135857-deployment",
-      "UnauthRoleName": "amplify-amplifyreactapp-dev-135857-unauthRole",
-      "StackName": "amplify-amplifyreactapp-dev-135857",
-      "StackId": "arn:aws:cloudformation:ap-southeast-2:847394109558:stack/amplify-amplifyreactapp-dev-135857/03bd9320-dc0b-11ed-9058-0234c1611f70",
-      "AmplifyAppId": "d298jcvzkiy2pg"
-    },
-    "categories": {
-      "auth": {
-        "amplifyreactappc94f87b5": {}
-      },
-      "function": {
-        "amplifyreactappbf5dfd79": {
-          "deploymentBucketName": "amplify-amplifyreactapp-dev-135857-deployment",
-          "s3Key": "amplify-builds/amplifyreactappbf5dfd79-4e4c3368724579646358-build.zip"
-        }
-      },
-      "api": {
-        "apicaf82dd0": {}
-      }
+      "DeploymentBucketName": "amplify-diabetesmate-dev-184512-deployment",
+      "UnauthRoleName": "amplify-diabetesmate-dev-184512-unauthRole",
+      "StackName": "amplify-diabetesmate-dev-184512",
+      "StackId": "arn:aws:cloudformation:ap-southeast-2:144314603306:stack/amplify-diabetesmate-dev-184512/ba4fbef0-34fe-11ee-bff1-066b3f5df286",
+      "AmplifyAppId": "d3frrt9jzung6c"
     }
   }
 }
