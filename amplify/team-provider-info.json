@@ -10,6 +10,22 @@
       "StackName": "amplify-diabetesmate-dev-184512",
       "StackId": "arn:aws:cloudformation:ap-southeast-2:144314603306:stack/amplify-diabetesmate-dev-184512/ba4fbef0-34fe-11ee-bff1-066b3f5df286",
       "AmplifyAppId": "d3frrt9jzung6c"
+    },
+    "categories": {
+      "function": {
+        "dynamo8cd4042cTriggerb654cfb1": {
+          "deploymentBucketName": "amplify-diabetesmate-dev-184512-deployment",
+          "s3Key": "amplify-builds/dynamo8cd4042cTriggerb654cfb1-77504e78796d31667438-build.zip"
+        },
+        "dynamof931a4ceTriggeradf4930f": {
+          "deploymentBucketName": "amplify-diabetesmate-dev-184512-deployment",
+          "s3Key": "amplify-builds/dynamof931a4ceTriggeradf4930f-7472486f694171582b48-build.zip"
+        }
+      },
+      "storage": {
+        "dynamo8cd4042c": {},
+        "dynamof931a4ce": {}
+      }
     }
   }
 }

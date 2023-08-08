@@ -1,0 +1,12 @@
+{
+  "resourceName": "dynamof931a4ce",
+  "tableName": "Appointment",
+  "partitionKey": {
+    "fieldName": "appointment_id",
+    "fieldType": "string"
+  },
+  "gsi": [],
+  "triggerFunctions": [
+    "dynamof931a4ceTriggeradf4930f"
+  ]
+}

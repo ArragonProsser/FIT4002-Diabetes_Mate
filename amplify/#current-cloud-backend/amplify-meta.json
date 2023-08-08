@@ -11,5 +11,119 @@
       "StackId": "arn:aws:cloudformation:ap-southeast-2:144314603306:stack/amplify-diabetesmate-dev-184512/ba4fbef0-34fe-11ee-bff1-066b3f5df286",
       "AmplifyAppId": "d3frrt9jzung6c"
     }
+  },
+  "function": {
+    "dynamo8cd4042cTriggerb654cfb1": {
+      "service": "Lambda",
+      "providerPlugin": "awscloudformation",
+      "build": true,
+      "dependsOn": [
+        {
+          "category": "storage",
+          "resourceName": "dynamo8cd4042c",
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ]
+        }
+      ],
+      "lastPushTimeStamp": "2023-08-08T03:37:36.162Z",
+      "lastBuildTimeStamp": "2023-08-08T03:00:57.446Z",
+      "lastBuildType": "PROD",
+      "lastPackageTimeStamp": "2023-08-08T03:00:57.540Z",
+      "distZipFilename": "dynamo8cd4042cTriggerb654cfb1-77504e78796d31667438-build.zip",
+      "s3Bucket": {
+        "deploymentBucketName": "amplify-diabetesmate-dev-184512-deployment",
+        "s3Key": "amplify-builds/dynamo8cd4042cTriggerb654cfb1-77504e78796d31667438-build.zip"
+      },
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-diabetesmate-dev-184512-deployment/amplify-cfn-templates/function/dynamo8cd4042cTriggerb654cfb1-cloudformation-template.json",
+        "logicalId": "functiondynamo8cd4042cTriggerb654cfb1"
+      },
+      "output": {
+        "LambdaExecutionRoleArn": "arn:aws:iam::144314603306:role/dynamo8cd4042cLambdaRoleb654cfb1-dev",
+        "Region": "ap-southeast-2",
+        "Arn": "arn:aws:lambda:ap-southeast-2:144314603306:function:dynamo8cd4042cTriggerb654cfb1-dev",
+        "Name": "dynamo8cd4042cTriggerb654cfb1-dev",
+        "LambdaExecutionRole": "dynamo8cd4042cLambdaRoleb654cfb1-dev"
+      },
+      "lastPushDirHash": "cdkfG2MzO3c0ycaPQg4QL8VdGDY="
+    },
+    "dynamof931a4ceTriggeradf4930f": {
+      "service": "Lambda",
+      "providerPlugin": "awscloudformation",
+      "build": true,
+      "dependsOn": [
+        {
+          "category": "storage",
+          "resourceName": "dynamof931a4ce",
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ]
+        }
+      ],
+      "lastPushTimeStamp": "2023-08-08T03:37:36.886Z",
+      "lastBuildTimeStamp": "2023-08-08T03:35:30.202Z",
+      "lastBuildType": "PROD",
+      "lastPackageTimeStamp": "2023-08-08T03:35:30.278Z",
+      "distZipFilename": "dynamof931a4ceTriggeradf4930f-7472486f694171582b48-build.zip",
+      "s3Bucket": {
+        "deploymentBucketName": "amplify-diabetesmate-dev-184512-deployment",
+        "s3Key": "amplify-builds/dynamof931a4ceTriggeradf4930f-7472486f694171582b48-build.zip"
+      },
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-diabetesmate-dev-184512-deployment/amplify-cfn-templates/function/dynamof931a4ceTriggeradf4930f-cloudformation-template.json",
+        "logicalId": "functiondynamof931a4ceTriggeradf4930f"
+      },
+      "output": {
+        "LambdaExecutionRoleArn": "arn:aws:iam::144314603306:role/dynamof931a4ceLambdaRoleadf4930f-dev",
+        "Region": "ap-southeast-2",
+        "Arn": "arn:aws:lambda:ap-southeast-2:144314603306:function:dynamof931a4ceTriggeradf4930f-dev",
+        "Name": "dynamof931a4ceTriggeradf4930f-dev",
+        "LambdaExecutionRole": "dynamof931a4ceLambdaRoleadf4930f-dev"
+      },
+      "lastPushDirHash": "tnMmSSABNfiwQQdlzX5g32kY4to="
+    }
+  },
+  "storage": {
+    "dynamo8cd4042c": {
+      "service": "DynamoDB",
+      "providerPlugin": "awscloudformation",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-diabetesmate-dev-184512-deployment/amplify-cfn-templates/storage/dynamo8cd4042c-cloudformation-template.json",
+        "logicalId": "storagedynamo8cd4042c"
+      },
+      "lastPushTimeStamp": "2023-08-08T03:37:36.201Z",
+      "output": {
+        "PartitionKeyName": "user_id",
+        "Region": "ap-southeast-2",
+        "Arn": "arn:aws:dynamodb:ap-southeast-2:144314603306:table/User-dev",
+        "StreamArn": "arn:aws:dynamodb:ap-southeast-2:144314603306:table/User-dev/stream/2023-08-08T03:01:08.517",
+        "PartitionKeyType": "S",
+        "Name": "User-dev"
+      },
+      "lastPushDirHash": "JAP43DtKc274myf5Jnd4nM0cbIE="
+    },
+    "dynamof931a4ce": {
+      "service": "DynamoDB",
+      "providerPlugin": "awscloudformation",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-diabetesmate-dev-184512-deployment/amplify-cfn-templates/storage/dynamof931a4ce-cloudformation-template.json",
+        "logicalId": "storagedynamof931a4ce"
+      },
+      "lastPushTimeStamp": "2023-08-08T03:37:36.886Z",
+      "output": {
+        "PartitionKeyName": "appointment_id",
+        "Region": "ap-southeast-2",
+        "Arn": "arn:aws:dynamodb:ap-southeast-2:144314603306:table/Appointment-dev",
+        "StreamArn": "arn:aws:dynamodb:ap-southeast-2:144314603306:table/Appointment-dev/stream/2023-08-08T03:35:41.015",
+        "PartitionKeyType": "S",
+        "Name": "Appointment-dev"
+      },
+      "lastPushDirHash": "U29Cas6Tbzk9O6bbUAyq9UZkd4g="
+    }
   }
 }

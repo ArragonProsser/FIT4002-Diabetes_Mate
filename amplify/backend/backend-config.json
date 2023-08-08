@@ -1,1 +1,80 @@
-{}
+{
+  "function": {
+    "dynamo8cd4042cTriggerb654cfb1": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "dynamo8cd4042c"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "dynamof931a4ceTriggeradf4930f": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "dynamof931a4ce"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_function_dynamo8cd4042cTriggerb654cfb1_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "dynamo8cd4042cTriggerb654cfb1"
+        }
+      ]
+    },
+    "AMPLIFY_function_dynamo8cd4042cTriggerb654cfb1_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "dynamo8cd4042cTriggerb654cfb1"
+        }
+      ]
+    },
+    "AMPLIFY_function_dynamof931a4ceTriggeradf4930f_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "dynamof931a4ceTriggeradf4930f"
+        }
+      ]
+    },
+    "AMPLIFY_function_dynamof931a4ceTriggeradf4930f_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "dynamof931a4ceTriggeradf4930f"
+        }
+      ]
+    }
+  },
+  "storage": {
+    "dynamo8cd4042c": {
+      "providerPlugin": "awscloudformation",
+      "service": "DynamoDB"
+    },
+    "dynamof931a4ce": {
+      "providerPlugin": "awscloudformation",
+      "service": "DynamoDB"
+    }
+  }
+}
