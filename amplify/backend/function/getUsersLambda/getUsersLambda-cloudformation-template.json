@@ -2,26 +2,27 @@
   "AWSTemplateFormatVersion": "2010-09-09",
   "Description": "{\"createdOn\":\"Linux\",\"createdBy\":\"Amplify\",\"createdWith\":\"12.2.3\",\"stackType\":\"function-Lambda\",\"metadata\":{}}",
   "Parameters": {
-    "env": {
-      "Type": "String"
-    },
-    "storagedynamof931a4ceName": {
+    "CloudWatchRule": {
       "Type": "String",
-      "Default": "storagedynamof931a4ceName"
-    },
-    "storagedynamof931a4ceArn": {
-      "Type": "String",
-      "Default": "storagedynamof931a4ceArn"
-    },
-    "storagedynamof931a4ceStreamArn": {
-      "Type": "String",
-      "Default": "storagedynamof931a4ceArn"
+      "Default": "NONE",
+      "Description": " Schedule Expression"
     },
     "deploymentBucketName": {
       "Type": "String"
     },
+    "env": {
+      "Type": "String"
+    },
     "s3Key": {
       "Type": "String"
+    },
+    "storageUserName": {
+      "Type": "String",
+      "Default": "storageUserName"
+    },
+    "storageUserArn": {
+      "Type": "String",
+      "Default": "storageUserArn"
     }
   },
   "Conditions": {
@@ -42,16 +43,24 @@
         "aws:asset:property": "Code"
       },
       "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "deploymentBucketName"
+          },
+          "S3Key": {
+            "Ref": "s3Key"
+          }
+        },
         "Handler": "index.handler",
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "dynamof931a4ceTriggeradf4930f",
+            "getUsersLambda",
             {
               "Fn::Join": [
                 "",
                 [
-                  "dynamof931a4ceTriggeradf4930f",
+                  "getUsersLambda",
                   "-",
                   {
                     "Ref": "env"
@@ -65,6 +74,9 @@
           "Variables": {
             "ENV": {
               "Ref": "env"
+            },
+            "REGION": {
+              "Ref": "AWS::Region"
             }
           }
         },
@@ -75,15 +87,8 @@
           ]
         },
         "Runtime": "nodejs18.x",
-        "Timeout": 25,
-        "Code": {
-          "S3Bucket": {
-            "Ref": "deploymentBucketName"
-          },
-          "S3Key": {
-            "Ref": "s3Key"
-          }
-        }
+        "Layers": [],
+        "Timeout": 25
       }
     },
     "LambdaExecutionRole": {
@@ -92,12 +97,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "dynamof931a4ceLambdaRoleadf4930f",
+            "diabetesmateLambdaRole37489d2c",
             {
               "Fn::Join": [
                 "",
                 [
-                  "dynamof931a4ceLambdaRoleadf4930f",
+                  "diabetesmateLambdaRole37489d2c",
                   "-",
                   {
                     "Ref": "env"
@@ -163,62 +168,37 @@
                   }
                 ]
               }
-            }
-          ]
-        }
-      }
-    },
-    "dynamof931a4ceTriggerPolicy": {
-      "DependsOn": [
-        "LambdaExecutionRole"
-      ],
-      "Type": "AWS::IAM::Policy",
-      "Properties": {
-        "PolicyName": "lambda-trigger-policy-dynamof931a4ce",
-        "Roles": [
-          {
-            "Ref": "LambdaExecutionRole"
-          }
-        ],
-        "PolicyDocument": {
-          "Version": "2012-10-17",
-          "Statement": [
+            },
             {
               "Effect": "Allow",
               "Action": [
-                "dynamodb:DescribeStream",
-                "dynamodb:GetRecords",
-                "dynamodb:GetShardIterator",
-                "dynamodb:ListStreams"
+                "dynamodb:DescribeTable",
+                "dynamodb:GetItem",
+                "dynamodb:Query",
+                "dynamodb:Scan",
+                "dynamodb:PutItem",
+                "dynamodb:UpdateItem",
+                "dynamodb:DeleteItem"
               ],
               "Resource": [
                 {
-                  "Ref": "storagedynamof931a4ceStreamArn"
+                  "Ref": "storageUserArn"
+                },
+                {
+                  "Fn::Join": [
+                    "/",
+                    [
+                      {
+                        "Ref": "storageUserArn"
+                      },
+                      "index/*"
+                    ]
+                  ]
                 }
               ]
             }
           ]
         }
-      }
-    },
-    "dynamof931a4ceTrigger": {
-      "Type": "AWS::Lambda::EventSourceMapping",
-      "DependsOn": [
-        "dynamof931a4ceTriggerPolicy"
-      ],
-      "Properties": {
-        "BatchSize": 100,
-        "Enabled": true,
-        "EventSourceArn": {
-          "Ref": "storagedynamof931a4ceStreamArn"
-        },
-        "FunctionName": {
-          "Fn::GetAtt": [
-            "LambdaFunction",
-            "Arn"
-          ]
-        },
-        "StartingPosition": "LATEST"
       }
     }
   },

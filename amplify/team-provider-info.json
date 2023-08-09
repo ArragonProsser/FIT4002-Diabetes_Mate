@@ -12,19 +12,21 @@
       "AmplifyAppId": "d3frrt9jzung6c"
     },
     "categories": {
+      "storage": {
+        "User": {},
+        "Appointment": {}
+      },
       "function": {
-        "dynamo8cd4042cTriggerb654cfb1": {
+        "getUsersLambda": {
           "deploymentBucketName": "amplify-diabetesmate-dev-184512-deployment",
-          "s3Key": "amplify-builds/dynamo8cd4042cTriggerb654cfb1-77504e78796d31667438-build.zip"
-        },
-        "dynamof931a4ceTriggeradf4930f": {
-          "deploymentBucketName": "amplify-diabetesmate-dev-184512-deployment",
-          "s3Key": "amplify-builds/dynamof931a4ceTriggeradf4930f-7472486f694171582b48-build.zip"
+          "s3Key": "amplify-builds/getUsersLambda-714163465934466f4b65-build.zip"
         }
       },
-      "storage": {
-        "dynamo8cd4042c": {},
-        "dynamof931a4ce": {}
+      "auth": {
+        "diabetesmate": {}
+      },
+      "api": {
+        "User": {}
       }
     }
   }

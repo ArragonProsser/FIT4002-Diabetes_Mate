@@ -13,6 +13,34 @@ const awsmobile = {
             "tableName": "Appointment-dev",
             "region": "ap-southeast-2"
         }
+    ],
+    "aws_cognito_identity_pool_id": "ap-southeast-2:dddc7dc2-ddb1-4d2d-8bed-a3addfce82c3",
+    "aws_cognito_region": "ap-southeast-2",
+    "aws_user_pools_id": "ap-southeast-2_grRu85NLY",
+    "aws_user_pools_web_client_id": "2ipl0jv6h2627mjjdu9qumn0bh",
+    "oauth": {},
+    "aws_cognito_username_attributes": [],
+    "aws_cognito_social_providers": [],
+    "aws_cognito_signup_attributes": [
+        "EMAIL"
+    ],
+    "aws_cognito_mfa_configuration": "OFF",
+    "aws_cognito_mfa_types": [
+        "SMS"
+    ],
+    "aws_cognito_password_protection_settings": {
+        "passwordPolicyMinLength": 8,
+        "passwordPolicyCharacters": []
+    },
+    "aws_cognito_verification_mechanisms": [
+        "EMAIL"
+    ],
+    "aws_cloud_logic_custom": [
+        {
+            "name": "User",
+            "endpoint": "https://tirs01pari.execute-api.ap-southeast-2.amazonaws.com/dev",
+            "region": "ap-southeast-2"
+        }
     ]
 };
 

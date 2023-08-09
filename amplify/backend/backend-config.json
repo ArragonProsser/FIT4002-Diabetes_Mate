@@ -1,32 +1,61 @@
 {
-  "function": {
-    "dynamo8cd4042cTriggerb654cfb1": {
-      "build": true,
+  "api": {
+    "User": {
       "dependsOn": [
         {
           "attributes": [
             "Name",
-            "Arn",
-            "StreamArn"
+            "Arn"
           ],
-          "category": "storage",
-          "resourceName": "dynamo8cd4042c"
+          "category": "function",
+          "resourceName": "getUsersLambda"
         }
       ],
       "providerPlugin": "awscloudformation",
-      "service": "Lambda"
-    },
-    "dynamof931a4ceTriggeradf4930f": {
+      "service": "API Gateway"
+    }
+  },
+  "auth": {
+    "diabetesmate": {
+      "dependsOn": [],
+      "frontendAuthConfig": {
+        "mfaConfiguration": "OFF",
+        "mfaTypes": [
+          "SMS"
+        ],
+        "passwordProtectionSettings": {
+          "passwordPolicyCharacters": [],
+          "passwordPolicyMinLength": 8
+        },
+        "signupAttributes": [
+          "EMAIL"
+        ],
+        "socialProviders": [],
+        "usernameAttributes": [],
+        "verificationMechanisms": [
+          "EMAIL"
+        ]
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "Cognito",
+      "serviceType": "managed"
+    }
+  },
+  "function": {
+    "getUsersLambda": {
       "build": true,
       "dependsOn": [
         {
+          "attributeEnvMap": {
+            "Arn": "TABLE_ARN",
+            "Name": "TABLE_NAME"
+          },
           "attributes": [
             "Name",
-            "Arn",
-            "StreamArn"
+            "Arn"
           ],
           "category": "storage",
-          "resourceName": "dynamof931a4ce"
+          "resourceName": "User"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -34,45 +63,29 @@
     }
   },
   "parameters": {
-    "AMPLIFY_function_dynamo8cd4042cTriggerb654cfb1_deploymentBucketName": {
+    "AMPLIFY_function_getUsersLambda_deploymentBucketName": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "dynamo8cd4042cTriggerb654cfb1"
+          "resourceName": "getUsersLambda"
         }
       ]
     },
-    "AMPLIFY_function_dynamo8cd4042cTriggerb654cfb1_s3Key": {
+    "AMPLIFY_function_getUsersLambda_s3Key": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "dynamo8cd4042cTriggerb654cfb1"
-        }
-      ]
-    },
-    "AMPLIFY_function_dynamof931a4ceTriggeradf4930f_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "dynamof931a4ceTriggeradf4930f"
-        }
-      ]
-    },
-    "AMPLIFY_function_dynamof931a4ceTriggeradf4930f_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "dynamof931a4ceTriggeradf4930f"
+          "resourceName": "getUsersLambda"
         }
       ]
     }
   },
   "storage": {
-    "dynamo8cd4042c": {
+    "Appointment": {
       "providerPlugin": "awscloudformation",
       "service": "DynamoDB"
     },
-    "dynamof931a4ce": {
+    "User": {
       "providerPlugin": "awscloudformation",
       "service": "DynamoDB"
     }

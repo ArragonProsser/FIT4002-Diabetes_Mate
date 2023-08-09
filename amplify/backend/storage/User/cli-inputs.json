@@ -1,12 +1,10 @@
 {
-  "resourceName": "dynamo8cd4042c",
+  "resourceName": "User",
   "tableName": "User",
   "partitionKey": {
     "fieldName": "user_id",
     "fieldType": "string"
   },
   "gsi": [],
-  "triggerFunctions": [
-    "dynamo8cd4042cTriggerb654cfb1"
-  ]
+  "triggerFunctions": []
 }

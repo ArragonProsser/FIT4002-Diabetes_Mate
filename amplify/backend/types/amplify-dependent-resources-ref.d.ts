@@ -1,13 +1,24 @@
 export type AmplifyDependentResourcesAttributes = {
+  "api": {
+    "User": {
+      "ApiId": "string",
+      "ApiName": "string",
+      "RootUrl": "string"
+    }
+  },
+  "auth": {
+    "diabetesmate": {
+      "AppClientID": "string",
+      "AppClientIDWeb": "string",
+      "IdentityPoolId": "string",
+      "IdentityPoolName": "string",
+      "UserPoolArn": "string",
+      "UserPoolId": "string",
+      "UserPoolName": "string"
+    }
+  },
   "function": {
-    "dynamo8cd4042cTriggerb654cfb1": {
-      "Arn": "string",
-      "LambdaExecutionRole": "string",
-      "LambdaExecutionRoleArn": "string",
-      "Name": "string",
-      "Region": "string"
-    },
-    "dynamof931a4ceTriggeradf4930f": {
+    "getUsersLambda": {
       "Arn": "string",
       "LambdaExecutionRole": "string",
       "LambdaExecutionRoleArn": "string",
@@ -16,7 +27,7 @@ export type AmplifyDependentResourcesAttributes = {
     }
   },
   "storage": {
-    "dynamo8cd4042c": {
+    "Appointment": {
       "Arn": "string",
       "Name": "string",
       "PartitionKeyName": "string",
@@ -24,7 +35,7 @@ export type AmplifyDependentResourcesAttributes = {
       "Region": "string",
       "StreamArn": "string"
     },
-    "dynamof931a4ce": {
+    "User": {
       "Arn": "string",
       "Name": "string",
       "PartitionKeyName": "string",
