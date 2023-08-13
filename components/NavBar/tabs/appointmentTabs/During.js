@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {View, Text, StyleSheet, ScrollView, TouchableOpacity, KeyboardAvoidingView} from 'react-native';
+import {View, Text, StyleSheet, ScrollView, TouchableOpacity, KeyboardAvoidingView, Alert} from 'react-native';
 import {createMaterialTopTabNavigator} from "@react-navigation/material-top-tabs";
 import {Snackbar} from 'react-native-paper';
 import {TextInput} from "react-native-gesture-handler";
@@ -77,8 +77,9 @@ const styles = StyleSheet.create({
     button: {
         backgroundColor: "#5398FF",
         borderRadius: 50,
-        marginHorizontal: 30,
-        marginVertical: 15
+        marginVertical: 15,
+        width: '90%',
+        alignSelf: 'center'
     },
     buttonText: {
         color: 'white',
@@ -91,7 +92,7 @@ const styles = StyleSheet.create({
 
 
 const Tab = createMaterialTopTabNavigator();
-export default function During() {
+export default function During({route, navigation}) {
     return (
         <>
             <View style={styles.spacer}></View>
@@ -110,15 +111,15 @@ export default function During() {
                     }
                 }}
             >
-                <Tab.Screen name="Biomarkers" component={Biomarkers}/>
-                <Tab.Screen name="Questions" component={Questions}/>
-                <Tab.Screen name="Notes" component={Notes}/>
+                <Tab.Screen name="Biomarkers" component={Biomarkers} initialParams={{route, navigation}}/>
+                <Tab.Screen name="Questions" component={Questions} initialParams={{route, navigation}}/>
+                <Tab.Screen name="Notes" component={Notes} initialParams={{route, navigation}}/>
             </Tab.Navigator>
         </>
     );
 }
 
-function Biomarkers() {
+function Biomarkers({route, navigation}) {
     const [visible, setVisible] = React.useState(false);
     const [biomarker, setBiomarker] = React.useState({
         weight: '',
@@ -131,8 +132,35 @@ function Biomarkers() {
         HDL: '',
         TG: '',
     });
-    const toggleInputAlert = () => setVisible(true);
+
+    const isValid = (text) => {
+        const regex = /^[1-9]\d*(\.\d+)?$/;
+        return regex.test(text);
+    };
+    const validateBiomarker = (text, biomarkerName) => {
+        if (isValid(text)) {
+            setBiomarker({...biomarker, weight: text});
+            setVisible(true)
+        } else {
+            alert(biomarkerName)
+        }
+    }
+
     const dismissInputAlert = () => setVisible(false);
+
+    const alert = (biomarker) => {
+        Alert.prompt(
+            "Invalid value",
+            "Please enter a valid " + biomarker + " value.",
+            [
+                {
+                    text: "Dismiss",
+                }
+            ],
+            'default'
+        );
+    };
+
 
     return (
         <KeyboardAvoidingView style={{flex: 1, backgroundColor: 'white'}}>
@@ -152,11 +180,7 @@ function Biomarkers() {
                         style={styles.biomarkerPlaceholder}
                         placeholder="Enter weight"
                         keyboardType="numeric"
-                        value={biomarker.weight}
-                        onChangeText={(text) => {
-                            setBiomarker({...biomarker, weight: text})
-                        }}
-                        onEndEditing={toggleInputAlert}
+                        onEndEditing={e => validateBiomarker(e.nativeEvent.text, 'weight')}
                     />
                 </View>
                 <View style={styles.biomarkerDivider}/>
@@ -166,11 +190,7 @@ function Biomarkers() {
                         style={styles.biomarkerPlaceholder}
                         placeholder="Enter HbA1c Level"
                         keyboardType="numeric"
-                        value={biomarker.HbA1c}
-                        onChangeText={(text) => {
-                            setBiomarker({...biomarker, HbA1c: text});
-                        }}
-                        onEndEditing={toggleInputAlert}
+                        onEndEditing={e => validateBiomarker(e.nativeEvent.text, 'HbA1c')}
                     />
                 </View>
                 <View style={styles.biomarkerDivider}/>
@@ -180,11 +200,7 @@ function Biomarkers() {
                         style={styles.biomarkerPlaceholder}
                         placeholder="Enter Urine Albumin to Creatinine Ratio"
                         keyboardType="numeric"
-                        value={biomarker.urineAlbuminToCreatinineRatio}
-                        onChangeText={(text) => {
-                            setBiomarker({...biomarker, urineAlbuminToCreatinineRatio: text});
-                        }}
-                        onEndEditing={toggleInputAlert}
+                        onEndEditing={e => validateBiomarker(e.nativeEvent.text, 'Urine Albumin to Creatinine Ratio')}
                     />
                 </View>
                 <View style={styles.biomarkerDivider}/>
@@ -195,13 +211,9 @@ function Biomarkers() {
                             <Text style={styles.biomarkerSubtitle}>Diastolic BP</Text>
                             <TextInput
                                 style={styles.biomarkerPlaceholder}
-                                placeholder="Enter Liastolic BP"
+                                placeholder="Enter Diastolic BP"
                                 keyboardType="numeric"
-                                value={biomarker.diastolicBP}
-                                onChangeText={(text) => {
-                                    setBiomarker({...biomarker, diastolicBP: text});
-                                }}
-                                onEndEditing={toggleInputAlert}
+                                onEndEditing={e => validateBiomarker(e.nativeEvent.text, 'Diastolic BP')}
                             />
                         </View>
                         <View style={{width: '50%'}}>
@@ -210,11 +222,7 @@ function Biomarkers() {
                                 style={styles.biomarkerPlaceholder}
                                 placeholder="Enter Systolic BP"
                                 keyboardType="numeric"
-                                value={biomarker.systolicBP}
-                                onChangeText={(text) => {
-                                    setBiomarker({...biomarker, systolicBP: text});
-                                }}
-                                onEndEditing={toggleInputAlert}
+                                onEndEditing={e => validateBiomarker(e.nativeEvent.text, 'Systolic BP')}
                             />
                         </View>
                     </View>
@@ -227,11 +235,7 @@ function Biomarkers() {
                             style={styles.biomarkerPlaceholder}
                             placeholder="Enter Total Cholesterol"
                             keyboardType="numeric"
-                            value={biomarker.totalCholesterol}
-                            onChangeText={(text) => {
-                                setBiomarker({...biomarker, totalCholesterol: text});
-                            }}
-                            onEndEditing={toggleInputAlert}
+                            onEndEditing={e => validateBiomarker(e.nativeEvent.text, 'Total Cholesterol')}
                         />
                     </View>
                     <View style={styles.biomarkerRowFlexContainer}>
@@ -241,11 +245,7 @@ function Biomarkers() {
                                 style={styles.biomarkerPlaceholder}
                                 placeholder="Enter LDL"
                                 keyboardType="numeric"
-                                value={biomarker.LDL}
-                                onChangeText={(text) => {
-                                    setBiomarker({...biomarker, LDL: text});
-                                }}
-                                onEndEditing={toggleInputAlert}
+                                onEndEditing={e => validateBiomarker(e.nativeEvent.text, 'LDL')}
                             />
                         </View>
                         <View style={{width: '33.33%'}}>
@@ -254,11 +254,7 @@ function Biomarkers() {
                                 style={styles.biomarkerPlaceholder}
                                 placeholder="Enter HDL"
                                 keyboardType="numeric"
-                                value={biomarker.HDL}
-                                onChangeText={(text) => {
-                                    setBiomarker({...biomarker, HDL: text});
-                                }}
-                                onEndEditing={toggleInputAlert}
+                                onEndEditing={e => validateBiomarker(e.nativeEvent.text, 'HDL')}
                             />
                         </View>
                         <View style={{width: '33.33%'}}>
@@ -267,11 +263,7 @@ function Biomarkers() {
                                 style={styles.biomarkerPlaceholder}
                                 placeholder="Enter TG"
                                 keyboardType="numeric"
-                                value={biomarker.TG}
-                                onChangeText={(text) => {
-                                    setBiomarker({...biomarker, TG: text});
-                                }}
-                                onEndEditing={toggleInputAlert}
+                                onEndEditing={e => validateBiomarker(e.nativeEvent.text, 'TG')}
                             />
                         </View>
                     </View>
@@ -279,51 +271,55 @@ function Biomarkers() {
                 </View>
                 <View style={{height: 65}}></View>
             </ScrollView>
-            <View>
-                <Snackbar
-                    visible={visible}
-                    onDismiss={dismissInputAlert}
-                    duration={4000}
-                    style={{
-                        backgroundColor: '#3DCE66',
-                        height: 20,
-                        alignSelf: 'flex-end',
-                        width: 250
-                    }}
-                >
-                    ✓  Biomarker has been updated!
-                </Snackbar>
-            </View>
+            <Snackbar
+                visible={visible}
+                onDismiss={dismissInputAlert}
+                duration={4000}
+                style={{
+                    backgroundColor: '#3DCE66',
+                    alignSelf: 'flex-end',
+                    width: 250,
+                }}
+                wrapperStyle={{ zIndex: 1000 }}
+            >
+                ✓ Biomarker has been updated!
+            </Snackbar>
             <View style={styles.buttonDivider}/>
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button} onPress={() => {
+                navigation.navigate('History')
+            }}>
                 <Text style={styles.buttonText}>Complete Appointment</Text>
             </TouchableOpacity>
         </KeyboardAvoidingView>
     )
 }
 
-function Questions() {
+function Questions({route, navigation}) {
     return (
         <View style={{flex: 1, backgroundColor: 'white'}}>
             <ScrollView style={styles.contentContainer}>
                 <Text>Questions Tab</Text>
             </ScrollView>
             <View style={styles.buttonDivider}/>
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button} onPress={() => {
+                navigation.navigate('History')
+            }}>
                 <Text style={styles.buttonText}>Complete Appointment</Text>
             </TouchableOpacity>
         </View>
     )
 }
 
-function Notes() {
+function Notes({route, navigation}) {
     return (
         <View style={{flex: 1, backgroundColor: 'white'}}>
             <ScrollView style={styles.contentContainer}>
                 <Text>Notes Tab</Text>
             </ScrollView>
             <View style={styles.buttonDivider}/>
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button} onPress={() => {
+                navigation.navigate('History')
+            }}>
                 <Text style={styles.buttonText}>Complete Appointment</Text>
             </TouchableOpacity>
         </View>
