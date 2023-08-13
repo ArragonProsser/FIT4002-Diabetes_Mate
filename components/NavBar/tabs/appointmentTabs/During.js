@@ -1,26 +1,10 @@
 import React, { useRef, useState } from 'react';
 
-import {
-    View,
-    Text,
-    StyleSheet,
-    ScrollView,
-    TouchableOpacity,
-    KeyboardAvoidingView,
-    Alert,
-    Dimensions
-} from 'react-native';
-import {createMaterialTopTabNavigator} from "@react-navigation/material-top-tabs";
-import IonIcons from 'react-native-vector-icons/Ionicons';
-import {Snackbar} from 'react-native-paper';
-import {TextInput} from "react-native-gesture-handler";
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, KeyboardAvoidingView, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, KeyboardAvoidingView, Alert, Dimensions } from 'react-native';
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { TextInput } from "react-native-gesture-handler";
 import IonIcons from 'react-native-vector-icons/Ionicons';
 import { Snackbar } from 'react-native-paper';
-
-const screenWidth = Dimensions.get('window').width;
 
 const screenWidth = Dimensions.get('window').width;
 const styles = StyleSheet.create({
@@ -81,7 +65,6 @@ const styles = StyleSheet.create({
     },
     biomarkerPlaceholder: {
         fontSize: 14,
-        color: '#A8B2C1',
         fontWeight: '400',
         flexWrap: 'wrap'
     },
@@ -185,14 +168,16 @@ export default function During({route, navigation}) {
             </Tab.Navigator>
 
             <View style={styles.buttonDivider} />
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button} onPress={() => {
+                navigation.navigate('History')
+            }}>
                 <Text style={styles.buttonText}>Complete Appointment</Text>
             </TouchableOpacity>
         </View>
     );
 }
 
-function Biomarkers({route, navigation}) {
+function Biomarkers() {
     const [visible, setVisible] = React.useState(false);
     const [biomarker, setBiomarker] = React.useState({
         weight: '',
@@ -361,7 +346,7 @@ function Biomarkers({route, navigation}) {
     );
 }
 
-function Questions({route, navigation}) {
+function Questions() {
     return (
         <View style={{ flex: 1, backgroundColor: 'white' }}>
             <ScrollView style={styles.contentContainer}>
@@ -402,7 +387,7 @@ function Recording() {
     );
 }
 
-function Notes({route, navigation}) {
+function Notes() {
     const [recording, setRecording] = useState(false);
 
     return (
