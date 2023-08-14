@@ -76,3 +76,6 @@ amplifytools.xcconfig
 .secret-*
 **.sample
 #amplify-do-not-edit-end
+
+outputs.json
+outputs.txt
