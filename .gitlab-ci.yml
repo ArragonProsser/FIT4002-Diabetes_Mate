@@ -13,7 +13,7 @@ build:
 
 
 backend-test:
-  image: "alpine"
+  image: "amazon/aws-cli"
   stage: backend-test
   script:
     - echo "Testing"
