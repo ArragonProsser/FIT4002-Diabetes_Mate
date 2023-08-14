@@ -16,6 +16,7 @@ backend-test:
   script:
     - echo "Testing"
     - npm install -g @aws-amplify/cli
+    - apk add --no-cache jq
     - amplify mock function usersLambda --event src/event.json --timeout 20 > outputs.txt
     - awk '/{/,/} /' outputs.txt | tail -n +4 | head -n -1 > outputs.json
     - status_code=$(jq -r '.statusCode' outputs.json)
