@@ -191,25 +191,32 @@ function Biomarkers() {
         TG: '',
     });
 
-    const isValid = (text) => {
+    const isValidNumber = (text) => {
         const regex = /^[1-9]\d*(\.\d+)?$/;
         return regex.test(text);
     };
-    const validateBiomarker = (text, biomarkerName) => {
-        if (isValid(text)) {
-            setBiomarker({...biomarker, weight: text});
-            setVisible(true)
+
+    const validateBiomarker = (text, biomarkerName, min, max, ) => {
+        if (isValidNumber(text)) {
+            const value = Number.parseFloat(text)
+            if(Number.isNaN(value)){
+                alert("Please enter a " + biomarkerName + ".")
+            } else if(value < min || value > max) {
+                alert("Please enter a valid " + biomarkerName + ".")
+            } else {
+                setVisible(true)
+                return true
+            }
         } else {
-            alert(biomarkerName)
+            alert("Please enter a valid " + biomarkerName + ".")
         }
-    }
+        return false
+    };
 
-    const dismissInputAlert = () => setVisible(false);
-
-    const alert = (biomarker) => {
+    const alert = (message) => {
         Alert.prompt(
             "Invalid value",
-            "Please enter a valid " + biomarker + " value.",
+            message,
             [
                 {
                     text: "Dismiss",
@@ -238,7 +245,12 @@ function Biomarkers() {
                         style={styles.biomarkerPlaceholder}
                         placeholder="Enter weight"
                         keyboardType="numeric"
-                        onEndEditing={e => validateBiomarker(e.nativeEvent.text, 'weight')}
+                        maxLength={6}
+                        onEndEditing={e => {
+                            if (validateBiomarker(e.nativeEvent.text, 'Weight', 20, 250)) {
+                                setBiomarker({...biomarker, weight: e.nativeEvent.text});
+                            }
+                        }}
                     />
                 </View>
                 <View style={styles.biomarkerDivider} />
@@ -248,7 +260,12 @@ function Biomarkers() {
                         style={styles.biomarkerPlaceholder}
                         placeholder="Enter HbA1c Level"
                         keyboardType="numeric"
-                        onEndEditing={e => validateBiomarker(e.nativeEvent.text, 'HbA1c')}
+                        maxLength={5}
+                        onEndEditing={e => {
+                            if (validateBiomarker(e.nativeEvent.text, 'HbA1c', 4, 20)) {
+                                setBiomarker({...biomarker, HbA1c: e.nativeEvent.text});
+                            }
+                        }}
                     />
                 </View>
                 <View style={styles.biomarkerDivider} />
@@ -258,7 +275,12 @@ function Biomarkers() {
                         style={styles.biomarkerPlaceholder}
                         placeholder="Enter Urine Albumin to Creatinine Ratio"
                         keyboardType="numeric"
-                        onEndEditing={e => validateBiomarker(e.nativeEvent.text, 'Urine Albumin to Creatinine Ratio')}
+                        maxLength={6}
+                        onEndEditing={e => {
+                            if (validateBiomarker(e.nativeEvent.text, 'Urine Albumin to Creatinine Ratio', 0, 300)) {
+                                setBiomarker({...biomarker, urineAlbuminToCreatinineRatio: e.nativeEvent.text});
+                            }
+                        }}
                     />
                 </View>
                 <View style={styles.biomarkerDivider} />
@@ -271,7 +293,12 @@ function Biomarkers() {
                                 style={styles.biomarkerPlaceholder}
                                 placeholder="Enter Diastolic BP"
                                 keyboardType="numeric"
-                                onEndEditing={e => validateBiomarker(e.nativeEvent.text, 'Diastolic BP')}
+                                maxLength={6}
+                                onEndEditing={e => {
+                                    if (validateBiomarker(e.nativeEvent.text, 'Diastolic BP', 20, 150)) {
+                                        setBiomarker({...biomarker, diastolicBP: e.nativeEvent.text});
+                                    }
+                                }}
                             />
                         </View>
                         <View style={{ width: '50%' }}>
@@ -280,7 +307,12 @@ function Biomarkers() {
                                 style={styles.biomarkerPlaceholder}
                                 placeholder="Enter Systolic BP"
                                 keyboardType="numeric"
-                                onEndEditing={e => validateBiomarker(e.nativeEvent.text, 'Systolic BP')}
+                                maxLength={6}
+                                onEndEditing={e => {
+                                    if (validateBiomarker(e.nativeEvent.text, 'Systolic BP', 50, 250)) {
+                                        setBiomarker({...biomarker, systolicBP: e.nativeEvent.text});
+                                    }
+                                }}
                             />
                         </View>
                     </View>
@@ -293,7 +325,12 @@ function Biomarkers() {
                             style={styles.biomarkerPlaceholder}
                             placeholder="Enter Total Cholesterol"
                             keyboardType="numeric"
-                            onEndEditing={e => validateBiomarker(e.nativeEvent.text, 'Total Cholesterol')}
+                            maxLength={5}
+                            onEndEditing={e => {
+                                if (validateBiomarker(e.nativeEvent.text, 'Total Cholesterol', 1, 20)) {
+                                    setBiomarker({...biomarker, totalCholesterol: e.nativeEvent.text});
+                                }
+                            }}
                         />
                     </View>
                     <View style={styles.biomarkerRowFlexContainer}>
@@ -303,7 +340,12 @@ function Biomarkers() {
                                 style={styles.biomarkerPlaceholder}
                                 placeholder="Enter LDL"
                                 keyboardType="numeric"
-                                onEndEditing={e => validateBiomarker(e.nativeEvent.text, 'LDL')}
+                                maxLength={5}
+                                onEndEditing={e => {
+                                    if (validateBiomarker(e.nativeEvent.text, 'LDL', 1, 15)) {
+                                        setBiomarker({...biomarker, LDL: e.nativeEvent.text});
+                                    }
+                                }}
                             />
                         </View>
                         <View style={{ width: '33.33%' }}>
@@ -312,7 +354,12 @@ function Biomarkers() {
                                 style={styles.biomarkerPlaceholder}
                                 placeholder="Enter HDL"
                                 keyboardType="numeric"
-                                onEndEditing={e => validateBiomarker(e.nativeEvent.text, 'HDL')}
+                                maxLength={5}
+                                onEndEditing={e => {
+                                    if (validateBiomarker(e.nativeEvent.text, 'HDL', 1, 10)) {
+                                        setBiomarker({...biomarker, HDL: e.nativeEvent.text});
+                                    }
+                                }}
                             />
                         </View>
                         <View style={{ width: '33.33%' }}>
@@ -321,7 +368,12 @@ function Biomarkers() {
                                 style={styles.biomarkerPlaceholder}
                                 placeholder="Enter TG"
                                 keyboardType="numeric"
-                                onEndEditing={e => validateBiomarker(e.nativeEvent.text, 'TG')}
+                                maxLength={5}
+                                onEndEditing={e => {
+                                    if (validateBiomarker(e.nativeEvent.text, 'TG', 1, 60)) {
+                                        setBiomarker({...biomarker, TG: e.nativeEvent.text});
+                                    }
+                                }}
                             />
                         </View>
                     </View>
@@ -331,7 +383,7 @@ function Biomarkers() {
             </ScrollView>
             <Snackbar
                 visible={visible}
-                onDismiss={dismissInputAlert}
+                onDismiss={() => setVisible(false)}
                 duration={4000}
                 style={{
                     backgroundColor: '#3DCE66',
