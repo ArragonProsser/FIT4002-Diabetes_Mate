@@ -9,7 +9,7 @@ See the License for the specific language governing permissions and limitations 
 
 
 const { DynamoDBClient } = require('@aws-sdk/client-dynamodb');
-const { DeleteCommand, DynamoDBDocumentClient, GetCommand, PutCommand, QueryCommand, } = require('@aws-sdk/lib-dynamodb');
+const { DeleteCommand, DynamoDBDocumentClient, GetCommand, PutCommand, QueryCommand,  } = require('@aws-sdk/lib-dynamodb');
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
 const bodyParser = require('body-parser')
 const express = require('express')
@@ -17,18 +17,18 @@ const express = require('express')
 const ddbClient = new DynamoDBClient({ region: process.env.TABLE_REGION });
 const ddbDocClient = DynamoDBDocumentClient.from(ddbClient);
 
-let tableName = "User";
+let tableName = "Appointment";
 if (process.env.ENV && process.env.ENV !== "NONE") {
   tableName = tableName + '-' + process.env.ENV;
 }
 
 const userIdPresent = false; // TODO: update in case is required to use that definition
-const partitionKeyName = "user_id";
+const partitionKeyName = "appointment_id";
 const partitionKeyType = "S";
 const sortKeyName = "";
 const sortKeyType = "";
 const hasSortKey = sortKeyName !== "";
-const path = "/users";
+const path = "/appointments";
 const UNAUTH = 'UNAUTH';
 const hashKeyPath = '/:' + partitionKeyName;
 const sortKeyPath = hasSortKey ? '/:' + sortKeyName : '';
@@ -39,7 +39,7 @@ app.use(bodyParser.json())
 app.use(awsServerlessExpressMiddleware.eventContext())
 
 // Enable CORS for all methods
-app.use(function (req, res, next) {
+app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*")
   res.header("Access-Control-Allow-Headers", "*")
   next()
@@ -47,7 +47,7 @@ app.use(function (req, res, next) {
 
 // convert url string param to expected Type
 const convertUrlType = (param, type) => {
-  switch (type) {
+  switch(type) {
     case "N":
       return Number.parseInt(param);
     default:
@@ -59,21 +59,20 @@ const convertUrlType = (param, type) => {
  * HTTP Get method for list objects *
  ********************************/
 
-app.get(path + hashKeyPath, async function (req, res) {
-  console.log("Here");
+app.get(path + hashKeyPath, async function(req, res) {
   const condition = {}
   condition[partitionKeyName] = {
     ComparisonOperator: 'EQ'
   }
 
   if (userIdPresent && req.apiGateway) {
-    condition[partitionKeyName]['AttributeValueList'] = [req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH];
+    condition[partitionKeyName]['AttributeValueList'] = [req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH ];
   } else {
     try {
-      condition[partitionKeyName]['AttributeValueList'] = [convertUrlType(req.params[partitionKeyName], partitionKeyType)];
-    } catch (err) {
+      condition[partitionKeyName]['AttributeValueList'] = [ convertUrlType(req.params[partitionKeyName], partitionKeyType) ];
+    } catch(err) {
       res.statusCode = 500;
-      res.json({ error: 'Wrong column type ' + err });
+      res.json({error: 'Wrong column type ' + err});
     }
   }
 
@@ -84,11 +83,10 @@ app.get(path + hashKeyPath, async function (req, res) {
 
   try {
     const data = await ddbDocClient.send(new QueryCommand(queryParams));
-    console.log(data.Items);
     res.json(data.Items);
   } catch (err) {
     res.statusCode = 500;
-    res.json({ error: 'Could not load items: ' + err.message });
+    res.json({error: 'Could not load items: ' + err.message});
   }
 });
 
@@ -96,7 +94,7 @@ app.get(path + hashKeyPath, async function (req, res) {
  * HTTP Get method for get single object *
  *****************************************/
 
-app.get(path + '/object' + hashKeyPath + sortKeyPath, async function (req, res) {
+app.get(path + '/object' + hashKeyPath + sortKeyPath, async function(req, res) {
   const params = {};
   if (userIdPresent && req.apiGateway) {
     params[partitionKeyName] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
@@ -104,17 +102,17 @@ app.get(path + '/object' + hashKeyPath + sortKeyPath, async function (req, res) 
     params[partitionKeyName] = req.params[partitionKeyName];
     try {
       params[partitionKeyName] = convertUrlType(req.params[partitionKeyName], partitionKeyType);
-    } catch (err) {
+    } catch(err) {
       res.statusCode = 500;
-      res.json({ error: 'Wrong column type ' + err });
+      res.json({error: 'Wrong column type ' + err});
     }
   }
   if (hasSortKey) {
     try {
       params[sortKeyName] = convertUrlType(req.params[sortKeyName], sortKeyType);
-    } catch (err) {
+    } catch(err) {
       res.statusCode = 500;
-      res.json({ error: 'Wrong column type ' + err });
+      res.json({error: 'Wrong column type ' + err});
     }
   }
 
@@ -128,11 +126,11 @@ app.get(path + '/object' + hashKeyPath + sortKeyPath, async function (req, res) 
     if (data.Item) {
       res.json(data.Item);
     } else {
-      res.json(data);
+      res.json(data) ;
     }
   } catch (err) {
     res.statusCode = 500;
-    res.json({ error: 'Could not load items: ' + err.message });
+    res.json({error: 'Could not load items: ' + err.message});
   }
 });
 
@@ -141,7 +139,7 @@ app.get(path + '/object' + hashKeyPath + sortKeyPath, async function (req, res) 
 * HTTP put method for insert object *
 *************************************/
 
-app.put(path, async function (req, res) {
+app.put(path, async function(req, res) {
 
   if (userIdPresent) {
     req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
@@ -164,7 +162,7 @@ app.put(path, async function (req, res) {
 * HTTP post method for insert object *
 *************************************/
 
-app.post(path, async function (req, res) {
+app.post(path, async function(req, res) {
 
   if (userIdPresent) {
     req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
@@ -187,25 +185,25 @@ app.post(path, async function (req, res) {
 * HTTP remove method to delete object *
 ***************************************/
 
-app.delete(path + '/object' + hashKeyPath + sortKeyPath, async function (req, res) {
+app.delete(path + '/object' + hashKeyPath + sortKeyPath, async function(req, res) {
   const params = {};
   if (userIdPresent && req.apiGateway) {
     params[partitionKeyName] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
   } else {
     params[partitionKeyName] = req.params[partitionKeyName];
-    try {
+     try {
       params[partitionKeyName] = convertUrlType(req.params[partitionKeyName], partitionKeyType);
-    } catch (err) {
+    } catch(err) {
       res.statusCode = 500;
-      res.json({ error: 'Wrong column type ' + err });
+      res.json({error: 'Wrong column type ' + err});
     }
   }
   if (hasSortKey) {
     try {
       params[sortKeyName] = convertUrlType(req.params[sortKeyName], sortKeyType);
-    } catch (err) {
+    } catch(err) {
       res.statusCode = 500;
-      res.json({ error: 'Wrong column type ' + err });
+      res.json({error: 'Wrong column type ' + err});
     }
   }
 
@@ -216,14 +214,14 @@ app.delete(path + '/object' + hashKeyPath + sortKeyPath, async function (req, re
 
   try {
     let data = await ddbDocClient.send(new DeleteCommand(removeItemParams));
-    res.json({ url: req.url, data: data });
+    res.json({url: req.url, data: data});
   } catch (err) {
     res.statusCode = 500;
-    res.json({ error: err, url: req.url });
+    res.json({error: err, url: req.url});
   }
 });
 
-app.listen(3000, function () {
+app.listen(3000, function() {
   console.log("App started")
 });
 

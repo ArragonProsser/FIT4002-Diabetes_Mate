@@ -37,8 +37,8 @@ const awsmobile = {
     ],
     "aws_cloud_logic_custom": [
         {
-            "name": "User",
-            "endpoint": "https://tirs01pari.execute-api.ap-southeast-2.amazonaws.com/dev",
+            "name": "usersLambda",
+            "endpoint": "https://zd5ir75gd6.execute-api.ap-southeast-2.amazonaws.com/dev",
             "region": "ap-southeast-2"
         }
     ]

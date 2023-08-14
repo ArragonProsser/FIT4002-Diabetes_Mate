@@ -55,12 +55,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "getUsersLambda",
+            "usersLambda",
             {
               "Fn::Join": [
                 "",
                 [
-                  "getUsersLambda",
+                  "usersLambda",
                   "-",
                   {
                     "Ref": "env"
@@ -97,12 +97,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "diabetesmateLambdaRole37489d2c",
+            "diabetesmateLambdaRole2c5080eb",
             {
               "Fn::Join": [
                 "",
                 [
-                  "diabetesmateLambdaRole37489d2c",
+                  "diabetesmateLambdaRole2c5080eb",
                   "-",
                   {
                     "Ref": "env"

@@ -1,6 +1,6 @@
 {
   "api": {
-    "User": {
+    "usersLambda": {
       "dependsOn": [
         {
           "attributes": [
@@ -8,7 +8,15 @@
             "Arn"
           ],
           "category": "function",
-          "resourceName": "getUsersLambda"
+          "resourceName": "usersLambda"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "appointmentsLambda"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -42,7 +50,26 @@
     }
   },
   "function": {
-    "getUsersLambda": {
+    "appointmentsLambda": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributeEnvMap": {
+            "Arn": "TABLE_ARN",
+            "Name": "TABLE_NAME"
+          },
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "storage",
+          "resourceName": "Appointment"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "usersLambda": {
       "build": true,
       "dependsOn": [
         {
@@ -63,19 +90,35 @@
     }
   },
   "parameters": {
-    "AMPLIFY_function_getUsersLambda_deploymentBucketName": {
+    "AMPLIFY_function_appointmentsLambda_deploymentBucketName": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "getUsersLambda"
+          "resourceName": "appointmentsLambda"
         }
       ]
     },
-    "AMPLIFY_function_getUsersLambda_s3Key": {
+    "AMPLIFY_function_appointmentsLambda_s3Key": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "getUsersLambda"
+          "resourceName": "appointmentsLambda"
+        }
+      ]
+    },
+    "AMPLIFY_function_usersLambda_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "usersLambda"
+        }
+      ]
+    },
+    "AMPLIFY_function_usersLambda_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "usersLambda"
         }
       ]
     }
