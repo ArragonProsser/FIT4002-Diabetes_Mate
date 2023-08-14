@@ -19,7 +19,6 @@ backend-test:
   stage: backend-test
   script:
     - echo "Testing"
-    - npm install -g @aws-amplify/cli
     - sudo apt-get install jq
     - amplify mock function usersLambda --event src/event.json --timeout 20 > outputs.txt
     - awk '/{/,/} /' outputs.txt | tail -n +4 | head -n -1 > outputs.json
