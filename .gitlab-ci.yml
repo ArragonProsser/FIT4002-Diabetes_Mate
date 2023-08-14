@@ -8,17 +8,16 @@ build:
   stage: build
   script:
     - echo "Installing dependencies"
-    - sudo apt-get update
     - npm install
     - npm install -g @aws-amplify/cli
-    - sudo apt-get install jq
 
 
 backend-test:
-  image: "node:18"
+  image: "alpine"
   stage: backend-test
   script:
     - echo "Testing"
+    - npm install -g @aws-amplify/cli
     - sudo apt-get install jq
     - amplify mock function usersLambda --event src/event.json --timeout 20 > outputs.txt
     - awk '/{/,/} /' outputs.txt | tail -n +4 | head -n -1 > outputs.json
