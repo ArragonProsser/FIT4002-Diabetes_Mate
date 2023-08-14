@@ -19,6 +19,6 @@ backend-test:
     - awk '/{/,/} /' outputs.txt | tail -n +4 | head -n -1 > outputs.json
     - status_code=$(jq -r '.statusCode' outputs.json)
     - if [[ "$status_code">=200 && "$status_code"<300 ]]; then
-        echo "Status failed";
-        exit 1; # Fail the pipeline
-      fi
+    -   echo "Status failed";
+    -   exit 1; # Fail the pipeline
+    - fi
