@@ -13,8 +13,9 @@ build:
 
 
 backend-test:
-  image: "amazon/aws-cli"
-  entrypoint: [""]
+  image: 
+    name: "amazon/aws-cli"
+    entrypoint: [""]
   stage: backend-test
   script:
     - echo "Testing"
