@@ -31,20 +31,20 @@
           }
         }
       ],
-      "lastDevBuildTimeStamp": "2023-08-14T04:54:27.461Z",
+      "lastDevBuildTimeStamp": "2023-08-14T12:13:05.976Z",
       "lastBuildType": "DEV",
-      "lastBuildTimeStamp": "2023-08-14T03:33:52.347Z",
-      "lastPackageTimeStamp": "2023-08-14T03:33:56.973Z",
-      "distZipFilename": "usersLambda-754f484a705676457657-build.zip",
+      "lastBuildTimeStamp": "2023-08-14T06:26:32.089Z",
+      "lastPackageTimeStamp": "2023-08-14T06:26:36.698Z",
+      "distZipFilename": "usersLambda-5a394856766753744b41-build.zip",
       "s3Bucket": {
         "deploymentBucketName": "amplify-diabetesmate-dev-184512-deployment",
-        "s3Key": "amplify-builds/usersLambda-754f484a705676457657-build.zip"
+        "s3Key": "amplify-builds/usersLambda-5a394856766753744b41-build.zip"
       },
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-diabetesmate-dev-184512-deployment/amplify-cfn-templates/function/usersLambda-cloudformation-template.json",
         "logicalId": "functionusersLambda"
       },
-      "lastPushTimeStamp": "2023-08-14T03:36:48.466Z",
+      "lastPushTimeStamp": "2023-08-14T06:27:51.376Z",
       "output": {
         "LambdaExecutionRoleArn": "arn:aws:iam::144314603306:role/diabetesmateLambdaRole2c5080eb-dev",
         "Region": "ap-southeast-2",
@@ -52,7 +52,7 @@
         "Name": "usersLambda-dev",
         "LambdaExecutionRole": "diabetesmateLambdaRole2c5080eb-dev"
       },
-      "lastPushDirHash": "bQmo2SLRIaNieQa38XbvyiwyIbY="
+      "lastPushDirHash": "Qi/CjLtyI0xy/qwzdoglVIPW5Dk="
     },
     "appointmentsLambda": {
       "build": true,
@@ -72,19 +72,19 @@
           }
         }
       ],
-      "lastBuildTimeStamp": "2023-08-14T03:34:06.998Z",
+      "lastBuildTimeStamp": "2023-08-14T06:26:38.475Z",
       "lastBuildType": "PROD",
-      "lastPackageTimeStamp": "2023-08-14T03:34:11.410Z",
-      "distZipFilename": "appointmentsLambda-734d534e2f5344504d37-build.zip",
+      "lastPackageTimeStamp": "2023-08-14T06:26:43.100Z",
+      "distZipFilename": "appointmentsLambda-6c333638506230384b69-build.zip",
       "s3Bucket": {
         "deploymentBucketName": "amplify-diabetesmate-dev-184512-deployment",
-        "s3Key": "amplify-builds/appointmentsLambda-734d534e2f5344504d37-build.zip"
+        "s3Key": "amplify-builds/appointmentsLambda-6c333638506230384b69-build.zip"
       },
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-diabetesmate-dev-184512-deployment/amplify-cfn-templates/function/appointmentsLambda-cloudformation-template.json",
         "logicalId": "functionappointmentsLambda"
       },
-      "lastPushTimeStamp": "2023-08-14T03:36:48.466Z",
+      "lastPushTimeStamp": "2023-08-14T06:27:51.376Z",
       "output": {
         "LambdaExecutionRoleArn": "arn:aws:iam::144314603306:role/diabetesmateLambdaRole49ac52e6-dev",
         "Region": "ap-southeast-2",
@@ -92,7 +92,7 @@
         "Name": "appointmentsLambda-dev",
         "LambdaExecutionRole": "diabetesmateLambdaRole49ac52e6-dev"
       },
-      "lastPushDirHash": "7hk9eAxpxHZcTkYyWZSzTbOceCg="
+      "lastPushDirHash": "MXBVABu8OuzmqkTP9yTs613RK8o="
     }
   },
   "storage": {
@@ -103,7 +103,7 @@
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-diabetesmate-dev-184512-deployment/amplify-cfn-templates/storage/User-cloudformation-template.json",
         "logicalId": "storageUser"
       },
-      "lastPushTimeStamp": "2023-08-14T03:36:47.653Z",
+      "lastPushTimeStamp": "2023-08-14T06:27:50.473Z",
       "output": {
         "PartitionKeyName": "user_id",
         "Region": "ap-southeast-2",
@@ -121,7 +121,7 @@
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-diabetesmate-dev-184512-deployment/amplify-cfn-templates/storage/Appointment-cloudformation-template.json",
         "logicalId": "storageAppointment"
       },
-      "lastPushTimeStamp": "2023-08-14T03:36:47.672Z",
+      "lastPushTimeStamp": "2023-08-14T06:27:50.492Z",
       "output": {
         "PartitionKeyName": "appointment_id",
         "Region": "ap-southeast-2",
@@ -161,7 +161,7 @@
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-diabetesmate-dev-184512-deployment/amplify-cfn-templates/auth/diabetesmate-cloudformation-template.json",
         "logicalId": "authdiabetesmate"
       },
-      "lastPushTimeStamp": "2023-08-14T03:36:47.685Z",
+      "lastPushTimeStamp": "2023-08-14T06:27:50.508Z",
       "output": {
         "UserPoolId": "ap-southeast-2_grRu85NLY",
         "AppClientIDWeb": "2ipl0jv6h2627mjjdu9qumn0bh",
@@ -196,7 +196,7 @@
           ]
         }
       ],
-      "lastPushTimeStamp": "2023-08-14T03:36:48.466Z",
+      "lastPushTimeStamp": "2023-08-14T06:27:50.524Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-diabetesmate-dev-184512-deployment/amplify-cfn-templates/api/usersLambda-cloudformation-template.json",
         "logicalId": "apiusersLambda"

@@ -22,11 +22,11 @@
       "function": {
         "usersLambda": {
           "deploymentBucketName": "amplify-diabetesmate-dev-184512-deployment",
-          "s3Key": "amplify-builds/usersLambda-754f484a705676457657-build.zip"
+          "s3Key": "amplify-builds/usersLambda-5a394856766753744b41-build.zip"
         },
         "appointmentsLambda": {
           "deploymentBucketName": "amplify-diabetesmate-dev-184512-deployment",
-          "s3Key": "amplify-builds/appointmentsLambda-734d534e2f5344504d37-build.zip"
+          "s3Key": "amplify-builds/appointmentsLambda-6c333638506230384b69-build.zip"
         }
       },
       "api": {
