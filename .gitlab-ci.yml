@@ -17,4 +17,6 @@ backend-test:
   script:
     - echo "Testing"
     - npm install
+    - cd amplify/backend/function/usersLambda/src && npm install
+    - cd amplify/backend/function/appointmentsLambda/src && npm install
     - npm test
