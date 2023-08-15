@@ -79,3 +79,5 @@ amplifytools.xcconfig
 
 outputs.json
 outputs.txt
+
+/coverage

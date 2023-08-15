@@ -1,4 +1,4 @@
-const app = require('./app'); // Replace with the correct file path
+const { app, server } = require('./app'); // Replace with the correct file path
 const request = require('supertest');
 
 const { DynamoDBDocumentClient } = require('@aws-sdk/lib-dynamodb');
@@ -25,8 +25,10 @@ jest.mock('@aws-sdk/lib-dynamodb', () => {
 
 describe('GET Lambda Function', () => {
 
-    beforeEach(() => {
-    })
+    afterAll((done) => {
+        // Close the server after all tests are done
+        server.close(done);
+    });
 
     it('should respond with a single item', async () => {
 
@@ -35,7 +37,7 @@ describe('GET Lambda Function', () => {
             .set('x-apigateway-event', JSON.stringify({})) // Mock the API Gateway event
             .set('x-apigateway-context', JSON.stringify({})) // Mock the API Gateway context
             .set('Content-Type', 'application/json')
-        console.log(response);
+        // console.log(response);
 
         expect(response.statusCode).toBe(200);
     });
