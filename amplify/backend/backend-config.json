@@ -17,6 +17,14 @@
           ],
           "category": "function",
           "resourceName": "appointmentsLambda"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "articlesLambda"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -100,6 +108,25 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
+    "articlesLambda": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributeEnvMap": {
+            "Arn": "TABLE_ARN",
+            "Name": "TABLE_NAME"
+          },
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "storage",
+          "resourceName": "Article"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "diabetesmateauthorisers": {
       "build": true,
       "providerPlugin": "awscloudformation",
@@ -145,6 +172,22 @@
         {
           "category": "function",
           "resourceName": "appointmentsLambda"
+        }
+      ]
+    },
+    "AMPLIFY_function_articlesLambda_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "articlesLambda"
+        }
+      ]
+    },
+    "AMPLIFY_function_articlesLambda_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "articlesLambda"
         }
       ]
     },
@@ -243,6 +286,20 @@
           "resourceName": "usersLambda"
         }
       ]
+    }
+  },
+  "storage": {
+    "Appointment": {
+      "providerPlugin": "awscloudformation",
+      "service": "DynamoDB"
+    },
+    "Article": {
+      "providerPlugin": "awscloudformation",
+      "service": "DynamoDB"
+    },
+    "User": {
+      "providerPlugin": "awscloudformation",
+      "service": "DynamoDB"
     }
   }
 }

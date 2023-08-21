@@ -40,6 +40,10 @@
         "appointmentsLambda": {
           "deploymentBucketName": "amplify-diabetesmate-dev-194045-deployment",
           "s3Key": "amplify-builds/appointmentsLambda-486d6d76783274686f4a-build.zip"
+        },
+        "articlesLambda": {
+          "deploymentBucketName": "amplify-diabetesmate-dev-194045-deployment",
+          "s3Key": "amplify-builds/articlesLambda-634d4662723570766643-build.zip"
         }
       },
       "api": {
@@ -47,6 +51,11 @@
       },
       "auth": {
         "diabetesmate": {}
+      },
+      "storage": {
+        "Appointment": {},
+        "Article": {},
+        "User": {}
       }
     }
   }
