@@ -61,7 +61,7 @@ export default function DetailsScreen({ navigation }) {
       </View> */}
       <LinearGradient colors={["#000000AF", "#ffffff00"]} style={styles.linearGradientLogo}>
         <View style={styles.logoWrapper}>
-          {/* <Logo></Logo> */}
+          <Logo></Logo>
         </View>
       </LinearGradient>
       <Onboarding
