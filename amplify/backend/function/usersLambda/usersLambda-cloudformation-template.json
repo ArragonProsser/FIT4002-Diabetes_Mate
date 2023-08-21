@@ -15,26 +15,6 @@
     },
     "s3Key": {
       "Type": "String"
-    },
-    "functiondiabetesmateauthorisersArn": {
-      "Type": "String",
-      "Default": "functiondiabetesmateauthorisersArn"
-    },
-    "functiondiabetesmatecontrollersArn": {
-      "Type": "String",
-      "Default": "functiondiabetesmatecontrollersArn"
-    },
-    "functiondiabetesmatequeriesArn": {
-      "Type": "String",
-      "Default": "functiondiabetesmatequeriesArn"
-    },
-    "functiondiabetesmateservicesArn": {
-      "Type": "String",
-      "Default": "functiondiabetesmateservicesArn"
-    },
-    "functiondiabetesmatevalidatorsArn": {
-      "Type": "String",
-      "Default": "functiondiabetesmatevalidatorsArn"
     }
   },
   "Conditions": {
@@ -99,23 +79,7 @@
           ]
         },
         "Runtime": "nodejs18.x",
-        "Layers": [
-          {
-            "Ref": "functiondiabetesmateauthorisersArn"
-          },
-          {
-            "Ref": "functiondiabetesmatecontrollersArn"
-          },
-          {
-            "Ref": "functiondiabetesmatequeriesArn"
-          },
-          {
-            "Ref": "functiondiabetesmateservicesArn"
-          },
-          {
-            "Ref": "functiondiabetesmatevalidatorsArn"
-          }
-        ],
+        "Layers": [],
         "Timeout": 25
       }
     },

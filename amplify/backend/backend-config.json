@@ -127,43 +127,6 @@
     },
     "usersLambda": {
       "build": true,
-      "dependsOn": [
-        {
-          "attributes": [
-            "Arn"
-          ],
-          "category": "function",
-          "resourceName": "diabetesmateauthorisers"
-        },
-        {
-          "attributes": [
-            "Arn"
-          ],
-          "category": "function",
-          "resourceName": "diabetesmatecontrollers"
-        },
-        {
-          "attributes": [
-            "Arn"
-          ],
-          "category": "function",
-          "resourceName": "diabetesmatequeries"
-        },
-        {
-          "attributes": [
-            "Arn"
-          ],
-          "category": "function",
-          "resourceName": "diabetesmateservices"
-        },
-        {
-          "attributes": [
-            "Arn"
-          ],
-          "category": "function",
-          "resourceName": "diabetesmatevalidators"
-        }
-      ],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     }
