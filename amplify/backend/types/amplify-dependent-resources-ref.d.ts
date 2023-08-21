@@ -1,20 +1,9 @@
 export type AmplifyDependentResourcesAttributes = {
   "api": {
-    "usersLambda": {
+    "Diabetesmate": {
       "ApiId": "string",
       "ApiName": "string",
       "RootUrl": "string"
-    }
-  },
-  "auth": {
-    "diabetesmate": {
-      "AppClientID": "string",
-      "AppClientIDWeb": "string",
-      "IdentityPoolId": "string",
-      "IdentityPoolName": "string",
-      "UserPoolArn": "string",
-      "UserPoolId": "string",
-      "UserPoolName": "string"
     }
   },
   "function": {
@@ -25,30 +14,27 @@ export type AmplifyDependentResourcesAttributes = {
       "Name": "string",
       "Region": "string"
     },
+    "diabetesmateauthorisers": {
+      "Arn": "string"
+    },
+    "diabetesmatecontrollers": {
+      "Arn": "string"
+    },
+    "diabetesmatequeries": {
+      "Arn": "string"
+    },
+    "diabetesmateservices": {
+      "Arn": "string"
+    },
+    "diabetesmatevalidators": {
+      "Arn": "string"
+    },
     "usersLambda": {
       "Arn": "string",
       "LambdaExecutionRole": "string",
       "LambdaExecutionRoleArn": "string",
       "Name": "string",
       "Region": "string"
-    }
-  },
-  "storage": {
-    "Appointment": {
-      "Arn": "string",
-      "Name": "string",
-      "PartitionKeyName": "string",
-      "PartitionKeyType": "string",
-      "Region": "string",
-      "StreamArn": "string"
-    },
-    "User": {
-      "Arn": "string",
-      "Name": "string",
-      "PartitionKeyName": "string",
-      "PartitionKeyType": "string",
-      "Region": "string",
-      "StreamArn": "string"
     }
   }
 }

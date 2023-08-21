@@ -1,6 +1,6 @@
 {
   "api": {
-    "usersLambda": {
+    "Diabetesmate": {
       "dependsOn": [
         {
           "attributes": [
@@ -23,68 +23,39 @@
       "service": "API Gateway"
     }
   },
-  "auth": {
-    "diabetesmate": {
-      "dependsOn": [],
-      "frontendAuthConfig": {
-        "mfaConfiguration": "OFF",
-        "mfaTypes": [
-          "SMS"
-        ],
-        "passwordProtectionSettings": {
-          "passwordPolicyCharacters": [],
-          "passwordPolicyMinLength": 8
-        },
-        "signupAttributes": [
-          "EMAIL"
-        ],
-        "socialProviders": [],
-        "usernameAttributes": [],
-        "verificationMechanisms": [
-          "EMAIL"
-        ]
-      },
-      "providerPlugin": "awscloudformation",
-      "service": "Cognito",
-      "serviceType": "managed"
-    }
-  },
   "function": {
     "appointmentsLambda": {
       "build": true,
-      "dependsOn": [
-        {
-          "attributeEnvMap": {
-            "Arn": "TABLE_ARN",
-            "Name": "TABLE_NAME"
-          },
-          "attributes": [
-            "Name",
-            "Arn"
-          ],
-          "category": "storage",
-          "resourceName": "Appointment"
-        }
-      ],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
+    "diabetesmateauthorisers": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "LambdaLayer"
+    },
+    "diabetesmatecontrollers": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "LambdaLayer"
+    },
+    "diabetesmatequeries": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "LambdaLayer"
+    },
+    "diabetesmateservices": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "LambdaLayer"
+    },
+    "diabetesmatevalidators": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "LambdaLayer"
+    },
     "usersLambda": {
       "build": true,
-      "dependsOn": [
-        {
-          "attributeEnvMap": {
-            "Arn": "TABLE_ARN",
-            "Name": "TABLE_NAME"
-          },
-          "attributes": [
-            "Name",
-            "Arn"
-          ],
-          "category": "storage",
-          "resourceName": "User"
-        }
-      ],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     }
@@ -106,6 +77,86 @@
         }
       ]
     },
+    "AMPLIFY_function_diabetesmateauthorisers_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "diabetesmateauthorisers"
+        }
+      ]
+    },
+    "AMPLIFY_function_diabetesmateauthorisers_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "diabetesmateauthorisers"
+        }
+      ]
+    },
+    "AMPLIFY_function_diabetesmatecontrollers_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "diabetesmatecontrollers"
+        }
+      ]
+    },
+    "AMPLIFY_function_diabetesmatecontrollers_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "diabetesmatecontrollers"
+        }
+      ]
+    },
+    "AMPLIFY_function_diabetesmatequeries_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "diabetesmatequeries"
+        }
+      ]
+    },
+    "AMPLIFY_function_diabetesmatequeries_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "diabetesmatequeries"
+        }
+      ]
+    },
+    "AMPLIFY_function_diabetesmateservices_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "diabetesmateservices"
+        }
+      ]
+    },
+    "AMPLIFY_function_diabetesmateservices_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "diabetesmateservices"
+        }
+      ]
+    },
+    "AMPLIFY_function_diabetesmatevalidators_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "diabetesmatevalidators"
+        }
+      ]
+    },
+    "AMPLIFY_function_diabetesmatevalidators_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "diabetesmatevalidators"
+        }
+      ]
+    },
     "AMPLIFY_function_usersLambda_deploymentBucketName": {
       "usedBy": [
         {
@@ -121,16 +172,6 @@
           "resourceName": "usersLambda"
         }
       ]
-    }
-  },
-  "storage": {
-    "Appointment": {
-      "providerPlugin": "awscloudformation",
-      "service": "DynamoDB"
-    },
-    "User": {
-      "providerPlugin": "awscloudformation",
-      "service": "DynamoDB"
     }
   }
 }
