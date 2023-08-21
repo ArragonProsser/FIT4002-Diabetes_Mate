@@ -231,7 +231,7 @@ function Biomarkers() {
     }
 
     const alert = (biomarkerName) => {
-        Alert.prompt(
+        Alert.alert(
             "Invalid value",
             "Please enter a valid " + biomarkerName + ".",
             [
