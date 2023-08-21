@@ -139,7 +139,7 @@ export default function ChoiceScreen({ navigation }) {
             <View style={styles.displayContainer}>
               <View style={styles.displayImageContainer}>
                 <View style={styles.logoWrapper}>
-                  <Logo></Logo>
+                  {/* <Logo></Logo> */}
                 </View>
               </View>
               <View style={styles.displayTextContainer}>

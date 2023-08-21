@@ -1,9 +1,31 @@
 import * as React from 'react';
 
 import { View, Text,StyleSheet,TouchableOpacity,Image,KeyboardAvoidingView } from 'react-native';
-import Logo from '../../assets/logo/logo_multi_txt_transparent_bg.svg';
-import NavBar from '../NavBar/NavBar';
+// import Logo from '../../assets/logo/logo_multi_txt_transparent_bg.svg';
+// import NavBar from '../NavBar/NavBar';
 import { TextInput } from 'react-native-gesture-handler';
+import { Auth } from 'aws-amplify';
+
+async function signUp({username, password, email, phone_number}, setError) {
+    try {
+      const { user } = await Auth.signUp({
+        username,
+        password,
+        attributes: {
+          email,          // optional
+          phone_number,   // optional - E.164 number convention
+          // other custom attributes 
+        },
+        autoSignIn: { // optional - enables auto sign in after user is confirmed
+          enabled: true,
+        }
+      });
+      return true;
+    } catch (error) {
+        setError(error.message);
+        return false;
+    }
+  }
 
 export default function SignUpScreen({navigation}) {
     const styles = StyleSheet.create({
@@ -133,18 +155,25 @@ export default function SignUpScreen({navigation}) {
             marginVertical:10,
         }
     });
+    const [details, setDetails] = React.useState({username: '', password: '', email: '', phone_number: '+61403440381'});
+    const [error, setError] = React.useState(null);
     return(
         <KeyboardAvoidingView>
         <View style={{display:'flex' ,height:'100%', alignItems: 'center', justifyContent: 'center',backgroundColor:"white"}}>
 
-            <View style={styles.textEntryContainer}>    
+            <View style={styles.textEntryContainer}>
+                {Boolean(error) && <View style={styles.textEntrySection}>
+                    <Text style={[styles.textEntrySectionTitle, {color: 'red'}]}>Error: {error.replace('Username', 'Email')}</Text>
+                </View>}
                 <View style={styles.textEntrySection}>
                     <Text style={styles.textEntrySectionTitle}>Email Address</Text>
-                    <TextInput style = {styles.textEntrySectionInput}placeholder='Enter your Email Address'></TextInput>
+                    <TextInput style = {styles.textEntrySectionInput} placeholder='Enter your Email Address' value={details.email} 
+                    onChangeText={(text)=>setDetails({...details, email:text, username: text})}></TextInput>
                 </View>
                 <View style={styles.textEntrySection}>
                     <Text style={styles.textEntrySectionTitle}>Password</Text>
-                    <TextInput style = {styles.textEntrySectionInput} placeholder='Enter your Password'></TextInput>
+                    <TextInput style = {styles.textEntrySectionInput} placeholder='Enter your Password' value={details.password} 
+                    onChangeText={(text)=>setDetails({...details, password: text})}></TextInput>
                 </View>
                 <View style={styles.textEntrySection}>
                     <Text style={styles.textEntrySectionTitle}>Re-Type Password</Text>
@@ -152,7 +181,13 @@ export default function SignUpScreen({navigation}) {
                 </View>
             </View>
             <View style={styles.buttonsContainer}>
-                <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Choice')}>
+                <TouchableOpacity style={styles.button} onPress={
+                    async () => {
+                        if(await signUp(details, setError)) 
+                            navigation.navigate('Choice')
+                    }
+                }
+                    >
                     <Text style={styles.buttonText}>Sign Up</Text>
                     
                 </TouchableOpacity>

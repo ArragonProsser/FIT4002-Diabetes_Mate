@@ -13,7 +13,14 @@ import Choice from "./components/Onboarding/Choice";
 import Login from "./components/Onboarding/Login";
 import DetailsScreen from "./components/Onboarding/Details";
 import SignUpScreen from "./components/Onboarding/Signup";
-export default function App() {
+
+import {Amplify} from "aws-amplify";
+import config from "./aws-exports";
+
+Amplify.configure(config);
+
+
+function App() {
   return (
     <NavigationContainer>
       
@@ -92,13 +99,8 @@ export default function App() {
           component={NavBar}
           
           options={{
-            // headerTitleAlign: 'center',
             headerTitle:"",
             headerShown:false,
-            // transitionSpec: {
-            //   open: TransitionSpecs.BottomSheetSlideInSpec,
-            //   close: TransitionSpecs.BottomSheetSlideOutSpec,
-            // },
 
           }}
         />
@@ -114,3 +116,5 @@ export default function App() {
 <NavBar/>
 </> */
 }
+
+export default App;

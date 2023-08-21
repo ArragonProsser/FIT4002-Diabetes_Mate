@@ -1,8 +1,8 @@
 import * as React from 'react';
 
 import { View, Text,StyleSheet,TouchableOpacity,Image,KeyboardAvoidingView } from 'react-native';
-import Logo from '../../assets/logo/logo_multi_txt_transparent_bg.svg';
-import NavBar from '../NavBar/NavBar';
+// import Logo from '../../assets/logo/logo_multi_txt_transparent_bg.svg';
+// import NavBar from '../NavBar/NavBar';
 import { TextInput } from 'react-native-gesture-handler';
 
 export default function LoginScreen({navigation}) {
