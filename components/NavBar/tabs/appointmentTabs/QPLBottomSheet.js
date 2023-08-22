@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useMemo } from "react";
+import React, { useCallback, useRef, useMemo, useState } from "react";
 import {
   StyleSheet,
   View,
@@ -9,13 +9,13 @@ import {
   Separator,
 } from "react-native";
 import BottomSheet, {
+  BottomSheetModal,
   BottomSheetFlatList,
   BottomSheetScrollView,
   BottomSheetSectionList,
 } from "@gorhom/bottom-sheet";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { color } from "react-native-reanimated";
-
+import BouncyCheckbox from "react-native-bouncy-checkbox";
 const styles = StyleSheet.create({
   contentContainer: {
     flex: 1,
@@ -45,21 +45,28 @@ const DATA = [
   },
 ];
 
-export default function QPLBottomSheet({ isActive, setActive }) {
+export default function QPLBottomSheet({ isActive, setActive, sheetRef }) {
   // hooks
-  let count = useRef(0);
-  count.current = -1;
+  let [count, setCount] = useState(-1);
+  // setCount(-1);
+  console.log("new__________");
   const seperator = (e) => {
-    // console.log(count.current > DATA.length * 2);
-    if (count.current >= DATA.length * 2 - 1) {
-      count.current = -1;
+    if (count >= DATA.length * 2) {
+      setCount(-1);
     }
-    count.current += 1;
-    return count.current % 2 == 1 && count.current < DATA.length * 2 - 1 ? (
-      <View style={{ height: 10, backgroundColor: "grey" }} />
+    console.log("count: " + count);
+    console.log("Data:" + DATA.length);
+    console.log(count > DATA.length * 2);
+    count += 1;
+    // count += 1;
+    return count % 2 == 1 && count < DATA.length * 2 - 1 ? (
+      <View style={{ height: 10, backgroundColor: "#E8EBF0" }}>
+        {/* <Text>{count}</Text> */}
+      </View>
     ) : null;
   };
-  const sheetRef = useRef(null); //React.createRef(null); //(useRef < BottomSheet) | (null > null);
+  const [toggleCheckBox, setToggleCheckBox] = useState(false);
+  //React.createRef(null); //(useRef < BottomSheet) | (null > null);
 
   const snapPoints = useMemo(() => ["100%"], []);
 
@@ -81,7 +88,7 @@ export default function QPLBottomSheet({ isActive, setActive }) {
   const styles = StyleSheet.create({
     closeButton: {
       paddingRight: 15,
-      alignSelf: "flex-start",
+      alignSelf: "flex-end",
     },
     closeButtonWrapper: {
       marginVertical: 5,
@@ -92,30 +99,43 @@ export default function QPLBottomSheet({ isActive, setActive }) {
       paddingBottom: 15,
       fontSize: 20,
       fontWeight: "bold",
+      marginHorizontal: 20,
     },
     heading2: {
       color: "#4B5E7D",
       fontSize: 14,
       paddingBottom: 10,
+      marginHorizontal: 20,
       // fontWeight: "300",
     },
     everythingWrapper: {
-      // paddingHorizontal: 15,
+      // paddingHorizontal: 10,
+      // marginHorizontal:10
     },
     sectionListHeaderText: {
       color: "#4B5E7D",
       fontWeight: "bold",
       fontSize: 18,
+      // marginHorizontal: 20,
     },
     sectionListBodyText: {
+      maxWidth: 300,
       color: "#4B5E7D",
       fontSize: 14,
+      // marginHorizontal: 20,
+      fontWeight: "500",
     },
     sectionListView: {
       paddingVertical: 10,
+      marginHorizontal: 20,
+      flexDirection: "row",
+      // justifyContent: "center",
     },
     sectionItemView: {
       paddingVertical: 10,
+      paddingBottom: 20,
+      marginHorizontal: 20,
+      flexDirection: "row",
     },
     button: {
       backgroundColor: "#5398FF",
@@ -131,16 +151,41 @@ export default function QPLBottomSheet({ isActive, setActive }) {
       paddingVertical: 20,
       textAlign: "center",
     },
+    bar: {
+      width: 15,
+      height: 4,
+      marginRight: 10,
+      borderRadius: 5,
+      backgroundColor: "#457FD6",
+      justifyContent: "center",
+      display: "flex",
+      alignContent: "center",
+      justifyContent: "center",
+      // position: "relative",
+    },
+    barWrapper: {
+      justifyContent: "center",
+    },
+    checkboxWrapper: {
+      // borderColor: "yellow",
+      // borderWidth: 2,
+      alignContent: "flex-end",
+      flex: 1,
+    },
+    checkboxStyle: { alignSelf: "flex-end" },
   });
 
   renderSeparator = () => {
-    return <View style={{ height: 2, backgroundColor: "grey" }} />;
+    return (
+      <View style={{ height: 2, backgroundColor: "#E8EBF0", marginLeft: 15 }} />
+    );
   };
   return (
+    // <BottomSheetModal ref={sheetRef}>
     <BottomSheet
       ref={sheetRef}
       snapPoints={snapPoints}
-      onClose={() => handleClosePress}
+      // onClose={() => handleClosePress}
       style={styles.everythingWrapper}
     >
       {/* <BottomSheetScrollView
@@ -148,11 +193,11 @@ export default function QPLBottomSheet({ isActive, setActive }) {
         horizontal={false}
       > */}
       {/* <View style={styles.everythingWrapper}> */}
-      <View style={styles.closeButtonWrapper}>
-        <TouchableOpacity style={styles.closeButton}>
-          <Icon name="close" size={30}></Icon>
-        </TouchableOpacity>
-      </View>
+      {/* <View style={styles.closeButtonWrapper}> */}
+      <TouchableOpacity style={styles.closeButton}>
+        <Icon name="close" size={30} onPress={handleClosePress}></Icon>
+      </TouchableOpacity>
+      {/* </View> */}
       <Text style={styles.heading1}>Appointment Questions</Text>
       <Text style={styles.heading2}>
         If you need help with anything, choose some common questions to ask your
@@ -163,25 +208,38 @@ export default function QPLBottomSheet({ isActive, setActive }) {
         renderSeparator={this.renderSeparator}
         render
         keyExtractor={(item, index) => item + index}
-        renderItem={({ item }) => (
+        renderItem={({ item, index }) => (
           <View style={styles.sectionItemView}>
             <Text style={styles.sectionListBodyText}>{item}</Text>
+            <View style={styles.checkboxWrapper}>
+              <BouncyCheckbox
+                onPress={(isChecked) => {}}
+                fillColor="#3DCE66"
+                size={20}
+                style={styles.checkboxStyle}
+              />
+            </View>
           </View>
         )}
         renderSectionHeader={({ section: { title } }) => (
           <View style={styles.sectionListView}>
+            <View style={styles.barWrapper}>
+              <View style={styles.bar}></View>
+            </View>
             <Text style={styles.sectionListHeaderText}>{title}</Text>
           </View>
         )}
         SectionSeparatorComponent={(e) => seperator(e)}
+        // SectionSeparatorComponent={this.renderSeparator}
         ItemSeparatorComponent={this.renderSeparator}
         // contentContainerStyle
       ></BottomSheetSectionList>
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={handleClosePress}>
         <Text style={styles.buttonText}>Done</Text>
       </TouchableOpacity>
       {/* </BottomSheetScrollView> */}
       {/* </View> */}
     </BottomSheet>
+    // </BottomSheetModal>
   );
 }

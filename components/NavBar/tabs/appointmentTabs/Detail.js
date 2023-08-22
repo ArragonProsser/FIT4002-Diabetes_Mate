@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 
 import {
   View,
@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import QPLBottomSheet from "./QPLBottomSheet";
-
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
 export default function Detail({ route }) {
   const [QPLOpen, setQPLOpen] = useState(false);
   const spacerHeight = 1000;
@@ -75,6 +75,7 @@ export default function Detail({ route }) {
       paddingBottom: 24,
     },
   });
+  const sheetRef = useRef(null); //< BottomSheetModal > null;
   const { type, time, dateReminder } = route.params;
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
@@ -113,7 +114,11 @@ export default function Detail({ route }) {
               </Text>
               <TouchableOpacity
                 style={styles.cardContainer}
-                onPress={() => setQPLOpen(true)}
+                onPress={() => {
+                  setQPLOpen(true);
+                  console.log(sheetRef.current);
+                  sheetRef.current?.open();
+                }}
               >
                 <Text style={styles.cardTitle}>Pick some questions</Text>
                 <Text style={styles.cardText}>
@@ -141,10 +146,13 @@ export default function Detail({ route }) {
           <Text style={styles.buttonText}>Start Appointment</Text>
         </TouchableOpacity>
       </View>
-      <QPLBottomSheet
-        isActive={QPLOpen}
-        setActive={setQPLOpen}
-      ></QPLBottomSheet>
+      {setQPLOpen && (
+        <QPLBottomSheet
+          sheetRef={sheetRef}
+          isActive={QPLOpen}
+          setActive={setQPLOpen}
+        ></QPLBottomSheet>
+      )}
     </GestureHandlerRootView>
   );
 }
