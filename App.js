@@ -13,6 +13,7 @@ import Choice from "./components/Onboarding/Choice";
 import Login from "./components/Onboarding/Login";
 import DetailsScreen from "./components/Onboarding/Details";
 import SignUpScreen from "./components/Onboarding/Signup";
+import ConfirmEmailScreen from "./components/Onboarding/ConfirmEmail";
 
 import {Amplify} from "aws-amplify";
 import config from "./aws-exports";
@@ -63,6 +64,24 @@ function App() {
           options={{
             headerTitleAlign: 'center',
             headerTitle: 'Sign Up',
+            transitionSpec: {
+              open: TransitionSpecs.BottomSheetSlideInSpec,
+              close: TransitionSpecs.BottomSheetSlideOutSpec,
+            },
+            headerTintColor:"#25437B",
+            headerTitleStyle: {
+              fontSize:20,
+              color:"#25437B"
+            },
+            headerShadowVisible: false,
+          }}
+        />
+        <Stack.Screen
+          name="ConfirmEmail"
+          component={ConfirmEmailScreen}
+          options={{
+            headerTitleAlign: 'center',
+            headerTitle: 'Confirm Email',
             transitionSpec: {
               open: TransitionSpecs.BottomSheetSlideInSpec,
               close: TransitionSpecs.BottomSheetSlideOutSpec,

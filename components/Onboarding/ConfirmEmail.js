@@ -13,26 +13,25 @@ import {
 import {TextInput} from 'react-native-gesture-handler';
 import {Auth} from 'aws-amplify';
 
-async function signUp({
+async function confirmVerificationCode({
     username,
-    password,
-    email,
-    phone_number
+    code
 }, setError) {
     try {
-        const {user} = await Auth.signUp({
-            username,
-            password,
-            attributes: {
-                email, // optional
-                phone_number,
-                // optional - E.164 number convention
-                // other custom attributes
-            },
-            autoSignIn: { // optional - enables auto sign in after user is confirmed
-                enabled: true
-            }
-        });
+        await Auth.confirmSignUp(username, code);;
+        return true;
+    } catch (error) {
+        setError(error.message);
+        return false;
+    }
+}
+
+async function resendVerificationCode({
+    username
+}, setError) {
+    try {
+        await Auth.resendSignUp(username);
+        setError("Sent verification email!")
         return true;
     } catch (error) {
         setError(error.message);
@@ -144,8 +143,7 @@ export default function SignUpScreen({navigation}) {
             fontSize: 14,
             textAlign: 'center'
         },
-        textEntryContainer: {
-            alignContent: 'center',
+        textEntryContainer: { // alignContent: 'center',
             width: '90%',
             flex: 9,
             alignContent: 'stretch'
@@ -167,7 +165,7 @@ export default function SignUpScreen({navigation}) {
             marginVertical: 10
         }
     });
-    const [details, setDetails] = React.useState({username: '', password: '', email: '', phone_number: '+61403440381'});
+    const [details, setDetails] = React.useState({username: '', code: ''});
     const [error, setError] = React.useState(null);
     return (
         <KeyboardAvoidingView>
@@ -191,10 +189,10 @@ export default function SignUpScreen({navigation}) {
                         <Text style={
                             [
                                 styles.textEntrySectionTitle, {
-                                    color: 'red'
+                                    color: error === "Sent verification email!" ? 'green' : "red"
                                 }
                             ]
-                        }>Error: {
+                        }>Status: {
                             error.replace('Username', 'Email')
                         }</Text>
                     </View>
@@ -210,12 +208,11 @@ export default function SignUpScreen({navigation}) {
                             }
                             placeholder='Enter your Email Address'
                             value={
-                                details.email
+                                details.username
                             }
                             onChangeText={
                                 (text) => setDetails({
                                     ...details,
-                                    email: text,
                                     username: text
                                 })
                         }></TextInput>
@@ -225,31 +222,20 @@ export default function SignUpScreen({navigation}) {
                     }>
                         <Text style={
                             styles.textEntrySectionTitle
-                        }>Password</Text>
+                        }>Verification Code</Text>
                         <TextInput style={
                                 styles.textEntrySectionInput
                             }
-                            placeholder='Enter your Password'
+                            placeholder='Enter your Verification Code'
                             value={
-                                details.password
+                                details.code
                             }
                             onChangeText={
                                 (text) => setDetails({
                                     ...details,
-                                    password: text
+                                    code: text
                                 })
                         }></TextInput>
-                    </View>
-                    <View style={
-                        styles.textEntrySection
-                    }>
-                        <Text style={
-                            styles.textEntrySectionTitle
-                        }>Re-Type Password</Text>
-                        <TextInput style={
-                                styles.textEntrySectionInput
-                            }
-                            placeholder='Re-Type your Password'></TextInput>
                     </View>
                 </View>
                 <View style={
@@ -260,7 +246,7 @@ export default function SignUpScreen({navigation}) {
                         }
                         onPress={
                             async () => {
-                                if (await signUp(details, setError)) 
+                                if (await confirmVerificationCode(details, setError)) 
                                     navigation.navigate('Choice')
 
 
@@ -271,7 +257,7 @@ export default function SignUpScreen({navigation}) {
                     }>
                         <Text style={
                             styles.buttonText
-                        }>Sign Up</Text>
+                        }>Verify Email</Text>
 
                     </TouchableOpacity>
                     <TouchableOpacity style={
@@ -282,11 +268,11 @@ export default function SignUpScreen({navigation}) {
                             ]
                         }
                         onPress={
-                            () => navigation.navigate("ConfirmEmail")
+                            () => resendVerificationCode(details, setError)
                     }>
                         <Text style={
                             styles.buttonInverseText
-                        }>Confirm Email</Text>
+                        }>Resend Verification Code</Text>
                     </TouchableOpacity>
                 </View>
             </View>

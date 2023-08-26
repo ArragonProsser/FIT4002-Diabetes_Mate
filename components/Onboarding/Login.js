@@ -4,6 +4,16 @@ import { View, Text,StyleSheet,TouchableOpacity,Image,KeyboardAvoidingView } fro
 // import Logo from '../../assets/logo/logo_multi_txt_transparent_bg.svg';
 // import NavBar from '../NavBar/NavBar';
 import { TextInput } from 'react-native-gesture-handler';
+import { Auth } from 'aws-amplify';
+
+async function signIn({username, password}) {
+  try {
+    const user = await Auth.signIn(username, password);
+    console.log(user);
+  } catch (error) {
+    console.log('error signing in', error);
+  }
+}
 
 export default function LoginScreen({navigation}) {
     const styles = StyleSheet.create({
@@ -134,6 +144,8 @@ export default function LoginScreen({navigation}) {
             marginVertical:10,
         }
     });
+
+    const [details, setDetails] = React.useState({username: "", password: ""});
     return(
         <KeyboardAvoidingView>
         <View style={{display:'flex' ,height:'100%', alignItems: 'center', justifyContent: 'center',backgroundColor:"white"}}>
@@ -141,16 +153,19 @@ export default function LoginScreen({navigation}) {
             <View style={styles.textEntryContainer}>    
                 <View style={styles.textEntrySection}>
                     <Text style={styles.textEntrySectionTitle}>Email Address</Text>
-                    <TextInput style = {styles.textEntrySectionInput}placeholder='Enter your Email Address'></TextInput>
+                    <TextInput style = {styles.textEntrySectionInput}placeholder='Enter your Email Address' value={details.username} onChangeText={(text)=>setDetails({...details, username: text})}></TextInput>
                 </View>
                 <View style={styles.textEntrySection}>
                     <Text style={styles.textEntrySectionTitle}>Password</Text>
-                    <TextInput style = {styles.textEntrySectionInput} placeholder='Enter your Password'></TextInput>
+                    <TextInput style = {styles.textEntrySectionInput} placeholder='Enter your Password' value={details.password} onChangeText={(text)=>setDetails({...details, password: text})}></TextInput>
                 </View>
             </View>
             <Text style={styles.textEntrySectionTitle}>Forgot Password?</Text>
             <View style={styles.buttonsContainer}>
-                <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Home')}>
+                <TouchableOpacity style={styles.button} onPress={async () => {
+                    await signIn(details);
+                    navigation.navigate('Home');
+                }}>
                     <Text style={styles.buttonText}>Log In</Text>
                     
                 </TouchableOpacity>
