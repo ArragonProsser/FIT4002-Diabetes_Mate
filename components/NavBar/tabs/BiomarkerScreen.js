@@ -148,7 +148,7 @@ function SelectBiomarkerChart({ data, setSelected }) {
             defaultOption={data[0]}
             search={false}
             dropdownStyles={{ backgroundColor: 'white' }}
-            arrowicon={<IonIcons name={'chevron-down'} size={20} color='darkblue' />}
+            arrowicon={<IonIcons name='chevron-down' size={20} color='darkblue' />}
         />
     );
 }

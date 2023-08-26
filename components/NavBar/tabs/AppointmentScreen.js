@@ -1,9 +1,10 @@
 import * as React from 'react';
 
-import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import {Upcoming, History} from "./appointmentTabs/Appointment";
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { Upcoming, History } from "./appointmentTabs/Appointment";
 import Detail from "./appointmentTabs/Detail";
-import {createStackNavigator} from "@react-navigation/stack";
+import { createStackNavigator } from "@react-navigation/stack";
+import During from "./appointmentTabs/During";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -12,16 +13,24 @@ const UpcomingScreenStack = createStackNavigator();
 function UpcomingStackScreen() {
     return (
         <UpcomingScreenStack.Navigator>
-            <UpcomingScreenStack.Screen name="UpcomingStack" component={Upcoming} options={{headerShown: false}}/>
+            <UpcomingScreenStack.Screen name="UpcomingStack" component={Upcoming} options={{ headerShown: false }} />
             <UpcomingScreenStack.Screen name="Detail"
-                                        component={Detail}
-                                        options={{
-                                            headerTitle: '',
-                                            headerBackTitleVisible: false,
-                                            headerTintColor: 'white',
-                                            headerShadowVisible: false,
-                                            headerTransparent: true
-                                        }}/>
+                component={Detail}
+                options={{
+                    headerTitle: '',
+                    headerBackTitleVisible: false,
+                    headerTintColor: 'white',
+                    headerShadowVisible: false,
+                    headerTransparent: true
+                }} />
+            <UpcomingScreenStack.Screen name="During"
+                component={During}
+                options={{
+                    headerTitle: '',
+                    headerBackTitleVisible: false,
+                    headerShadowVisible: false,
+                    headerTransparent: true
+                }} />
         </UpcomingScreenStack.Navigator>
     );
 }
@@ -41,8 +50,8 @@ export default function AppointmentScreen() {
                     },
                 }}
             >
-                <Tab.Screen name="Upcoming" component={UpcomingStackScreen}/>
-                <Tab.Screen name="History" component={History}/>
+                <Tab.Screen name="Upcoming" component={UpcomingStackScreen} />
+                <Tab.Screen name="History" component={History} />
             </Tab.Navigator>
         </>
     );
