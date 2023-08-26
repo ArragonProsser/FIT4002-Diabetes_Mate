@@ -4,6 +4,7 @@ import Onboarding from "react-native-onboarding-swiper";
 import Logo from "../../assets/logo/logo_white_txt_transparent_bg.svg";
 // import LinearGradient  from "react-native-linear-gradient";
 import {LinearGradient} from 'expo-linear-gradient';
+import {Auth} from "aws-amplify";
 
 const DotComponentCustom = ({ selected }) => {
   let backgroundColor;
@@ -21,6 +22,20 @@ const DotComponentCustom = ({ selected }) => {
   );
 };
 export default function DetailsScreen({ navigation }) {
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+        (async ()=> {
+        try{
+            await Auth.currentAuthenticatedUser()
+            navigation.navigate('Home');
+        }catch(e){
+        }
+    })()
+    });
+
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return unsubscribe;
+  }, [navigation]);
   const styles = StyleSheet.create({
     button: {
       backgroundColor: "#5398FF",

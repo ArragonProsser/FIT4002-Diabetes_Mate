@@ -10,8 +10,23 @@ import {
 } from "react-native";
 // import Logo from "../../assets/logo/logo_multi_txt_transparent_bg.svg";
 import Logo from "../../assets/logo/logo_white_txt_transparent_bg.svg";
+import { Auth } from "aws-amplify";
 
 export default function ChoiceScreen({navigation}) {
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+        (async ()=> {
+        try{
+            await Auth.currentAuthenticatedUser()
+            navigation.navigate('Home');
+        }catch(e){
+        }
+    })()
+    });
+
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return unsubscribe;
+  }, [navigation]);
     const styles = StyleSheet.create({
         button: {
             backgroundColor: "#5398FF",

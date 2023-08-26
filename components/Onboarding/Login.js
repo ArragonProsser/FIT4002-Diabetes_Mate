@@ -144,7 +144,22 @@ export default function LoginScreen({navigation}) {
             marginVertical:10,
         }
     });
+    React.useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+        (async ()=> {
+        try{
+            await Auth.currentAuthenticatedUser()
+            navigation.navigate('Home');
+            console.log("Test");
+        }catch(e){
+            console.log("Test1");
+        }
+    })()
+    });
 
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return unsubscribe;
+  }, [navigation]);
     const [details, setDetails] = React.useState({username: "", password: ""});
     return(
         <KeyboardAvoidingView>
@@ -164,7 +179,6 @@ export default function LoginScreen({navigation}) {
             <View style={styles.buttonsContainer}>
                 <TouchableOpacity style={styles.button} onPress={async () => {
                     await signIn(details);
-                    navigation.navigate('Home');
                 }}>
                     <Text style={styles.buttonText}>Log In</Text>
                     

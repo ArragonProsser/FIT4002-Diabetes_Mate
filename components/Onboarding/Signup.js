@@ -41,6 +41,20 @@ async function signUp({
 }
 
 export default function SignUpScreen({navigation}) {
+    React.useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+        (async ()=> {
+        try{
+            await Auth.currentAuthenticatedUser()
+            navigation.navigate('Home');
+        }catch(e){
+        }
+    })()
+    });
+
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return unsubscribe;
+  }, [navigation]);
     const styles = StyleSheet.create({
         button: {
             backgroundColor: "#5398FF",
@@ -169,6 +183,7 @@ export default function SignUpScreen({navigation}) {
     });
     const [details, setDetails] = React.useState({username: '', password: '', email: '', phone_number: '+61403440381'});
     const [error, setError] = React.useState(null);
+    
     return (
         <KeyboardAvoidingView>
             <View style={

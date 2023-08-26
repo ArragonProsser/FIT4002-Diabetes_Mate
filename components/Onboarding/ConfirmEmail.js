@@ -40,6 +40,19 @@ async function resendVerificationCode({
 }
 
 export default function SignUpScreen({navigation}) {
+    React.useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+            (async () => {
+                try {
+                    await Auth.currentAuthenticatedUser()
+                    navigation.navigate('Home');
+                } catch (e) {}
+            })()
+        });
+
+        // Return the function to unsubscribe from the event so it gets removed on unmount
+        return unsubscribe;
+    }, [navigation]);
     const styles = StyleSheet.create({
         button: {
             backgroundColor: "#5398FF",
