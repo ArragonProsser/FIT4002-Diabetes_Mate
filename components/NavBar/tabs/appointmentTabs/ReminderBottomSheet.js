@@ -1,26 +1,11 @@
-import React, { useCallback, useRef, useMemo, useState } from "react";
-import {
-  StyleSheet,
-  View,
-  Text,
-  Button,
-  SectionList,
-  TouchableOpacity,
-  Separator,
-} from "react-native";
+import React, { useCallback, useMemo } from "react";
+import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import BottomSheet, {
   BottomSheetFlatList,
-  BottomSheetScrollView,
   BottomSheetSectionList,
 } from "@gorhom/bottom-sheet";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
-const styles = StyleSheet.create({
-  contentContainer: {
-    flex: 1,
-    paddingTop: 200,
-  },
-});
 
 const DATA = [
   {
@@ -43,45 +28,53 @@ const DATA = [
     ],
   },
 ];
+const DATA_REMINDERS = [
+  {
+    id: 0,
+    title: "Urine Tests",
+    instructions: "Get urine tests sample delivered to main office",
+  },
+  {
+    id: 1,
+    title: "Blood Tests",
+    instructions: "Get blood tests done at the local blood transfer service",
+  },
+  {
+    id: 2,
+    title: "Bring Glucometer",
+    instructions: "Bring the device fully charged with recorded data.",
+  },
+];
 
-export default function QPLBottomSheet({ isActive, setActive, sheetRef }) {
-  // hooks
-  let [count, setCount] = useState(-1);
-  // setCount(-1);
-  console.log("new__________");
-  const seperator = (e) => {
+export default function ReminderBottomSheet({ sheetRef }) {
+  let count = -1;
+  const seperator = () => {
     if (count >= DATA.length * 2) {
-      setCount(-1);
+      count = -1;
     }
-    console.log("count: " + count);
-    console.log("Data:" + DATA.length);
-    console.log(count > DATA.length * 2);
+    // console.log("count: " + count);
+    // console.log("Data:" + DATA.length);
+    // console.log(count > DATA.length * 2);
     count += 1;
-    // count += 1;
     return count % 2 == 1 && count < DATA.length * 2 - 1 ? (
-      <View style={{ height: 10, backgroundColor: "#E8EBF0" }}>
-        {/* <Text>{count}</Text> */}
-      </View>
+      <View style={{ height: 10, backgroundColor: "#E8EBF0" }}></View>
     ) : null;
   };
-  const [toggleCheckBox, setToggleCheckBox] = useState(false);
-  //React.createRef(null); //(useRef < BottomSheet) | (null > null);
 
-  const snapPoints = useMemo(() => ["100%"], []);
+  const snapPoints = useMemo(() => ["90%"], []);
 
-  const handleSnapPress = useCallback((index) => {
-    sheetRef.current?.snapToIndex(index);
-  }, []);
-  const handlePresentModalPress = useCallback(() => {
-    if (isActive) {
-      sheetRef.current?.present();
-    }
-  }, [isActive]);
+  // const handleSnapPress = useCallback((index) => {
+  //   sheetRef.current?.snapToIndex(index);
+  // }, []);
+  // const handlePresentModalPress = useCallback(() => {
+  //   if (isActive) {
+  //     sheetRef.current?.present();
+  //   }
+  // },);
 
   //callbacks
   const handleClosePress = useCallback(() => {
     sheetRef.current?.close();
-    setActive(false);
   }, []);
 
   const styles = StyleSheet.create({
@@ -105,30 +98,23 @@ export default function QPLBottomSheet({ isActive, setActive, sheetRef }) {
       fontSize: 14,
       paddingBottom: 10,
       marginHorizontal: 20,
-      // fontWeight: "300",
     },
-    everythingWrapper: {
-      // paddingHorizontal: 10,
-      // marginHorizontal:10
-    },
+    everythingWrapper: {},
     sectionListHeaderText: {
       color: "#4B5E7D",
       fontWeight: "bold",
       fontSize: 18,
-      // marginHorizontal: 20,
     },
     sectionListBodyText: {
       maxWidth: 300,
       color: "#4B5E7D",
       fontSize: 14,
-      // marginHorizontal: 20,
       fontWeight: "500",
     },
     sectionListView: {
       paddingVertical: 10,
       marginHorizontal: 20,
       flexDirection: "row",
-      // justifyContent: "center",
     },
     sectionItemView: {
       paddingVertical: 10,
@@ -160,82 +146,69 @@ export default function QPLBottomSheet({ isActive, setActive, sheetRef }) {
       display: "flex",
       alignContent: "center",
       justifyContent: "center",
-      // position: "relative",
     },
     barWrapper: {
       justifyContent: "center",
     },
     checkboxWrapper: {
-      // borderColor: "yellow",
-      // borderWidth: 2,
       alignContent: "flex-end",
       flex: 1,
     },
     checkboxStyle: { alignSelf: "flex-end" },
   });
 
-  renderSeparator = () => {
-    return (
+  // render
+  const renderItem = useCallback(
+    ({ item }) => (
+      <View>
+        <View style={styles.sectionItemView}>
+          <Text style={styles.sectionListHeaderText}>{item.title}</Text>
+          <View style={styles.checkboxWrapper}>
+            <BouncyCheckbox
+              onPress={(isChecked) => {}}
+              fillColor="#3DCE66"
+              size={20}
+              style={styles.checkboxStyle}
+            />
+          </View>
+        </View>
+        <View style={styles.sectionListView}>
+          <Text style={styles.sectionListBodyText}>{item.instructions}</Text>
+        </View>
+      </View>
+    ),
+    []
+  );
+  const renderItemSeparator = useCallback(
+    () => (
       <View style={{ height: 2, backgroundColor: "#E8EBF0", marginLeft: 15 }} />
-    );
-  };
+    ),
+    []
+  );
   return (
     <BottomSheet
       ref={sheetRef}
       snapPoints={snapPoints}
-      // onClose={() => handleClosePress}
       style={styles.everythingWrapper}
+      index={-1}
     >
-      {/* <BottomSheetScrollView
-        contentContainerStyle={styles.contentContainer}
-        horizontal={false}
-      > */}
-      {/* <View style={styles.everythingWrapper}> */}
-      {/* <View style={styles.closeButtonWrapper}> */}
       <TouchableOpacity style={styles.closeButton}>
         <Icon name="close" size={30} onPress={handleClosePress}></Icon>
       </TouchableOpacity>
-      {/* </View> */}
       <Text style={styles.heading1}>Reminders</Text>
       <Text style={styles.heading2}>
         Things that the doctor will need before the appointment.
       </Text>
-      <BottomSheetSectionList
-        sections={DATA}
-        renderSeparator={this.renderSeparator}
-        render
-        keyExtractor={(item, index) => item + index}
-        renderItem={({ item, index }) => (
-          <View style={styles.sectionItemView}>
-            <Text style={styles.sectionListBodyText}>{item}</Text>
-            <View style={styles.checkboxWrapper}>
-              <BouncyCheckbox
-                onPress={(isChecked) => {}}
-                fillColor="#3DCE66"
-                size={20}
-                style={styles.checkboxStyle}
-              />
-            </View>
-          </View>
-        )}
-        renderSectionHeader={({ section: { title } }) => (
-          <View style={styles.sectionListView}>
-            <View style={styles.barWrapper}>
-              <View style={styles.bar}></View>
-            </View>
-            <Text style={styles.sectionListHeaderText}>{title}</Text>
-          </View>
-        )}
-        SectionSeparatorComponent={(e) => seperator(e)}
-        // SectionSeparatorComponent={this.renderSeparator}
-        ItemSeparatorComponent={this.renderSeparator}
-        // contentContainerStyle
-      ></BottomSheetSectionList>
+      <BottomSheetFlatList
+        data={DATA_REMINDERS}
+        keyExtractor={(i) => i.id}
+        renderItem={renderItem}
+        ItemSeparatorComponent={renderItemSeparator}
+        ListFooterComponent={renderItemSeparator}
+      ></BottomSheetFlatList>
       <TouchableOpacity style={styles.button} onPress={handleClosePress}>
-        <Text style={styles.buttonText}>Done</Text>
+        <Text style={styles.buttonText}>Finish</Text>
       </TouchableOpacity>
-      {/* </BottomSheetScrollView> */}
-      {/* </View> */}
     </BottomSheet>
   );
 }

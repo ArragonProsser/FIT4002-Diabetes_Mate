@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useRef } from "react";
 
 import {
   View,
@@ -9,9 +9,8 @@ import {
 } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import QPLBottomSheet from "./QPLBottomSheet";
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import ReminderBottomSheet from "./ReminderBottomSheet";
 export default function Detail({ route }) {
-  const [QPLOpen, setQPLOpen] = useState(false);
   const spacerHeight = 1000;
   const styles = StyleSheet.create({
     topContainer: {
@@ -75,7 +74,8 @@ export default function Detail({ route }) {
       paddingBottom: 24,
     },
   });
-  const sheetRef = useRef(null); //< BottomSheetModal > null;
+  const sheetRefQPL = useRef(null);
+  const sheetRefReminder = useRef(null);
   const { type, time, dateReminder } = route.params;
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
@@ -115,9 +115,7 @@ export default function Detail({ route }) {
               <TouchableOpacity
                 style={styles.cardContainer}
                 onPress={() => {
-                  setQPLOpen(true);
-                  console.log(sheetRef.current);
-                  sheetRef.current?.open();
+                  sheetRefQPL.current?.expand();
                 }}
               >
                 <Text style={styles.cardTitle}>Pick some questions</Text>
@@ -126,7 +124,12 @@ export default function Detail({ route }) {
                   appointment.
                 </Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.cardContainer}>
+              <TouchableOpacity
+                style={styles.cardContainer}
+                onPress={() => {
+                  sheetRefReminder.current?.expand();
+                }}
+              >
                 <Text style={styles.cardTitle}>Check Reminders</Text>
                 <Text style={styles.cardText}>
                   View any items that have been set by the practitioner that
@@ -146,13 +149,8 @@ export default function Detail({ route }) {
           <Text style={styles.buttonText}>Start Appointment</Text>
         </TouchableOpacity>
       </View>
-      {setQPLOpen && (
-        <QPLBottomSheet
-          sheetRef={sheetRef}
-          isActive={QPLOpen}
-          setActive={setQPLOpen}
-        ></QPLBottomSheet>
-      )}
+      <QPLBottomSheet sheetRef={sheetRefQPL}></QPLBottomSheet>
+      <ReminderBottomSheet sheetRef={sheetRefReminder}></ReminderBottomSheet>
     </GestureHandlerRootView>
   );
 }
