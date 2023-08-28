@@ -11,22 +11,17 @@
 	STORAGE_USER_ARN
 	STORAGE_USER_NAME
 	STORAGE_USER_STREAMARN
-Amplify Params - DO NOT EDIT */const fun = require('/opt/appointments.controller.js');
+Amplify Params - DO NOT EDIT */
+const controller = require('/opt/appointments.controller.js');
 
 /**
  * @type {import('@types/aws-lambda').APIGatewayProxyHandler}
  */
-exports.handler = async (event) => {
-    console.log(`EVENT: ${
-        JSON.stringify(event)
-    }`);
-    return {
-        statusCode: 200,
-        // Uncomment below to enable CORS requests
-        // headers: {
-        //      "Access-Control-Allow-Origin": "*",
-        //      "Access-Control-Allow-Headers": "*"
-        // },
-        body: JSON.stringify(fun() + event ?. ['pathParameters'] ?. ['action'])
-    };
-};
+exports.handler = async (event, context) => {
+    switch(event ?. ['pathParameters'] ?. ['action'] ?. toLowerCase()){
+        case 'get':
+            return await controller.getAppointmentsForUser();
+        default:
+            return {error: 'Invalid Path!'};
+    }
+}
