@@ -28,18 +28,19 @@ const DATA = [
 
 export default function QPLBottomSheet({ sheetRef }) {
   let count = -1;
-  const seperator = () => {
-    if (count >= DATA.length * 2) {
+  console.log("NEW!!!!!!!!!");
+  function customSectionSeparator() {
+    if (count >= DATA.length - 1) {
       count = -1;
     }
-    // console.log("count: " + count);
-    // console.log("Data:" + DATA.length);
-    // console.log(count > DATA.length * 2);
+    console.log("count: " + count);
+    console.log("Data:" + DATA.length);
+    console.log(count > DATA.length * 2);
     count += 1;
-    return count % 2 == 1 && count < DATA.length * 2 - 1 ? (
+    return count < DATA.length - 1 ? (
       <View style={{ height: 10, backgroundColor: "#E8EBF0" }}></View>
     ) : null;
-  };
+  }
 
   const snapPoints = useMemo(() => ["90%"], []);
 
@@ -159,10 +160,8 @@ export default function QPLBottomSheet({ sheetRef }) {
         doctor during your appointment.
       </Text>
       <BottomSheetSectionList
-        Container
-        stickySectionHeadersEnabled
+        // stickySectionHeadersEnabled
         sections={DATA}
-        renderSeparator={this.renderSeparator}
         render
         keyExtractor={(item, index) => item + index}
         renderItem={({ item, index }) => (
@@ -186,7 +185,7 @@ export default function QPLBottomSheet({ sheetRef }) {
             <Text style={styles.sectionListHeaderText}>{title}</Text>
           </View>
         )}
-        SectionSeparatorComponent={seperator}
+        renderSectionFooter={customSectionSeparator}
         ItemSeparatorComponent={this.renderSeparator}
       ></BottomSheetSectionList>
       <TouchableOpacity style={styles.button} onPress={handleClosePress}>
