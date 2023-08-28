@@ -18,9 +18,17 @@ const controller = require('/opt/appointments.controller.js');
  * @type {import('@types/aws-lambda').APIGatewayProxyHandler}
  */
 exports.handler = async (event, context) => {
+    // process.env.AUTH_DIABETESMATE_USERPOOLID
     switch(event ?. ['pathParameters'] ?. ['action'] ?. toLowerCase()){
         case 'get':
             return await controller.getAppointmentsForUser();
+        case 'test-auth':
+            try{
+                const requestContext = event.requestContext;
+                return {body: JSON.stringify({"requestContext": Object.keys(requestContext), "requestContext.identity": Object.keys(requestContext.identity), "requestContext.accountId": requestContext.accountId, "requestContext.identity.cognitoAuthenticationProvider": requestContext.identity.cognitoAuthenticationProvider})};
+            }catch(e){
+                return {body: JSON.stringify(e)};
+            }
         default:
             return {error: 'Invalid Path!'};
     }
