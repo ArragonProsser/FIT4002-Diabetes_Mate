@@ -13,7 +13,15 @@ import Choice from "./components/Onboarding/Choice";
 import Login from "./components/Onboarding/Login";
 import DetailsScreen from "./components/Onboarding/Details";
 import SignUpScreen from "./components/Onboarding/Signup";
-export default function App() {
+import ConfirmEmailScreen from "./components/Onboarding/ConfirmEmail";
+
+import {Amplify} from "aws-amplify";
+import config from "./aws-exports";
+
+Amplify.configure(config);
+
+
+function App() {
   return (
     <NavigationContainer>
       
@@ -69,6 +77,24 @@ export default function App() {
           }}
         />
         <Stack.Screen
+          name="ConfirmEmail"
+          component={ConfirmEmailScreen}
+          options={{
+            headerTitleAlign: 'center',
+            headerTitle: 'Confirm Email',
+            transitionSpec: {
+              open: TransitionSpecs.BottomSheetSlideInSpec,
+              close: TransitionSpecs.BottomSheetSlideOutSpec,
+            },
+            headerTintColor:"#25437B",
+            headerTitleStyle: {
+              fontSize:20,
+              color:"#25437B"
+            },
+            headerShadowVisible: false,
+          }}
+        />
+        <Stack.Screen
           name="Choice"
           component={Choice}
           
@@ -92,13 +118,8 @@ export default function App() {
           component={NavBar}
           
           options={{
-            // headerTitleAlign: 'center',
             headerTitle:"",
             headerShown:false,
-            // transitionSpec: {
-            //   open: TransitionSpecs.BottomSheetSlideInSpec,
-            //   close: TransitionSpecs.BottomSheetSlideOutSpec,
-            // },
 
           }}
         />
@@ -114,3 +135,5 @@ export default function App() {
 <NavBar/>
 </> */
 }
+
+export default App;

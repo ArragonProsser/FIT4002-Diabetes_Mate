@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 
 import {
   View,
@@ -10,7 +10,7 @@ import {
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import QPLBottomSheet from "./QPLBottomSheet";
 import ReminderBottomSheet from "./ReminderBottomSheet";
-export default function Detail({ route }) {
+export default function Detail({ route, navigation }) {
   const spacerHeight = 1000;
   const styles = StyleSheet.create({
     topContainer: {
@@ -76,6 +76,16 @@ export default function Detail({ route }) {
   });
   const sheetRefQPL = useRef(null);
   const sheetRefReminder = useRef(null);
+  useEffect(() => {
+    navigation
+      .getParent()
+      ?.setOptions({ tabBarStyle: { display: "none" }, tabBarVisible: false });
+    return () =>
+      navigation
+        .getParent()
+        ?.setOptions({ tabBarStyle: undefined, tabBarVisible: undefined });
+  }, [navigation]);
+
   const { type, time, dateReminder } = route.params;
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
@@ -145,7 +155,12 @@ export default function Detail({ route }) {
             borderBottomWidth: 1,
           }}
         />
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            navigation.navigate("During");
+          }}
+        >
           <Text style={styles.buttonText}>Start Appointment</Text>
         </TouchableOpacity>
       </View>

@@ -4,6 +4,7 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 import { Upcoming, History } from "./appointmentTabs/Appointment";
 import Detail from "./appointmentTabs/Detail";
 import { createStackNavigator } from "@react-navigation/stack";
+import During from "./appointmentTabs/During";
 
 const Tab = createMaterialTopTabNavigator();
 
