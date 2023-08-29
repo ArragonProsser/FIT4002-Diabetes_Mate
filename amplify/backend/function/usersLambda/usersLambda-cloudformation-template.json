@@ -15,6 +15,74 @@
     },
     "s3Key": {
       "Type": "String"
+    },
+    "functiondiabetesmateauthorisersArn": {
+      "Type": "String",
+      "Default": "functiondiabetesmateauthorisersArn"
+    },
+    "functiondiabetesmatecontrollersArn": {
+      "Type": "String",
+      "Default": "functiondiabetesmatecontrollersArn"
+    },
+    "functiondiabetesmatequeriesArn": {
+      "Type": "String",
+      "Default": "functiondiabetesmatequeriesArn"
+    },
+    "functiondiabetesmateservicesArn": {
+      "Type": "String",
+      "Default": "functiondiabetesmateservicesArn"
+    },
+    "functiondiabetesmatevalidatorsArn": {
+      "Type": "String",
+      "Default": "functiondiabetesmatevalidatorsArn"
+    },
+    "apiDiabetesmateApiName": {
+      "Type": "String",
+      "Default": "apiDiabetesmateApiName"
+    },
+    "apiDiabetesmateApiId": {
+      "Type": "String",
+      "Default": "apiDiabetesmateApiId"
+    },
+    "authdiabetesmateUserPoolId": {
+      "Type": "String",
+      "Default": "authdiabetesmateUserPoolId"
+    },
+    "storageUserName": {
+      "Type": "String",
+      "Default": "storageUserName"
+    },
+    "storageUserArn": {
+      "Type": "String",
+      "Default": "storageUserArn"
+    },
+    "storageUserStreamArn": {
+      "Type": "String",
+      "Default": "storageUserStreamArn"
+    },
+    "storageAppointmentName": {
+      "Type": "String",
+      "Default": "storageAppointmentName"
+    },
+    "storageAppointmentArn": {
+      "Type": "String",
+      "Default": "storageAppointmentArn"
+    },
+    "storageAppointmentStreamArn": {
+      "Type": "String",
+      "Default": "storageAppointmentStreamArn"
+    },
+    "storageArticleName": {
+      "Type": "String",
+      "Default": "storageArticleName"
+    },
+    "storageArticleArn": {
+      "Type": "String",
+      "Default": "storageArticleArn"
+    },
+    "storageArticleStreamArn": {
+      "Type": "String",
+      "Default": "storageArticleStreamArn"
     }
   },
   "Conditions": {
@@ -69,6 +137,42 @@
             },
             "REGION": {
               "Ref": "AWS::Region"
+            },
+            "API_DIABETESMATE_APINAME": {
+              "Ref": "apiDiabetesmateApiName"
+            },
+            "API_DIABETESMATE_APIID": {
+              "Ref": "apiDiabetesmateApiId"
+            },
+            "AUTH_DIABETESMATE_USERPOOLID": {
+              "Ref": "authdiabetesmateUserPoolId"
+            },
+            "STORAGE_USER_NAME": {
+              "Ref": "storageUserName"
+            },
+            "STORAGE_USER_ARN": {
+              "Ref": "storageUserArn"
+            },
+            "STORAGE_USER_STREAMARN": {
+              "Ref": "storageUserStreamArn"
+            },
+            "STORAGE_APPOINTMENT_NAME": {
+              "Ref": "storageAppointmentName"
+            },
+            "STORAGE_APPOINTMENT_ARN": {
+              "Ref": "storageAppointmentArn"
+            },
+            "STORAGE_APPOINTMENT_STREAMARN": {
+              "Ref": "storageAppointmentStreamArn"
+            },
+            "STORAGE_ARTICLE_NAME": {
+              "Ref": "storageArticleName"
+            },
+            "STORAGE_ARTICLE_ARN": {
+              "Ref": "storageArticleArn"
+            },
+            "STORAGE_ARTICLE_STREAMARN": {
+              "Ref": "storageArticleStreamArn"
             }
           }
         },
@@ -79,7 +183,23 @@
           ]
         },
         "Runtime": "nodejs18.x",
-        "Layers": [],
+        "Layers": [
+          {
+            "Ref": "functiondiabetesmateauthorisersArn"
+          },
+          {
+            "Ref": "functiondiabetesmatecontrollersArn"
+          },
+          {
+            "Ref": "functiondiabetesmatequeriesArn"
+          },
+          {
+            "Ref": "functiondiabetesmateservicesArn"
+          },
+          {
+            "Ref": "functiondiabetesmatevalidatorsArn"
+          }
+        ],
         "Timeout": 25
       }
     },
@@ -160,6 +280,136 @@
                   }
                 ]
               }
+            }
+          ]
+        }
+      }
+    },
+    "AmplifyResourcesPolicy": {
+      "DependsOn": [
+        "LambdaExecutionRole"
+      ],
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyName": "amplify-lambda-execution-policy",
+        "Roles": [
+          {
+            "Ref": "LambdaExecutionRole"
+          }
+        ],
+        "PolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Action": [
+                "dynamodb:Put*",
+                "dynamodb:Create*",
+                "dynamodb:BatchWriteItem",
+                "dynamodb:PartiQLInsert",
+                "dynamodb:Get*",
+                "dynamodb:BatchGetItem",
+                "dynamodb:List*",
+                "dynamodb:Describe*",
+                "dynamodb:Scan",
+                "dynamodb:Query",
+                "dynamodb:PartiQLSelect",
+                "dynamodb:Update*",
+                "dynamodb:RestoreTable*",
+                "dynamodb:PartiQLUpdate",
+                "dynamodb:Delete*",
+                "dynamodb:PartiQLDelete"
+              ],
+              "Resource": [
+                {
+                  "Ref": "storageUserArn"
+                },
+                {
+                  "Fn::Join": [
+                    "/",
+                    [
+                      {
+                        "Ref": "storageUserArn"
+                      },
+                      "index/*"
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "Effect": "Allow",
+              "Action": [
+                "dynamodb:Put*",
+                "dynamodb:Create*",
+                "dynamodb:BatchWriteItem",
+                "dynamodb:PartiQLInsert",
+                "dynamodb:Get*",
+                "dynamodb:BatchGetItem",
+                "dynamodb:List*",
+                "dynamodb:Describe*",
+                "dynamodb:Scan",
+                "dynamodb:Query",
+                "dynamodb:PartiQLSelect",
+                "dynamodb:Update*",
+                "dynamodb:RestoreTable*",
+                "dynamodb:PartiQLUpdate",
+                "dynamodb:Delete*",
+                "dynamodb:PartiQLDelete"
+              ],
+              "Resource": [
+                {
+                  "Ref": "storageAppointmentArn"
+                },
+                {
+                  "Fn::Join": [
+                    "/",
+                    [
+                      {
+                        "Ref": "storageAppointmentArn"
+                      },
+                      "index/*"
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "Effect": "Allow",
+              "Action": [
+                "dynamodb:Put*",
+                "dynamodb:Create*",
+                "dynamodb:BatchWriteItem",
+                "dynamodb:PartiQLInsert",
+                "dynamodb:Get*",
+                "dynamodb:BatchGetItem",
+                "dynamodb:List*",
+                "dynamodb:Describe*",
+                "dynamodb:Scan",
+                "dynamodb:Query",
+                "dynamodb:PartiQLSelect",
+                "dynamodb:Update*",
+                "dynamodb:RestoreTable*",
+                "dynamodb:PartiQLUpdate",
+                "dynamodb:Delete*",
+                "dynamodb:PartiQLDelete"
+              ],
+              "Resource": [
+                {
+                  "Ref": "storageArticleArn"
+                },
+                {
+                  "Fn::Join": [
+                    "/",
+                    [
+                      {
+                        "Ref": "storageArticleArn"
+                      },
+                      "index/*"
+                    ]
+                  ]
+                }
+              ]
             }
           ]
         }

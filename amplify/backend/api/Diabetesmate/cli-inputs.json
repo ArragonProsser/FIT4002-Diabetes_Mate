@@ -1,16 +1,16 @@
 {
   "version": 1,
   "paths": {
-    "/users/{action}": {
-      "name": "/users/{action}",
-      "lambdaFunction": "usersLambda",
+    "/appointments/{action}": {
+      "name": "/appointments/{action}",
+      "lambdaFunction": "appointmentsLambda",
       "permissions": {
         "setting": "open"
       }
     },
-    "/appointments/{action}": {
-      "name": "/appointments/{action}",
-      "lambdaFunction": "appointmentsLambda",
+    "/users/{action}": {
+      "name": "/users/{action}",
+      "lambdaFunction": "usersLambda",
       "permissions": {
         "setting": "open"
       }

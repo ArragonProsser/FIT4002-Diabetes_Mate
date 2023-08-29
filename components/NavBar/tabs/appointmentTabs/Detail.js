@@ -66,7 +66,7 @@ export default function Detail({route, navigation}) {
             paddingBottom: 24
         }
     });
-    const {type, time, dateReminder} = route.params;
+    const {type, datetime, dateReminder} = route.params;
 
     useEffect(() => {
         navigation.getParent()?.setOptions({ tabBarStyle: { display: 'none' }, tabBarVisible: false });
@@ -85,7 +85,7 @@ export default function Detail({route, navigation}) {
                         </View>
                     </View>
                     <Text style={{color: 'white', fontWeight: 'bold', fontSize: 24, paddingTop: 15}}>{type}</Text>
-                    <Text style={{color: 'white', paddingTop: 15}}>{time}</Text>
+                    <Text style={{color: 'white', paddingTop: 15}}>{datetime}</Text>
                 </View>
                 <View style={{backgroundColor: '#447FD6'}}>
                     <View style={styles.bottomContainer}>

@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
-import {View, Text, StyleSheet, FlatList} from 'react-native';
+import {FlatList, StyleSheet, Text, View} from 'react-native';
 import {ListItem} from "@rneui/themed";
+import {API} from "aws-amplify";
 
 const styles = StyleSheet.create({
     listContainer: {
@@ -26,15 +27,20 @@ const styles = StyleSheet.create({
     }
 });
 
-function AppointmentList (navigation, appointmentsData, clickable) {
+
+function AppointmentList(navigation, appointments, clickable) {
     return (
         <FlatList style={styles.listContainer}
-                  data={appointmentsData}
+                  data={appointments}
                   renderItem={
                       ({item}) =>
                           <ListItem containerStyle={styles.itemContainer}
                                     onPress={() => {
-                                        if (clickable) navigation.navigate('Detail', {type: item.type, time: item.time, dateReminder: item.dateReminder})
+                                        if (clickable) navigation.navigate('Detail', {
+                                            type: item.type,
+                                            datetime: item.datetime,
+                                            dateReminder: item.dateReminder
+                                        })
                                     }}
                           >
                               <ListItem.Content>
@@ -48,37 +54,84 @@ function AppointmentList (navigation, appointmentsData, clickable) {
                                       {item.type}
                                   </ListItem.Title>
                                   <ListItem.Subtitle style={styles.appointmentTime}>
-                                      {item.time}
+                                      {item.datetime}
                                   </ListItem.Subtitle>
                               </ListItem.Content>
-                              {clickable && <ListItem.Chevron></ListItem.Chevron>}
+                              {clickable && <ListItem.Chevron/>}
                           </ListItem>
                   }
                   ItemSeparatorComponent={() => <View style={{height: 15}}/>}
-                  ListFooterComponent={<View style={{height: 80}}></View>}
+                  ListFooterComponent={<View style={{height: 80}}/>}
         />
     )
 }
 
+function getAppointmentsData() {
+    const apiName = 'Diabetesmate';
+    const path = '/appointments/GET';
+    const myInit = {
+        headers: {}, // OPTIONAL
+    };
+    return API.get(apiName, path, myInit);
+}
+
 export function Upcoming({navigation}) {
-    let upcomingAppointments = [
-        {type: 'General Practitioner', time: 'Mon 23 Feb, 9:30am', dateReminder: 'Today'},
-        {type: 'Endocrinologist', time: 'Tue 24 Feb, 10:00am', dateReminder: 'Tomorrow'},
-        {type: 'Dietitian', time: 'Wed 25 Feb, 9:30am', dateReminder: 'Upcoming'},
-        {type: 'Exercise Physiologist', time: 'Wed 25 Feb, 2:30pm', dateReminder: 'Upcoming'},
-        {type: 'Psychologist', time: 'Fri 27 Mar, 11:15am', dateReminder: 'Upcoming'},
-        {type: 'Dietitian', time: 'Fri 27 Apr, 12:00am', dateReminder: 'Upcoming'}
-    ]
-    return AppointmentList(navigation, upcomingAppointments, true);
+    let upcomingAppointments = [];
+    const [appointments, setAppointments] = React.useState([]);
+    useEffect(() => {
+        getAppointmentsData().then((response) => {
+            let appointments = response.Items;
+            appointments.sort((d1, d2) => new Date(d1.datetime) - new Date(d2.datetime));
+
+            let today = new Date();
+            for (let i = 0; i < appointments.length; i++) {
+                let currentAppointment = appointments[i];
+                const datetime = new Date(currentAppointment['datetime']);
+                if (datetime <= today) {
+                    continue;
+                }
+                const MS_PER_DAY = 1000 * 60 * 60 * 24; // Milliseconds per day
+                let dateDiff = Math.floor((datetime - today) / MS_PER_DAY);
+                switch (dateDiff) {
+                    case 0:
+                        currentAppointment.dateReminder = 'Today';
+                        break;
+                    case 1:
+                        currentAppointment.dateReminder = 'Tomorrow';
+                        break;
+                    default:
+                        currentAppointment.dateReminder = 'Upcoming';
+                }
+                currentAppointment.datetime = datetime.toLocaleString();
+                upcomingAppointments.push(currentAppointment);
+            }
+            setAppointments(upcomingAppointments);
+        });
+    }, []);
+    return AppointmentList(navigation, appointments, true);
 }
 
 export function History({navigation}) {
-    let previousAppointments = [
-        {type: 'Psychologist', time: 'Mon 23 Jan, 9:30am', dateReminder: 'Completed'},
-        {type: 'Endocrinologist', time: 'Tue 24 Jan, 10:00am', dateReminder: 'Completed'},
-        {type: 'General Practitioner', time: 'Wed 25 Jan, 9:30am', dateReminder: 'Completed'},
-        {type: 'Exercise Physiologist', time: 'Wed 25 Jan, 12:30pm', dateReminder: 'Completed'},
-        {type: 'General Practitioner', time: 'Fri 27 Jan, 10:15am', dateReminder: 'Completed'},
-    ]
-    return AppointmentList(navigation, previousAppointments, false);
+    const pastAppointments = [];
+    const [appointments, setAppointments] = React.useState([]);
+    useEffect(() => {
+        getAppointmentsData().then((response) => {
+            let appointments = response.Items;
+            appointments.sort((d1, d2) => new Date(d2.datetime) - new Date(d1.datetime));
+
+            let today = new Date();
+            for (let i = 0; i < appointments.length; i++) {
+                let currentAppointment = appointments[i];
+                const datetime = new Date(currentAppointment['datetime']);
+                if (datetime <= today) {
+                    currentAppointment.dateReminder = 'Completed';
+                    currentAppointment.datetime = datetime.toLocaleString();
+                    pastAppointments.push(currentAppointment);
+                }
+            }
+            pastAppointments.sort((a, b) => { return new Date(a.datetime) - new Date(b.datetime)});
+            setAppointments(pastAppointments);
+        });
+    }, []);
+    return AppointmentList(navigation, appointments, false);
 }
