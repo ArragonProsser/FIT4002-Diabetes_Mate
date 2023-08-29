@@ -35,5 +35,35 @@
       "version": "Always choose latest version",
       "isLatestVersionSelected": true
     }
-  ]
+  ],
+  "permissions": {
+    "auth": {
+      "diabetesmate": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    },
+    "storage": {
+      "User": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ],
+      "Appointment": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ],
+      "Article": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    }
+  }
 }
