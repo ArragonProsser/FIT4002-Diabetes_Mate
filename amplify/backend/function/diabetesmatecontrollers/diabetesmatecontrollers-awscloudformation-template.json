@@ -20,7 +20,7 @@
     }
   },
   "Resources": {
-    "LambdaLayerVersion4c5dd4bb": {
+    "LambdaLayerVersion06114be1": {
       "Type": "AWS::Lambda::LayerVersion",
       "Properties": {
         "CompatibleRuntimes": {
@@ -51,130 +51,21 @@
       "DeletionPolicy": "Delete",
       "UpdateReplacePolicy": "Retain"
     },
-    "LambdaLayerPermissionPublic4c5dd4bb": {
+    "LambdaLayerPermissionPublic06114be1": {
       "Type": "AWS::Lambda::LayerVersionPermission",
       "Properties": {
         "Action": "lambda:GetLayerVersion",
         "LayerVersionArn": {
-          "Ref": "LambdaLayerVersion4c5dd4bb"
+          "Ref": "LambdaLayerVersion06114be1"
         },
         "Principal": "*"
-      }
-    },
-    "LambdaLayerVersion0939c420": {
-      "Type": "AWS::Lambda::LayerVersion",
-      "Properties": {
-        "CompatibleRuntimes": [
-          "nodejs18.x"
-        ],
-        "Content": {
-          "S3Bucket": {
-            "Ref": "deploymentBucketName"
-          },
-          "S3Key": "amplify-builds/diabetesmatecontrollers-LambdaLayerVersion0939c420-build.zip"
-        },
-        "Description": "Updated layer version 2023-08-28T08:48:25.906Z",
-        "LayerName": {
-          "Fn::Sub": [
-            "diabetesmatecontrollers-${env}",
-            {
-              "env": {
-                "Ref": "env"
-              }
-            }
-          ]
-        }
-      },
-      "DeletionPolicy": "Delete",
-      "UpdateReplacePolicy": "Retain"
-    },
-    "LambdaLayerPermissionPublic0939c420": {
-      "Type": "AWS::Lambda::LayerVersionPermission",
-      "Properties": {
-        "Action": "lambda:GetLayerVersion",
-        "LayerVersionArn": "arn:aws:lambda:ap-southeast-2:144314603306:layer:diabetesmatecontrollers-dev:4",
-        "Principal": "*"
-      }
-    },
-    "LambdaLayerVersionec15f474": {
-      "Type": "AWS::Lambda::LayerVersion",
-      "Properties": {
-        "CompatibleRuntimes": [
-          "nodejs18.x"
-        ],
-        "Content": {
-          "S3Bucket": {
-            "Ref": "deploymentBucketName"
-          },
-          "S3Key": "amplify-builds/diabetesmatecontrollers-LambdaLayerVersionec15f474-build.zip"
-        },
-        "Description": "Updated layer version 2023-08-28T08:39:06.681Z",
-        "LayerName": {
-          "Fn::Sub": [
-            "diabetesmatecontrollers-${env}",
-            {
-              "env": {
-                "Ref": "env"
-              }
-            }
-          ]
-        }
-      },
-      "DeletionPolicy": "Delete",
-      "UpdateReplacePolicy": "Retain"
-    },
-    "LambdaLayerPermissionPrivateec15f474": {
-      "Type": "AWS::Lambda::LayerVersionPermission",
-      "Properties": {
-        "Action": "lambda:GetLayerVersion",
-        "LayerVersionArn": "arn:aws:lambda:ap-southeast-2:144314603306:layer:diabetesmatecontrollers-dev:3",
-        "Principal": {
-          "Ref": "AWS::AccountId"
-        }
-      }
-    },
-    "LambdaLayerVersion15136303": {
-      "Type": "AWS::Lambda::LayerVersion",
-      "Properties": {
-        "CompatibleRuntimes": [
-          "nodejs18.x"
-        ],
-        "Content": {
-          "S3Bucket": {
-            "Ref": "deploymentBucketName"
-          },
-          "S3Key": "amplify-builds/diabetesmatecontrollers-LambdaLayerVersion15136303-build.zip"
-        },
-        "Description": "Updated layer version 2023-08-21T02:36:25.005Z",
-        "LayerName": {
-          "Fn::Sub": [
-            "diabetesmatecontrollers-${env}",
-            {
-              "env": {
-                "Ref": "env"
-              }
-            }
-          ]
-        }
-      },
-      "DeletionPolicy": "Delete",
-      "UpdateReplacePolicy": "Retain"
-    },
-    "LambdaLayerPermissionPrivate15136303": {
-      "Type": "AWS::Lambda::LayerVersionPermission",
-      "Properties": {
-        "Action": "lambda:GetLayerVersion",
-        "LayerVersionArn": "arn:aws:lambda:ap-southeast-2:144314603306:layer:diabetesmatecontrollers-dev:2",
-        "Principal": {
-          "Ref": "AWS::AccountId"
-        }
       }
     }
   },
   "Outputs": {
     "Arn": {
       "Value": {
-        "Ref": "LambdaLayerVersion4c5dd4bb"
+        "Ref": "LambdaLayerVersion06114be1"
       }
     }
   }

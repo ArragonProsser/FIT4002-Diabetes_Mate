@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, { useRef, useState } from 'react';
 
 import {
     View,
@@ -10,10 +10,21 @@ import {
     Alert,
     Dimensions
 } from 'react-native';
-import {createMaterialTopTabNavigator} from "@react-navigation/material-top-tabs";
-import {TextInput} from "react-native-gesture-handler";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { TextInput } from "react-native-gesture-handler";
 import IonIcons from 'react-native-vector-icons/Ionicons';
-import {Snackbar} from 'react-native-paper';
+import { Snackbar } from 'react-native-paper';
+import { API } from "aws-amplify";
+
+function updateAppointmentsData(appointment) {
+    const apiName = 'Diabetesmate';
+    const path = '/appointments/UPDATE';
+    const myInit = {
+        headers: {}, // OPTIONAL
+        body: appointment
+    };
+    return API.put(apiName, path, myInit);
+}
 
 const screenWidth = Dimensions.get('window').width;
 const styles = StyleSheet.create({
@@ -152,13 +163,13 @@ const styles = StyleSheet.create({
 
 
 const Tab = createMaterialTopTabNavigator();
-export default function During({route, navigation}) {
+export default function During({ route, navigation }) {
     return (
-        <View style={{flex: 1, backgroundColor: 'white'}}>
+        <View style={{ flex: 1, backgroundColor: 'white' }}>
             <View style={styles.spacer}></View>
             <Tab.Navigator
                 options={{
-                    headerStyle: {color: "red"},
+                    headerStyle: { color: "red" },
                 }}
                 screenOptions={{
                     tabBarIndicatorStyle: {
@@ -171,12 +182,12 @@ export default function During({route, navigation}) {
                     }
                 }}
             >
-                <Tab.Screen name="Biomarkers" component={Biomarkers} initialParams={{route, navigation}}/>
-                <Tab.Screen name="Questions" component={Questions} initialParams={{route, navigation}}/>
-                <Tab.Screen name="Notes" component={Notes} initialParams={{route, navigation}}/>
+                <Tab.Screen name="Biomarkers" component={Biomarkers} initialParams={{ duringRoute: route, duringNavigation: navigation }} />
+                <Tab.Screen name="Questions" component={Questions} initialParams={{ route, navigation }} />
+                <Tab.Screen name="Notes" component={Notes} initialParams={{ route, navigation }} />
             </Tab.Navigator>
 
-            <View style={styles.buttonDivider}/>
+            <View style={styles.buttonDivider} />
             <TouchableOpacity style={styles.button} onPress={() => {
                 navigation.navigate('History')
             }}>
@@ -186,19 +197,48 @@ export default function During({route, navigation}) {
     );
 }
 
-function Biomarkers() {
+function Biomarkers({ route, navigation }) {
+    let { duringRoute, duringNavigation } = route.params;
+    let appointment = duringRoute.params['appointment']
+
+    console.log(appointment);
+    let appointmentData = appointment['biomarker']['data'];
     const [visible, setVisible] = React.useState(false);
     const [biomarker, setBiomarker] = React.useState({
-        weight: '',
-        HbA1c: '',
-        urineAlbuminToCreatinineRatio: '',
-        diastolicBP: '',
-        systolicBP: '',
-        totalCholesterol: '',
-        LDL: '',
-        HDL: '',
-        TG: '',
+        weight: appointmentData['weight'],
+        HbA1c: appointmentData['HbA1c'],
+        urineAlbuminToCreatinineRatio: appointmentData['urineAlbuminToCreatinineRatio'],
+        diastolicBP: appointmentData['diastolicBP'],
+        systolicBP: appointmentData['systolicBP'],
+        totalCholesterol: appointmentData['totalCholesterol'],
+        LDL: appointmentData['LDL'],
+        HDL: appointmentData['HDL'],
+        TG: appointmentData['TG'],
     });
+    let toid = null;
+
+    function updateAppointmentsDataHandler() {
+        // PUT the biomarker update.
+        updateAppointmentsData(appointment)
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
+
+    function updateBiomarker(updateObj) {
+        // Update the biomarker state
+        setBiomarker(updateObj);
+        appointment['biomarker']['data'] = updateObj;
+
+        // Clear & Set a delay to prevent flooding of key inputs triggering the endpoint
+        if (toid != null) {
+            clearTimeout(toid);
+        }
+        toid = setTimeout(updateAppointmentsDataHandler, 1000);
+    }
 
     const [weightInput, HbA1cInput, urineAlbuminToCreatinineRatioInput, diastolicBPInput, systolicBPInput, totalCholesterolInput, LDLInput, HDLInput, TGInput] = [React.createRef(), React.createRef(), React.createRef(), React.createRef(), React.createRef(), React.createRef(), React.createRef(), React.createRef(), React.createRef()];
 
@@ -245,13 +285,13 @@ function Biomarkers() {
 
 
     return (
-        <KeyboardAvoidingView style={{flex: 1, backgroundColor: 'white'}}>
+        <KeyboardAvoidingView style={{ flex: 1, backgroundColor: 'white' }}>
             <ScrollView style={styles.contentContainer}>
                 <View style={styles.topContainer}>
                     <View style={styles.numberFrame}>
                         <Text style={styles.numberText}>1</Text>
                     </View>
-                    <View style={{display: 'flex', justifyContent: 'center'}}>
+                    <View style={{ display: 'flex', justifyContent: 'center' }}>
                         <Text style={styles.title}>Biomarkers</Text>
                         <Text style={styles.description}>Enter this info during your consult</Text>
                     </View>
@@ -264,16 +304,16 @@ function Biomarkers() {
                         placeholder="Enter weight"
                         keyboardType="decimal-pad"
                         value={biomarker.weight}
-                        onChangeText={text => setBiomarker({...biomarker, weight: enforceOneDecimal(text)})}
+                        onChangeText={text => updateBiomarker({ ...biomarker, weight: enforceOneDecimal(text) })}
                         onEndEditing={e => {
                             if (!validateBiomarker(e.nativeEvent.text, 'Weight', 20, 250)) {
                                 weightInput.current.clear();
                             }
-                            setBiomarker({...biomarker, weight: e.nativeEvent.text});
+                            updateBiomarker({ ...biomarker, weight: e.nativeEvent.text });
                         }}
                     />
                 </View>
-                <View style={styles.biomarkerDivider}/>
+                <View style={styles.biomarkerDivider} />
                 <View style={styles.biomarkerContainer}>
                     <Text style={styles.biomarkerTitle}>Blood HbA1c Level</Text>
                     <TextInput
@@ -282,16 +322,16 @@ function Biomarkers() {
                         placeholder="Enter HbA1c Level"
                         keyboardType="decimal-pad"
                         value={biomarker.HbA1c}
-                        onChangeText={text => setBiomarker({...biomarker, HbA1c: enforceOneDecimal(text)})}
+                        onChangeText={text => updateBiomarker({ ...biomarker, HbA1c: enforceOneDecimal(text) })}
                         onEndEditing={e => {
                             if (!validateBiomarker(e.nativeEvent.text, 'HbA1c', 4, 20)) {
                                 HbA1cInput.current.clear();
                             }
-                            setBiomarker({...biomarker, HbA1c: e.nativeEvent.text});
+                            updateBiomarker({ ...biomarker, HbA1c: e.nativeEvent.text });
                         }}
                     />
                 </View>
-                <View style={styles.biomarkerDivider}/>
+                <View style={styles.biomarkerDivider} />
                 <View style={styles.biomarkerContainer}>
                     <Text style={styles.biomarkerTitle}>Urine Albumin to Creatinine Ratio</Text>
                     <TextInput
@@ -300,20 +340,20 @@ function Biomarkers() {
                         placeholder="Enter Urine Albumin to Creatinine Ratio"
                         keyboardType="decimal-pad"
                         value={biomarker.urineAlbuminToCreatinineRatio}
-                        onChangeText={text => setBiomarker({...biomarker, urineAlbuminToCreatinineRatio: enforceOneDecimal(text)})}
+                        onChangeText={text => updateBiomarker({ ...biomarker, urineAlbuminToCreatinineRatio: enforceOneDecimal(text) })}
                         onEndEditing={e => {
                             if (!validateBiomarker(e.nativeEvent.text, 'Urine Albumin to Creatinine Ratio', 0, 300)) {
                                 urineAlbuminToCreatinineRatioInput.current.clear();
                             }
-                            setBiomarker({...biomarker, urineAlbuminToCreatinineRatio: e.nativeEvent.text});
+                            updateBiomarker({ ...biomarker, urineAlbuminToCreatinineRatio: e.nativeEvent.text });
                         }}
                     />
                 </View>
-                <View style={styles.biomarkerDivider}/>
+                <View style={styles.biomarkerDivider} />
                 <View style={styles.biomarkerContainer}>
                     <Text style={styles.biomarkerTitle}>Blood Pressure (BP)</Text>
                     <View style={styles.biomarkerRowFlexContainer}>
-                        <View style={{width: '50%'}}>
+                        <View style={{ width: '50%' }}>
                             <Text style={styles.biomarkerSubtitle}>Diastolic BP</Text>
                             <TextInput
                                 ref={diastolicBPInput}
@@ -321,16 +361,16 @@ function Biomarkers() {
                                 placeholder="Enter Diastolic BP"
                                 keyboardType="decimal-pad"
                                 value={biomarker.diastolicBP}
-                                onChangeText={text => setBiomarker({...biomarker, diastolicBP: enforceOneDecimal(text)})}
+                                onChangeText={text => updateBiomarker({ ...biomarker, diastolicBP: enforceOneDecimal(text) })}
                                 onEndEditing={e => {
                                     if (!validateBiomarker(e.nativeEvent.text, 'Diastolic BP', 20, 150)) {
                                         diastolicBPInput.current.clear();
                                     }
-                                    setBiomarker({...biomarker, diastolicBP: e.nativeEvent.text});
+                                    updateBiomarker({ ...biomarker, diastolicBP: e.nativeEvent.text });
                                 }}
                             />
                         </View>
-                        <View style={{width: '50%'}}>
+                        <View style={{ width: '50%' }}>
                             <Text style={styles.biomarkerSubtitle}>Systolic BP</Text>
                             <TextInput
                                 ref={systolicBPInput}
@@ -338,12 +378,12 @@ function Biomarkers() {
                                 placeholder="Enter Systolic BP"
                                 keyboardType="decimal-pad"
                                 value={biomarker.systolicBP}
-                                onChangeText={text => setBiomarker({...biomarker, systolicBP: enforceOneDecimal(text)})}
+                                onChangeText={text => updateBiomarker({ ...biomarker, systolicBP: enforceOneDecimal(text) })}
                                 onEndEditing={e => {
                                     if (!validateBiomarker(e.nativeEvent.text, 'Systolic BP', 50, 250)) {
                                         systolicBPInput.current.clear();
                                     }
-                                    setBiomarker({...biomarker, systolicBP: e.nativeEvent.text});
+                                    updateBiomarker({ ...biomarker, systolicBP: e.nativeEvent.text });
                                 }}
                             />
                         </View>
@@ -359,17 +399,17 @@ function Biomarkers() {
                             placeholder="Enter Total Cholesterol"
                             keyboardType="decimal-pad"
                             value={biomarker.totalCholesterol}
-                            onChangeText={text => setBiomarker({...biomarker, totalCholesterol: enforceOneDecimal(text)})}
+                            onChangeText={text => updateBiomarker({ ...biomarker, totalCholesterol: enforceOneDecimal(text) })}
                             onEndEditing={e => {
                                 if (!validateBiomarker(e.nativeEvent.text, 'Total Cholesterol', 1, 20)) {
                                     totalCholesterolInput.current.clear();
                                 }
-                                setBiomarker({...biomarker, totalCholesterol: e.nativeEvent.text});
+                                updateBiomarker({ ...biomarker, totalCholesterol: e.nativeEvent.text });
                             }}
                         />
                     </View>
                     <View style={styles.biomarkerRowFlexContainer}>
-                        <View style={{width: '33.33%'}}>
+                        <View style={{ width: '33.33%' }}>
                             <Text style={styles.biomarkerSubtitle}>LDL</Text>
                             <TextInput
                                 ref={LDLInput}
@@ -377,16 +417,16 @@ function Biomarkers() {
                                 placeholder="Enter LDL"
                                 keyboardType="decimal-pad"
                                 value={biomarker.LDL}
-                                onChangeText={text => setBiomarker({...biomarker, LDL: enforceOneDecimal(text)})}
+                                onChangeText={text => updateBiomarker({ ...biomarker, LDL: enforceOneDecimal(text) })}
                                 onEndEditing={e => {
                                     if (!validateBiomarker(e.nativeEvent.text, 'LDL', 1, 15)) {
                                         LDLInput.current.clear();
                                     }
-                                    setBiomarker({...biomarker, LDL: e.nativeEvent.text});
+                                    updateBiomarker({ ...biomarker, LDL: e.nativeEvent.text });
                                 }}
                             />
                         </View>
-                        <View style={{width: '33.33%'}}>
+                        <View style={{ width: '33.33%' }}>
                             <Text style={styles.biomarkerSubtitle}>HDL</Text>
                             <TextInput
                                 ref={HDLInput}
@@ -394,16 +434,16 @@ function Biomarkers() {
                                 placeholder="Enter HDL"
                                 keyboardType="decimal-pad"
                                 value={biomarker.HDL}
-                                onChangeText={text => setBiomarker({...biomarker, HDL: enforceOneDecimal(text)})}
+                                onChangeText={text => updateBiomarker({ ...biomarker, HDL: enforceOneDecimal(text) })}
                                 onEndEditing={e => {
                                     if (!validateBiomarker(e.nativeEvent.text, 'HDL', 1, 10)) {
                                         HDLInput.current.clear();
                                     }
-                                    setBiomarker({...biomarker, HDL: e.nativeEvent.text});
+                                    updateBiomarker({ ...biomarker, HDL: e.nativeEvent.text });
                                 }}
                             />
                         </View>
-                        <View style={{width: '33.33%'}}>
+                        <View style={{ width: '33.33%' }}>
                             <Text style={styles.biomarkerSubtitle}>TG</Text>
                             <TextInput
                                 ref={TGInput}
@@ -411,19 +451,19 @@ function Biomarkers() {
                                 placeholder="Enter TG"
                                 keyboardType="decimal-pad"
                                 value={biomarker.TG}
-                                onChangeText={text => setBiomarker({...biomarker, TG: enforceOneDecimal(text)})}
+                                onChangeText={text => updateBiomarker({ ...biomarker, TG: enforceOneDecimal(text) })}
                                 onEndEditing={e => {
                                     if (!validateBiomarker(e.nativeEvent.text, 'TG', 1, 60)) {
                                         TGInput.current.clear();
                                     }
-                                    setBiomarker({...biomarker, TG: e.nativeEvent.text});
+                                    updateBiomarker({ ...biomarker, TG: e.nativeEvent.text });
                                 }}
                             />
                         </View>
                     </View>
-                    <View style={styles.biomarkerDivider}/>
+                    <View style={styles.biomarkerDivider} />
                 </View>
-                <View style={{height: 65}}></View>
+                <View style={{ height: 65 }}></View>
             </ScrollView>
             <Snackbar
                 visible={visible}
@@ -434,7 +474,7 @@ function Biomarkers() {
                     alignSelf: 'flex-end',
                     width: 250,
                 }}
-                wrapperStyle={{zIndex: 1000}}
+                wrapperStyle={{ zIndex: 1000 }}
             >
                 ✓ Biomarker has been updated!
             </Snackbar>
@@ -444,7 +484,7 @@ function Biomarkers() {
 
 function Questions() {
     return (
-        <View style={{flex: 1, backgroundColor: 'white'}}>
+        <View style={{ flex: 1, backgroundColor: 'white' }}>
             <ScrollView style={styles.contentContainer}>
                 <Text>Questions Tab</Text>
             </ScrollView>
@@ -466,21 +506,21 @@ function Recording() {
 
     return (
         <>
-            <View style={{flexDirection: "row"}}>
+            <View style={{ flexDirection: "row" }}>
                 <View>
-                    <View style={styles.recordBarBase}/>
-                    <View style={{...styles.recordBar, width: progress}} ref={progressView}/>
+                    <View style={styles.recordBarBase} />
+                    <View style={{ ...styles.recordBar, width: progress }} ref={progressView} />
                     <TouchableOpacity style={styles.recordButton} onPress={() => {
                         setCurrentRecordTime(currentRecordTime + 10);
                         percentage();
                     }}>
-                        <IonIcons name="pause" color="white" size={30}/>
+                        <IonIcons name="pause" color="white" size={30} />
                     </TouchableOpacity>
                 </View>
             </View>
-            <View style={{flexDirection: "row"}}>
+            <View style={{ flexDirection: "row" }}>
                 <Text>Current</Text>
-                <Text style={{marginLeft: (screenWidth * 2 / 3) - 70}}>Max</Text>
+                <Text style={{ marginLeft: (screenWidth * 2 / 3) - 70 }}>Max</Text>
             </View>
         </>
     );
@@ -490,7 +530,7 @@ function Notes() {
     const [recording, setRecording] = useState(false);
 
     return (
-        <View style={{flex: 1, backgroundColor: 'white'}}>
+        <View style={{ flex: 1, backgroundColor: 'white' }}>
             <ScrollView style={styles.contentContainer}>
                 <View style={styles.biomarkerContainer}>
                     <Text style={styles.title}>Summary</Text>
@@ -500,17 +540,17 @@ function Notes() {
                         multiline
                         numberOfLines={4}
                         placeholder="Notes could include any changes to the medications you take or your treatment plan, reminders for next appointment or other relevant details."
-                        placeholderTextColor={{color: "#A8B2C1"}}/>
+                        placeholderTextColor={{ color: "#A8B2C1" }} />
                 </View>
                 <View style={styles.biomarkerContainer}>
                     <Text style={styles.title}>Recording</Text>
                     <Text style={styles.description}>Alternatively, record a brief verbal summary of the
                         information. </Text>
 
-                    <View style={{display: recording ? "flex" : "none"}}>
+                    <View style={{ display: recording ? "flex" : "none" }}>
                         {Recording()}
                     </View>
-                    <View style={{display: recording ? "none" : "flex"}}>
+                    <View style={{ display: recording ? "none" : "flex" }}>
                         <TouchableOpacity style={styles.startRecordButton} onPress={() => setRecording(true)}>
                             <Text style={styles.recordButtonText}>Start Recording</Text>
                         </TouchableOpacity>

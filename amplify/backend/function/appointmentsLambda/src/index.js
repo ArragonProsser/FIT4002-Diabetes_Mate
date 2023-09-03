@@ -22,6 +22,13 @@ exports.handler = async (event, context) => {
     switch (event?.['pathParameters']?.['action']?.toLowerCase()) {
         case 'get':
             return await controller.getAppointmentsForUser();
+        case 'create':
+            return await controller.createAppointment();
+        case 'update':
+            return {
+                "statusCode": 200,
+                "body": JSON.stringify(await controller.updateAppointmentBiomarker(JSON.parse(event.body)))
+            }
         case 'test-auth':
             try {
                 const requestContext = event.requestContext;

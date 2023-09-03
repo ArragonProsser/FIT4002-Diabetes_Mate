@@ -1,8 +1,8 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 
-import {View, Text, StyleSheet, ScrollView, TouchableOpacity} from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 
-export default function Detail({route, navigation}) {
+export default function Detail({ route, navigation }) {
     const spacerHeight = 1000;
     const styles = StyleSheet.create({
         topContainer: {
@@ -66,7 +66,7 @@ export default function Detail({route, navigation}) {
             paddingBottom: 24
         }
     });
-    const {type, datetime, dateReminder} = route.params;
+    const { type, datetime, dateReminder, appointment } = route.params;
 
     useEffect(() => {
         navigation.getParent()?.setOptions({ tabBarStyle: { display: 'none' }, tabBarVisible: false });
@@ -75,21 +75,21 @@ export default function Detail({route, navigation}) {
     }, [navigation]);
 
     return (
-        <View style={{flex: 1, backgroundColor: 'white'}}>
-            <ScrollView style={{flex: 1, backgroundColor: 'white'}}>
+        <View style={{ flex: 1, backgroundColor: 'white' }}>
+            <ScrollView style={{ flex: 1, backgroundColor: 'white' }}>
                 <View style={styles.spacer}></View>
                 <View style={styles.topContainer}>
-                    <View style={{flexDirection: 'row'}}>
+                    <View style={{ flexDirection: 'row' }}>
                         <View style={styles.dateReminderContainer}>
-                            <Text style={{color: 'white'}}>{dateReminder}</Text>
+                            <Text style={{ color: 'white' }}>{dateReminder}</Text>
                         </View>
                     </View>
-                    <Text style={{color: 'white', fontWeight: 'bold', fontSize: 24, paddingTop: 15}}>{type}</Text>
-                    <Text style={{color: 'white', paddingTop: 15}}>{datetime}</Text>
+                    <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 24, paddingTop: 15 }}>{type}</Text>
+                    <Text style={{ color: 'white', paddingTop: 15 }}>{datetime}</Text>
                 </View>
-                <View style={{backgroundColor: '#447FD6'}}>
+                <View style={{ backgroundColor: '#447FD6' }}>
                     <View style={styles.bottomContainer}>
-                        <Text style={{color: '#25437B', fontWeight: 'bold', fontSize: 18, marginBottom: 8}}>
+                        <Text style={{ color: '#25437B', fontWeight: 'bold', fontSize: 18, marginBottom: 8 }}>
                             Before your appointment
                         </Text>
                         <TouchableOpacity
@@ -120,7 +120,10 @@ export default function Detail({route, navigation}) {
                 }}
             />
             <TouchableOpacity style={styles.button} onPress={() => {
-                navigation.navigate('During')
+                // console.log(route.params);
+                navigation.navigate('During', {
+                    appointment: appointment
+                })
             }}>
                 <Text style={styles.buttonText}>Start Appointment</Text>
             </TouchableOpacity>
