@@ -178,7 +178,7 @@ export default function During({route, navigation}) {
 
             <View style={styles.buttonDivider}/>
             <TouchableOpacity style={styles.button} onPress={() => {
-                navigation.navigate('History')
+                navigation.navigate('UpcomingStack')
             }}>
                 <Text style={styles.buttonText}>Complete Appointment</Text>
             </TouchableOpacity>
