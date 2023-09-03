@@ -27,7 +27,6 @@ const styles = StyleSheet.create({
     }
 });
 
-
 function AppointmentList(navigation, appointments, clickable) {
 
     return (
@@ -78,6 +77,7 @@ function getAppointmentsData() {
     return API.get(apiName, path, myInit);
 }
 
+const datetimeFormats = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric' };
 export function Upcoming({ navigation }) {
     let upcomingAppointments = [];
     const [appointments, setAppointments] = React.useState([]);
@@ -105,7 +105,7 @@ export function Upcoming({ navigation }) {
                     default:
                         currentAppointment.dateReminder = 'Upcoming';
                 }
-                currentAppointment.datetime = datetime.toLocaleString();
+                currentAppointment.datetime = datetime.toLocaleString("en-US", datetimeFormats);
                 upcomingAppointments.push(currentAppointment);
             }
             setAppointments(upcomingAppointments);
@@ -128,7 +128,7 @@ export function History({ navigation }) {
                 const datetime = new Date(currentAppointment['datetime']);
                 if (datetime <= today) {
                     currentAppointment.dateReminder = 'Completed';
-                    currentAppointment.datetime = datetime.toLocaleString();
+                    currentAppointment.datetime = datetime.toLocaleString("en-US", datetimeFormats);
                     pastAppointments.push(currentAppointment);
                 }
             }
