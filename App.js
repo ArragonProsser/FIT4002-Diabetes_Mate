@@ -3,7 +3,7 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { TransitionSpecs,TransitionPresets } from "@react-navigation/stack";
+import { TransitionSpecs, TransitionPresets } from "@react-navigation/stack";
 // Enables additional expo debugging messages.
 // import 'expo-dev-client';
 const Stack = createStackNavigator();
@@ -15,7 +15,7 @@ import DetailsScreen from "./components/Onboarding/Details";
 import SignUpScreen from "./components/Onboarding/Signup";
 import ConfirmEmailScreen from "./components/Onboarding/ConfirmEmail";
 
-import {Amplify} from "aws-amplify";
+import { Amplify } from "aws-amplify";
 import config from "./aws-exports";
 
 Amplify.configure(config);
@@ -24,23 +24,22 @@ Amplify.configure(config);
 function App() {
   return (
     <NavigationContainer>
-      
-      <Stack.Navigator 
-      initialRouteName="details"
-      screenOptions={TransitionPresets.SlideFromRightIOS}
-      >
+
+      <Stack.Navigator
+        initialRouteName="details"
+        screenOptions={TransitionPresets.SlideFromRightIOS}>
         <Stack.Screen
-            name="Details"
-            component={DetailsScreen}
-            options={{
-              headerTitleAlign: 'center',
-              headerShown:false,
-              transitionSpec: {
-                open: TransitionSpecs.BottomSheetSlideInSpec,
-                close: TransitionSpecs.BottomSheetSlideOutSpec,
-              },
-            }}
-          />
+          name="Details"
+          component={DetailsScreen}
+          options={{
+            headerTitleAlign: 'center',
+            headerShown: false,
+            transitionSpec: {
+              open: TransitionSpecs.BottomSheetSlideInSpec,
+              close: TransitionSpecs.BottomSheetSlideOutSpec,
+            },
+          }}
+        />
         <Stack.Screen
           name="Login"
           component={Login}
@@ -50,10 +49,10 @@ function App() {
               open: TransitionSpecs.BottomSheetSlideInSpec,
               close: TransitionSpecs.BottomSheetSlideOutSpec,
             },
-            headerTintColor:"#25437B",
+            headerTintColor: "#25437B",
             headerTitleStyle: {
-              fontSize:20,
-              color:"#25437B"
+              fontSize: 20,
+              color: "#25437B"
             },
             headerShadowVisible: false,
           }}
@@ -68,10 +67,10 @@ function App() {
               open: TransitionSpecs.BottomSheetSlideInSpec,
               close: TransitionSpecs.BottomSheetSlideOutSpec,
             },
-            headerTintColor:"#25437B",
+            headerTintColor: "#25437B",
             headerTitleStyle: {
-              fontSize:20,
-              color:"#25437B"
+              fontSize: 20,
+              color: "#25437B"
             },
             headerShadowVisible: false,
           }}
@@ -86,10 +85,10 @@ function App() {
               open: TransitionSpecs.BottomSheetSlideInSpec,
               close: TransitionSpecs.BottomSheetSlideOutSpec,
             },
-            headerTintColor:"#25437B",
+            headerTintColor: "#25437B",
             headerTitleStyle: {
-              fontSize:20,
-              color:"#25437B"
+              fontSize: 20,
+              color: "#25437B"
             },
             headerShadowVisible: false,
           }}
@@ -97,17 +96,17 @@ function App() {
         <Stack.Screen
           name="Choice"
           component={Choice}
-          
+
           options={{
             headerTitleAlign: 'center',
-            headerTitle:"",
+            headerTitle: "",
             // headerShown:false,
-            headerTintColor:"#25437B",
+            headerTintColor: "#25437B",
             transitionSpec: {
               open: TransitionSpecs.BottomSheetSlideInSpec,
               close: TransitionSpecs.BottomSheetSlideOutSpec,
             },
-            headerTintColor:"white",
+            headerTintColor: "white",
             headerShadowVisible: false,
             headerTransparent: true
 
@@ -116,10 +115,10 @@ function App() {
         <Stack.Screen
           name="Home"
           component={NavBar}
-          
+
           options={{
-            headerTitle:"",
-            headerShown:false,
+            headerTitle: "",
+            headerShown: false,
 
           }}
         />

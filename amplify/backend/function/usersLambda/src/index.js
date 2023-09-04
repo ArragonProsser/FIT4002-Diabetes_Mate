@@ -10,19 +10,19 @@
 	STORAGE_USER_ARN
 	STORAGE_USER_NAME
 	STORAGE_USER_STREAMARN
-Amplify Params - DO NOT EDIT */const controller = require('/opt/users.controller.js');
+Amplify Params - DO NOT EDIT */ const controller = require("/opt/users.controller.js");
 
 /**
  * @type {import('@types/aws-lambda').APIGatewayProxyHandler}
  */
 exports.handler = async (event, context) => {
-    return {
-        "statusCode": 200,
-        "headers": {
-            "Content-Type": "*/*"
-        },
-        "body": JSON.stringify({
-            msg: "Reached",
-        })
-    }
-}
+  return {
+    statusCode: 200,
+    headers: {
+      "Content-Type": "*/*",
+    },
+    body: JSON.stringify({
+      msg: "Reached",
+    }),
+  };
+};
