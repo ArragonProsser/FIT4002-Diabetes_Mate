@@ -52,20 +52,20 @@ export default function DetailsScreen({ navigation }) {
       textAlign: "center",
     },
     buttonsContainer: { backgroundColor: "white" },
-    linearGradientLogo:{
-        position:'absolute',
-        top:0,
-        width:'100%',
-        height:"15%",
-        zIndex:10, // Makes it Hover as well as the position
-        justifyContent: "center",
-        alignItems: "center",
-        resizeMode: "contain",
+    linearGradientLogo: {
+      position: "absolute",
+      top: 0,
+      width: "100%",
+      height: "15%",
+      zIndex: 10, // Makes it Hover as well as the position
+      justifyContent: "center",
+      alignItems: "center",
+      resizeMode: "contain",
     },
-    logoWrapper:{
+    logoWrapper: {
       width: 220,
       height: 150,
-    }
+    },
   });
   return (
     <>
@@ -74,7 +74,10 @@ export default function DetailsScreen({ navigation }) {
           <Logo></Logo>
         </View>
       </View> */}
-      <LinearGradient colors={["#000000AF", "#ffffff00"]} style={styles.linearGradientLogo}>
+      <LinearGradient
+        colors={["#000000AF", "#ffffff00"]}
+        style={styles.linearGradientLogo}
+      >
         <View style={styles.logoWrapper}>
           <Logo></Logo>
         </View>
@@ -96,7 +99,7 @@ export default function DetailsScreen({ navigation }) {
         }}
         titleStyles={{
           paddingTop: 30,
-          paddingBottom:15,
+          paddingBottom: 15,
           color: "#25437B",
           fontSize: 33,
           fontWeight: "bold",
@@ -105,11 +108,10 @@ export default function DetailsScreen({ navigation }) {
         subTitleStyles={{
           color: "#25437B",
           fontSize: 18,
-          paddingHorizontal:20,
-          fontWeight:'300',
-          lineHeight:30
+          paddingHorizontal: 20,
+          fontWeight: "300",
+          lineHeight: 30,
         }}
-
         DotComponent={DotComponentCustom}
         pages={[
           {
@@ -121,24 +123,34 @@ export default function DetailsScreen({ navigation }) {
               />
             ),
             title: "Track",
-            subtitle: "Track your biomarkers along with your upcoming and past appointments",
+            subtitle:
+              "Track your biomarkers along with your upcoming and past appointments",
           },
           {
             backgroundColor: "#fff",
-            image: <Image source={require("../../assets/img/Details_Record.png")} style={{ margin: 0, paddingBottom: 0, width: "100%" }}/>,
+            image: (
+              <Image
+                source={require("../../assets/img/Details_Record.png")}
+                style={{ margin: 0, paddingBottom: 0, width: "100%" }}
+              />
+            ),
             title: "Record",
-            subtitle: "Record summaries of appointment to-dos and set them as reminders",
+            subtitle:
+              "Record summaries of appointment to-dos and set them as reminders",
           },
           {
             backgroundColor: "#fff",
-            image: <Image source={require("../../assets/img/Details_Learn.png")} style={{ margin: 0, paddingBottom: 0, width: "100%" }}/>,
+            image: (
+              <Image
+                source={require("../../assets/img/Details_Learn.png")}
+                style={{ margin: 0, paddingBottom: 0, width: "100%" }}
+              />
+            ),
             title: "Learn",
             subtitle: "Learn more about diabetes from our eductional resources",
           },
         ]}
-      >
-      
-      </Onboarding>
+      ></Onboarding>
       <View style={styles.buttonsContainer}>
         <TouchableOpacity
           style={styles.button}
