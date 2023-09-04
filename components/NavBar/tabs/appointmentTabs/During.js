@@ -219,7 +219,10 @@ function Biomarkers({ route, navigation }) {
 
     function updateAppointmentsDataHandler() {
         // PUT the biomarker update.
-        updateAppointmentsData(appointment)
+        let updateAppointment = appointment;
+        delete updateAppointment.dtDisplay;
+        delete updateAppointment.dateReminder;
+        updateAppointmentsData(updateAppointment)
             .then((res) => {
                 console.log(res);
             })

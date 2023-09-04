@@ -39,7 +39,7 @@ function AppointmentList(navigation, appointments, clickable) {
                             // console.log(item);
                             if (clickable) navigation.navigate('Detail', {
                                 type: item.type,
-                                datetime: item.datetime,
+                                datetime: item.dtDisplay,
                                 dateReminder: item.dateReminder,
                                 appointment: item
                             })
@@ -56,7 +56,7 @@ function AppointmentList(navigation, appointments, clickable) {
                                 {item.type}
                             </ListItem.Title>
                             <ListItem.Subtitle style={styles.appointmentTime}>
-                                {item.datetime}
+                                {item.dtDisplay}
                             </ListItem.Subtitle>
                         </ListItem.Content>
                         {clickable && <ListItem.Chevron />}
@@ -84,12 +84,12 @@ export function Upcoming({ navigation }) {
     useEffect(() => {
         getAppointmentsData().then((response) => {
             let appointments = response.Items;
-            appointments.sort((d1, d2) => new Date(d1.datetime) - new Date(d2.datetime));
+            appointments.sort((d1, d2) => new Date(d1.appointment_datetime) - new Date(d2.appointment_datetime));
 
             let today = new Date();
             for (let i = 0; i < appointments.length; i++) {
                 let currentAppointment = appointments[i];
-                const datetime = new Date(currentAppointment['datetime']);
+                const datetime = new Date(currentAppointment['appointment_datetime']);
                 if (datetime <= today) {
                     continue;
                 }
@@ -105,7 +105,7 @@ export function Upcoming({ navigation }) {
                     default:
                         currentAppointment.dateReminder = 'Upcoming';
                 }
-                currentAppointment.datetime = datetime.toLocaleString("en-US", datetimeFormats);
+                currentAppointment.dtDisplay = datetime.toLocaleString("en-US", datetimeFormats);
                 upcomingAppointments.push(currentAppointment);
             }
             setAppointments(upcomingAppointments);
@@ -120,19 +120,19 @@ export function History({ navigation }) {
     useEffect(() => {
         getAppointmentsData().then((response) => {
             let appointments = response.Items;
-            appointments.sort((d1, d2) => new Date(d2.datetime) - new Date(d1.datetime));
+            appointments.sort((d1, d2) => new Date(d2.appointment_datetime) - new Date(d1.appointment_datetime));
 
             let today = new Date();
             for (let i = 0; i < appointments.length; i++) {
                 let currentAppointment = appointments[i];
-                const datetime = new Date(currentAppointment['datetime']);
+                const datetime = new Date(currentAppointment['appointment_datetime']);
                 if (datetime <= today) {
                     currentAppointment.dateReminder = 'Completed';
-                    currentAppointment.datetime = datetime.toLocaleString("en-US", datetimeFormats);
+                    currentAppointment.dtDisplay = datetime.toLocaleString("en-US", datetimeFormats);
                     pastAppointments.push(currentAppointment);
                 }
             }
-            pastAppointments.sort((a, b) => { return new Date(a.datetime) - new Date(b.datetime) });
+            pastAppointments.sort((a, b) => { return new Date(a.appointment_datetime) - new Date(b.appointment_datetime) });
             setAppointments(pastAppointments);
         });
     }, []);
