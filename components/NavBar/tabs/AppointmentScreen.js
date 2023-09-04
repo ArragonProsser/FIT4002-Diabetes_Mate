@@ -29,6 +29,16 @@ function UpcomingStackScreen() {
           headerTransparent: true,
         }}
       />
+      <UpcomingScreenStack.Screen
+        name="During"
+        component={During}
+        options={{
+          headerTitle: "",
+          headerBackTitleVisible: false,
+          headerShadowVisible: false,
+          headerTransparent: true,
+        }}
+      />
     </UpcomingScreenStack.Navigator>
   );
 }
