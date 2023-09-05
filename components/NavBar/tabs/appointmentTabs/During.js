@@ -303,7 +303,7 @@ function Biomarkers({ route, navigation }) {
   let { duringRoute, duringNavigation } = route.params;
   let appointment = duringRoute.params["appointment"];
 
-  console.log(appointment);
+  // console.log(appointment);
   let appointmentData = appointment["biomarker"]["data"];
   const [visible, setVisible] = React.useState(false);
   const [biomarker, setBiomarker] = React.useState({
@@ -687,7 +687,21 @@ function Biomarkers({ route, navigation }) {
   );
 }
 
-function Questions() {
+function Questions({ route, navigation }) {
+  const questions = route.params.route.params["appointment"]["questions"];
+  const finalQuestionArray = [
+    {
+      data: [],
+    },
+  ];
+  questions.forEach((element) => {
+    element.data.forEach((data_element) => {
+      if (data_element.checked) {
+        finalQuestionArray[0].data.push(data_element.question);
+      }
+    });
+  });
+  console.log(finalQuestionArray);
   const DATA = [
     {
       data: [
@@ -701,7 +715,7 @@ function Questions() {
     <View style={{ flex: 1, backgroundColor: "white", paddingTop: 20 }}>
       {/* <ScrollView style={styles.contentContainer}> */}
       <SectionList
-        sections={DATA}
+        sections={finalQuestionArray}
         renderSeparator={this.renderSeparator}
         render
         // keyExtractor={(item, index) => item + index}

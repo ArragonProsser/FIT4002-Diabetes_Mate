@@ -93,8 +93,9 @@ export function Upcoming({ navigation }) {
   const [appointments, setAppointments] = React.useState([]);
   useEffect(() => {
     getAppointmentsData().then((response) => {
-      console.log("Appointments.js");
+      console.log("Appointments.js START___");
       console.log(response);
+      console.log("Appointments.js END___");
       let appointments = response.Items;
       appointments.sort(
         (d1, d2) =>

@@ -6,6 +6,7 @@ import BottomSheet, {
 } from "@gorhom/bottom-sheet";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
+import { updateAppointmentsData } from "./During";
 
 const DATA_REMINDERS = [
   {
@@ -25,7 +26,7 @@ const DATA_REMINDERS = [
   },
 ];
 
-export default function ReminderBottomSheet({ sheetRef }) {
+export default function ReminderBottomSheet({ sheetRef, appointmentData }) {
   let count = -1;
 
   const snapPoints = useMemo(() => ["90%"], []);
@@ -33,6 +34,16 @@ export default function ReminderBottomSheet({ sheetRef }) {
   //callbacks
   const handleClosePress = useCallback(() => {
     sheetRef.current?.close();
+    let updateAppointment = appointmentData;
+    delete updateAppointment.dtDisplay;
+    delete updateAppointment.dateReminder;
+    updateAppointmentsData(updateAppointment)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   const styles = StyleSheet.create({
@@ -117,13 +128,17 @@ export default function ReminderBottomSheet({ sheetRef }) {
 
   // render
   const renderItem = useCallback(
-    ({ item }) => (
+    ({ item, index }) => (
       <View>
         <View style={styles.sectionItemView}>
           <Text style={styles.sectionListHeaderText}>{item.title}</Text>
           <View style={styles.checkboxWrapper}>
             <BouncyCheckbox
-              onPress={(isChecked) => {}}
+              isChecked={item["checked"]}
+              onPress={(isChecked) => {
+                appointmentData["reminders"][index]["checked"] =
+                  !appointmentData["reminders"][index]["checked"];
+              }}
               fillColor="#3DCE66"
               size={20}
               style={styles.checkboxStyle}
@@ -158,7 +173,7 @@ export default function ReminderBottomSheet({ sheetRef }) {
         Things that the doctor will need before the appointment.
       </Text>
       <BottomSheetFlatList
-        data={DATA_REMINDERS}
+        data={appointmentData.reminders}
         keyExtractor={(i) => i.id}
         renderItem={renderItem}
         ItemSeparatorComponent={renderItemSeparator}

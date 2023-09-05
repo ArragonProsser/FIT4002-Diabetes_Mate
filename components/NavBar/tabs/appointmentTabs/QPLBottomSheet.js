@@ -151,7 +151,7 @@ export default function QPLBottomSheet({ sheetRef, appointmentData }) {
     },
     checkboxStyle: { alignSelf: "flex-end" },
   });
-  console.log(appointmentData["questions"]["data"]);
+  // console.log(appointmentData["questions"]["data"]);
   renderSeparator = () => {
     return (
       <View style={{ height: 2, backgroundColor: "#E8EBF0", marginLeft: 15 }} />
