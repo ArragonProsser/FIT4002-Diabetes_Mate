@@ -82,7 +82,7 @@ export default function Detail({ route, navigation }) {
   useEffect(() => {
     navigation
       .getParent()
-      ?.setOptions({ tabBarStyle: { display: "none" }, tabBarVisible: false });
+      ?.setOptions({ tabBarStyle: { display: "none" }, tabBarVisible: true });
     return () =>
       navigation
         .getParent()
@@ -168,8 +168,14 @@ export default function Detail({ route, navigation }) {
           <Text style={styles.buttonText}>Start Appointment</Text>
         </TouchableOpacity>
       </View>
-      <QPLBottomSheet sheetRef={sheetRefQPL}></QPLBottomSheet>
-      <ReminderBottomSheet sheetRef={sheetRefReminder}></ReminderBottomSheet>
+      <QPLBottomSheet
+        sheetRef={sheetRefQPL}
+        appointmentData={appointment}
+      ></QPLBottomSheet>
+      <ReminderBottomSheet
+        sheetRef={sheetRefReminder}
+        appointmentData={appointment}
+      ></ReminderBottomSheet>
     </GestureHandlerRootView>
   );
 }

@@ -17,7 +17,7 @@ import IonIcons from "react-native-vector-icons/Ionicons";
 import { Snackbar } from "react-native-paper";
 import { API } from "aws-amplify";
 
-function updateAppointmentsData(appointment) {
+export function updateAppointmentsData(appointment) {
   const apiName = "Diabetesmate";
   const path = "/appointments/UPDATE";
   const myInit = {
@@ -704,7 +704,7 @@ function Questions() {
         sections={DATA}
         renderSeparator={this.renderSeparator}
         render
-        keyExtractor={(item, index) => item + index}
+        // keyExtractor={(item, index) => item + index}
         renderItem={({ item, index }) => (
           <View style={styles.sectionItemView}>
             <Text style={styles.sectionListBodyText}>{item}</Text>

@@ -1,8 +1,9 @@
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import BottomSheet, { BottomSheetSectionList } from "@gorhom/bottom-sheet";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
+import { updateAppointmentsData } from "./During";
 
 const DATA = [
   {
@@ -26,7 +27,8 @@ const DATA = [
   },
 ];
 
-export default function QPLBottomSheet({ sheetRef }) {
+export default function QPLBottomSheet({ sheetRef, appointmentData }) {
+  const [isChanged, setIsChanged] = useState(false);
   let count = -1;
   // console.log("NEW!!!!!!!!!");
   function customSectionSeparator() {
@@ -56,6 +58,17 @@ export default function QPLBottomSheet({ sheetRef }) {
   //callbacks
   const handleClosePress = useCallback(() => {
     sheetRef.current?.close();
+    //update biomarkers in database
+    let updateAppointment = appointmentData;
+    delete updateAppointment.dtDisplay;
+    delete updateAppointment.dateReminder;
+    updateAppointmentsData(updateAppointment)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   const styles = StyleSheet.create({
@@ -138,7 +151,7 @@ export default function QPLBottomSheet({ sheetRef }) {
     },
     checkboxStyle: { alignSelf: "flex-end" },
   });
-
+  console.log(appointmentData["questions"]["data"]);
   renderSeparator = () => {
     return (
       <View style={{ height: 2, backgroundColor: "#E8EBF0", marginLeft: 15 }} />
@@ -161,15 +174,32 @@ export default function QPLBottomSheet({ sheetRef }) {
       </Text>
       <BottomSheetSectionList
         // stickySectionHeadersEnabled
-        sections={DATA}
+        sections={appointmentData.questions}
         render
-        keyExtractor={(item, index) => item + index}
-        renderItem={({ item, index }) => (
+        keyExtractor={(item) => {
+          // item["id"];
+          // console.log(item["id"]);
+        }}
+        renderItem={({ item, section, index }) => (
           <View style={styles.sectionItemView}>
-            <Text style={styles.sectionListBodyText}>{item}</Text>
+            <Text style={styles.sectionListBodyText}>{item["question"]}</Text>
             <View style={styles.checkboxWrapper}>
               <BouncyCheckbox
-                onPress={(isChecked) => {}}
+                isChecked={item["checked"]}
+                onPress={(isChecked) => {
+                  //update biomarkers locally
+                  appointmentData["questions"][section["id"]]["data"][index][
+                    "checked"
+                  ] =
+                    !appointmentData["questions"][section["id"]]["data"][index][
+                      "checked"
+                    ];
+                  // console.log(
+                  //   appointmentData["questions"][section["id"]]["data"][index][
+                  //     "checked"
+                  //   ]
+                  // );
+                }}
                 fillColor="#3DCE66"
                 size={20}
                 style={styles.checkboxStyle}
@@ -177,7 +207,7 @@ export default function QPLBottomSheet({ sheetRef }) {
             </View>
           </View>
         )}
-        renderSectionHeader={({ section: { title } }) => (
+        renderSectionHeader={({ section: { title }, index }) => (
           <View style={styles.sectionListView}>
             <View style={styles.barWrapper}>
               <View style={styles.bar}></View>

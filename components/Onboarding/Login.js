@@ -209,6 +209,7 @@ export default function LoginScreen({ navigation }) {
             style={styles.button}
             onPress={async () => {
               await signIn(details);
+              navigation.navigate("Home");
             }}
           >
             <Text style={styles.buttonText}>Log In</Text>

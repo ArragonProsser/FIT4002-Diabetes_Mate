@@ -7,27 +7,6 @@ import BottomSheet, {
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 
-const DATA = [
-  {
-    title: "General Information",
-    data: [
-      "How may diabetes affect my vision?",
-      "How may diabetes affect my driving?",
-      "How may diabetes affect my heart and blood vessels?",
-    ],
-  },
-  {
-    title: "Healthy Eating",
-    data: ["What kind of foods should i avoid?"],
-  },
-  {
-    title: "Being Active",
-    data: [
-      "How does excercise affect my glucose levels?",
-      "Is the type of excercise important in how my glucose levels change?",
-    ],
-  },
-];
 const DATA_REMINDERS = [
   {
     id: 0,
@@ -48,29 +27,8 @@ const DATA_REMINDERS = [
 
 export default function ReminderBottomSheet({ sheetRef }) {
   let count = -1;
-  const seperator = () => {
-    if (count >= DATA.length * 2) {
-      count = -1;
-    }
-    // console.log("count: " + count);
-    // console.log("Data:" + DATA.length);
-    // console.log(count > DATA.length * 2);
-    count += 1;
-    return count % 2 == 1 && count < DATA.length * 2 - 1 ? (
-      <View style={{ height: 10, backgroundColor: "#E8EBF0" }}></View>
-    ) : null;
-  };
 
   const snapPoints = useMemo(() => ["90%"], []);
-
-  // const handleSnapPress = useCallback((index) => {
-  //   sheetRef.current?.snapToIndex(index);
-  // }, []);
-  // const handlePresentModalPress = useCallback(() => {
-  //   if (isActive) {
-  //     sheetRef.current?.present();
-  //   }
-  // },);
 
   //callbacks
   const handleClosePress = useCallback(() => {
