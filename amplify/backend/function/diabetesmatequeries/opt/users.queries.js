@@ -1,6 +1,7 @@
-const AWS = require("aws-sdk");
+const AWS = require('aws-sdk');
 const docClient = new AWS.DynamoDB.DocumentClient();
 
-const TableName = "User-dev";
+const TableName = 'User-dev';
 
-module.exports = {};
+module.exports = {
+};

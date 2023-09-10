@@ -20,7 +20,7 @@
     }
   },
   "Resources": {
-    "LambdaLayerVersiona7f1fb83": {
+    "LambdaLayerVersiondd4eb27e": {
       "Type": "AWS::Lambda::LayerVersion",
       "Properties": {
         "CompatibleRuntimes": {
@@ -51,29 +51,31 @@
       "DeletionPolicy": "Delete",
       "UpdateReplacePolicy": "Retain"
     },
-    "LambdaLayerPermissionPrivatea7f1fb83": {
+    "LambdaLayerPermissionPrivatedd4eb27e": {
       "Type": "AWS::Lambda::LayerVersionPermission",
       "Properties": {
         "Action": "lambda:GetLayerVersion",
         "LayerVersionArn": {
-          "Ref": "LambdaLayerVersiona7f1fb83"
+          "Ref": "LambdaLayerVersiondd4eb27e"
         },
         "Principal": {
           "Ref": "AWS::AccountId"
         }
       }
     },
-    "LambdaLayerVersion0551bac2": {
+    "LambdaLayerVersion96d4a17c": {
       "Type": "AWS::Lambda::LayerVersion",
       "Properties": {
-        "CompatibleRuntimes": ["nodejs18.x"],
+        "CompatibleRuntimes": [
+          "nodejs18.x"
+        ],
         "Content": {
           "S3Bucket": {
             "Ref": "deploymentBucketName"
           },
-          "S3Key": "amplify-builds/diabetesmatequeries-LambdaLayerVersion0551bac2-build.zip"
+          "S3Key": "amplify-builds/diabetesmatequeries-LambdaLayerVersion96d4a17c-build.zip"
         },
-        "Description": "Updated layer version 2023-09-03T08:01:46.280Z",
+        "Description": "Updated layer version 2023-09-04T08:06:04.233Z",
         "LayerName": {
           "Fn::Sub": [
             "diabetesmatequeries-${env}",
@@ -88,151 +90,11 @@
       "DeletionPolicy": "Delete",
       "UpdateReplacePolicy": "Retain"
     },
-    "LambdaLayerPermissionPrivate0551bac2": {
+    "LambdaLayerPermissionPrivate96d4a17c": {
       "Type": "AWS::Lambda::LayerVersionPermission",
       "Properties": {
         "Action": "lambda:GetLayerVersion",
-        "LayerVersionArn": "arn:aws:lambda:ap-southeast-2:144314603306:layer:diabetesmatequeries-dev:9",
-        "Principal": {
-          "Ref": "AWS::AccountId"
-        }
-      }
-    },
-    "LambdaLayerVersion49b37879": {
-      "Type": "AWS::Lambda::LayerVersion",
-      "Properties": {
-        "CompatibleRuntimes": ["nodejs18.x"],
-        "Content": {
-          "S3Bucket": {
-            "Ref": "deploymentBucketName"
-          },
-          "S3Key": "amplify-builds/diabetesmatequeries-LambdaLayerVersion49b37879-build.zip"
-        },
-        "Description": "Updated layer version 2023-09-03T07:43:43.258Z",
-        "LayerName": {
-          "Fn::Sub": [
-            "diabetesmatequeries-${env}",
-            {
-              "env": {
-                "Ref": "env"
-              }
-            }
-          ]
-        }
-      },
-      "DeletionPolicy": "Delete",
-      "UpdateReplacePolicy": "Retain"
-    },
-    "LambdaLayerPermissionPrivate49b37879": {
-      "Type": "AWS::Lambda::LayerVersionPermission",
-      "Properties": {
-        "Action": "lambda:GetLayerVersion",
-        "LayerVersionArn": "arn:aws:lambda:ap-southeast-2:144314603306:layer:diabetesmatequeries-dev:8",
-        "Principal": {
-          "Ref": "AWS::AccountId"
-        }
-      }
-    },
-    "LambdaLayerVersion0b6a7a54": {
-      "Type": "AWS::Lambda::LayerVersion",
-      "Properties": {
-        "CompatibleRuntimes": ["nodejs18.x"],
-        "Content": {
-          "S3Bucket": {
-            "Ref": "deploymentBucketName"
-          },
-          "S3Key": "amplify-builds/diabetesmatequeries-LambdaLayerVersion0b6a7a54-build.zip"
-        },
-        "Description": "Updated layer version 2023-09-03T06:29:47.295Z",
-        "LayerName": {
-          "Fn::Sub": [
-            "diabetesmatequeries-${env}",
-            {
-              "env": {
-                "Ref": "env"
-              }
-            }
-          ]
-        }
-      },
-      "DeletionPolicy": "Delete",
-      "UpdateReplacePolicy": "Retain"
-    },
-    "LambdaLayerPermissionPrivate0b6a7a54": {
-      "Type": "AWS::Lambda::LayerVersionPermission",
-      "Properties": {
-        "Action": "lambda:GetLayerVersion",
-        "LayerVersionArn": "arn:aws:lambda:ap-southeast-2:144314603306:layer:diabetesmatequeries-dev:7",
-        "Principal": {
-          "Ref": "AWS::AccountId"
-        }
-      }
-    },
-    "LambdaLayerVersionf3f9204e": {
-      "Type": "AWS::Lambda::LayerVersion",
-      "Properties": {
-        "CompatibleRuntimes": ["nodejs18.x"],
-        "Content": {
-          "S3Bucket": {
-            "Ref": "deploymentBucketName"
-          },
-          "S3Key": "amplify-builds/diabetesmatequeries-LambdaLayerVersionf3f9204e-build.zip"
-        },
-        "Description": "Updated layer version 2023-09-03T05:59:18.175Z",
-        "LayerName": {
-          "Fn::Sub": [
-            "diabetesmatequeries-${env}",
-            {
-              "env": {
-                "Ref": "env"
-              }
-            }
-          ]
-        }
-      },
-      "DeletionPolicy": "Delete",
-      "UpdateReplacePolicy": "Retain"
-    },
-    "LambdaLayerPermissionPrivatef3f9204e": {
-      "Type": "AWS::Lambda::LayerVersionPermission",
-      "Properties": {
-        "Action": "lambda:GetLayerVersion",
-        "LayerVersionArn": "arn:aws:lambda:ap-southeast-2:144314603306:layer:diabetesmatequeries-dev:6",
-        "Principal": {
-          "Ref": "AWS::AccountId"
-        }
-      }
-    },
-    "LambdaLayerVersion6d08c105": {
-      "Type": "AWS::Lambda::LayerVersion",
-      "Properties": {
-        "CompatibleRuntimes": ["nodejs18.x"],
-        "Content": {
-          "S3Bucket": {
-            "Ref": "deploymentBucketName"
-          },
-          "S3Key": "amplify-builds/diabetesmatequeries-LambdaLayerVersion6d08c105-build.zip"
-        },
-        "Description": "Updated layer version 2023-09-03T04:43:08.618Z",
-        "LayerName": {
-          "Fn::Sub": [
-            "diabetesmatequeries-${env}",
-            {
-              "env": {
-                "Ref": "env"
-              }
-            }
-          ]
-        }
-      },
-      "DeletionPolicy": "Delete",
-      "UpdateReplacePolicy": "Retain"
-    },
-    "LambdaLayerPermissionPrivate6d08c105": {
-      "Type": "AWS::Lambda::LayerVersionPermission",
-      "Properties": {
-        "Action": "lambda:GetLayerVersion",
-        "LayerVersionArn": "arn:aws:lambda:ap-southeast-2:144314603306:layer:diabetesmatequeries-dev:5",
+        "LayerVersionArn": "arn:aws:lambda:ap-southeast-2:144314603306:layer:diabetesmatequeries-dev:11",
         "Principal": {
           "Ref": "AWS::AccountId"
         }
@@ -242,7 +104,7 @@
   "Outputs": {
     "Arn": {
       "Value": {
-        "Ref": "LambdaLayerVersiona7f1fb83"
+        "Ref": "LambdaLayerVersiondd4eb27e"
       }
     }
   }
