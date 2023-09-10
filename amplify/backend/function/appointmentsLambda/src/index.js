@@ -12,41 +12,31 @@
     STORAGE_USER_NAME
     STORAGE_USER_STREAMARN
 Amplify Params - DO NOT EDIT */
-const controller = require("/opt/appointments.controller.js");
+const controller = process.env.NODE_ENV === "test" ? require('../../diabetesmatecontrollers/opt/appointments.controller') : require('/opt/appointments.controller.js');
 
 /**
  * @type {import('@types/aws-lambda').APIGatewayProxyHandler}
  */
 exports.handler = async (event, context) => {
-  // process.env.AUTH_DIABETESMATE_USERPOOLID
-  switch (event?.["pathParameters"]?.["action"]?.toLowerCase()) {
-    case "get":
-      return await controller.getAppointmentsForUser();
-    case "create":
-      return await controller.createAppointment();
-    case "update":
-      return {
-        statusCode: 200,
-        body: JSON.stringify(
-          await controller.updateAppointmentBiomarker(JSON.parse(event.body))
-        ),
-      };
-    case "test-auth":
-      try {
-        const requestContext = event.requestContext;
-        return {
-          body: JSON.stringify({
-            requestContext: Object.keys(requestContext),
-            "requestContext.identity": Object.keys(requestContext.identity),
-            "requestContext.accountId": requestContext.accountId,
-            "requestContext.identity.cognitoAuthenticationProvider":
-              requestContext.identity.cognitoAuthenticationProvider,
-          }),
-        };
-      } catch (e) {
-        return { body: JSON.stringify(e) };
-      }
-    default:
-      return { error: "Invalid Path!" };
-  }
-};
+    // process.env.AUTH_DIABETESMATE_USERPOOLID
+    switch (event?.['pathParameters']?.['action']?.toLowerCase()) {
+        case 'get':
+            return await controller.getAppointmentsForUser();
+        case 'create':
+            return await controller.createAppointment();
+        case 'update':
+            return {
+                "statusCode": 200,
+                "body": JSON.stringify(await controller.updateAppointmentBiomarker(JSON.parse(event.body)))
+            }
+        case 'test-auth':
+            try {
+                const requestContext = event.requestContext;
+                return { body: JSON.stringify({ "requestContext": Object.keys(requestContext), "requestContext.identity": Object.keys(requestContext.identity), "requestContext.accountId": requestContext.accountId, "requestContext.identity.cognitoAuthenticationProvider": requestContext.identity.cognitoAuthenticationProvider }) };
+            } catch (e) {
+                return { body: JSON.stringify(e) };
+            }
+        default:
+            return { error: 'Invalid Path!' };
+    }
+}
