@@ -88,7 +88,7 @@ describe('Testing: appointmentsLambda', () => {
         handler(event, context);
 
         // Assertions
-        expect(controller.updateAppointmentBiomarker).toHaveBeenCalledTimes(1); // Ensure that the mocked function was called
+        expect(controller.updateAppointment).toHaveBeenCalledTimes(1); // Ensure that the mocked function was called
     });
 
     it('apppointments/update', async () => {
@@ -169,7 +169,7 @@ describe('Testing: appointmentsLambda', () => {
         handler(event, context);
 
         // Assertions
-        expect(controller.updateAppointmentBiomarker).toHaveBeenCalledTimes(0); // Ensure that the mocked function was called
+        expect(controller.updateAppointment).toHaveBeenCalledTimes(0); // Ensure that the mocked function was called
     });
 
     it('apppointments/get', async () => {

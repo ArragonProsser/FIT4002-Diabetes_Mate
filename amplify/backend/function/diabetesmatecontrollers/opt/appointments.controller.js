@@ -6,7 +6,7 @@ module.exports = {
     async getAppointmentsForUser() {
         return await queries.getAppointmentsForUser();
     },
-    async updateAppointmentBiomarker(appointment) {
+    async updateAppointment(appointment) {
         // Validate Appointment Fields
 
         let validationErrorArray = validateBiomarker(appointment['biomarker']['data'])

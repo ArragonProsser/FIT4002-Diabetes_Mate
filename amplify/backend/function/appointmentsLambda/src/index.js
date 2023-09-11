@@ -28,7 +28,7 @@ exports.handler = async (event, context) => {
             if (event.httpMethod == 'PUT') {
                 return {
                     "statusCode": 200,
-                    "body": JSON.stringify(await controller.updateAppointmentBiomarker(JSON.parse(event.body)))
+                    "body": JSON.stringify(await controller.updateAppointment(JSON.parse(event.body)))
                 }
             }
             return {

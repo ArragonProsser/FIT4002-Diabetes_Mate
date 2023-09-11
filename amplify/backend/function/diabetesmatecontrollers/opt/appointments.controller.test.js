@@ -1,4 +1,4 @@
-const { getAppointmentsForUser, updateAppointmentBiomarker } = require('./appointments.controller'); // Replace with the correct file path
+const { getAppointmentsForUser, updateAppointment } = require('./appointments.controller'); // Replace with the correct file path
 const queries = require('../../diabetesmatequeries/opt/appointments.queries');
 
 jest.mock('../../diabetesmatequeries/opt/appointments.queries');
@@ -79,7 +79,7 @@ describe('Testing: appointments.controller', () => {
             "user_id": "test_user_id"
 
         }
-        await updateAppointmentBiomarker(request)
+        await updateAppointment(request)
 
         // Assertions
         expect(queries.updateAppointmentForUser).toHaveBeenCalledTimes(1); // Ensure that the mocked function was called
@@ -154,7 +154,7 @@ describe('Testing: appointments.controller', () => {
             "user_id": "test_user_id"
 
         }
-        await updateAppointmentBiomarker(request)
+        await updateAppointment(request)
 
         // Assertions
         expect(queries.updateAppointmentForUser).toHaveBeenCalledTimes(0); // The update function shouldn't call on invalid inputs
