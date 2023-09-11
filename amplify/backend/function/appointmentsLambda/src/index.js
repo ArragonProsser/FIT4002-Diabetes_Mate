@@ -25,9 +25,15 @@ exports.handler = async (event, context) => {
         case 'create':
             return await controller.createAppointment();
         case 'update':
+            if (event.httpMethod == 'PUT') {
+                return {
+                    "statusCode": 200,
+                    "body": JSON.stringify(await controller.updateAppointmentBiomarker(JSON.parse(event.body)))
+                }
+            }
             return {
-                "statusCode": 200,
-                "body": JSON.stringify(await controller.updateAppointmentBiomarker(JSON.parse(event.body)))
+                "statusCode": 405,
+                "body": JSON.stringify({ error: "Method Not Allowed" })
             }
         case 'test-auth':
             try {
@@ -37,6 +43,6 @@ exports.handler = async (event, context) => {
                 return { body: JSON.stringify(e) };
             }
         default:
-            return { error: 'Invalid Path!' };
+            return JSON.stringify({ error: 'Invalid Path!' });
     }
 }

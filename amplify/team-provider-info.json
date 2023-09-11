@@ -15,7 +15,7 @@
       "function": {
         "diabetesmatevalidators": {
           "deploymentBucketName": "amplify-diabetesmate-dev-194045-deployment",
-          "s3Key": "amplify-builds/diabetesmatevalidators-LambdaLayerVersion20bd8648-build.zip"
+          "s3Key": "amplify-builds/diabetesmatevalidators-LambdaLayerVersione1eccf68-build.zip"
         },
         "diabetesmateauthorisers": {
           "deploymentBucketName": "amplify-diabetesmate-dev-194045-deployment",
@@ -23,11 +23,11 @@
         },
         "diabetesmatecontrollers": {
           "deploymentBucketName": "amplify-diabetesmate-dev-194045-deployment",
-          "s3Key": "amplify-builds/diabetesmatecontrollers-LambdaLayerVersion02a49e7e-build.zip"
+          "s3Key": "amplify-builds/diabetesmatecontrollers-LambdaLayerVersion1aaaae47-build.zip"
         },
         "diabetesmatequeries": {
           "deploymentBucketName": "amplify-diabetesmate-dev-194045-deployment",
-          "s3Key": "amplify-builds/diabetesmatequeries-LambdaLayerVersiondd4eb27e-build.zip"
+          "s3Key": "amplify-builds/diabetesmatequeries-LambdaLayerVersion46399c3b-build.zip"
         },
         "diabetesmateservices": {
           "deploymentBucketName": "amplify-diabetesmate-dev-194045-deployment",
@@ -39,7 +39,7 @@
         },
         "appointmentsLambda": {
           "deploymentBucketName": "amplify-diabetesmate-dev-194045-deployment",
-          "s3Key": "amplify-builds/appointmentsLambda-6b2b75676b3566776179-build.zip"
+          "s3Key": "amplify-builds/appointmentsLambda-386e4875336c6950444f-build.zip"
         },
         "articlesLambda": {
           "deploymentBucketName": "amplify-diabetesmate-dev-194045-deployment",

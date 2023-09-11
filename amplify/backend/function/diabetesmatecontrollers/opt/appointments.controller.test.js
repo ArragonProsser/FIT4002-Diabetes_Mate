@@ -5,7 +5,12 @@ jest.mock('../../diabetesmatequeries/opt/appointments.queries');
 
 describe('Testing: appointments.controller', () => {
 
-    it('appointments.controller.updateAppointment', async () => {
+    afterEach(() => {
+        // Reset all the mocks after a test case completes.
+        jest.clearAllMocks()
+    });
+
+    it('appointments.controller.updateAppointment.validInput', async () => {
         let request = {
             "appointment_id": "test_appointment_0",
             "appointment_datetime": "2023-10-12T05:45:00Z",
@@ -13,11 +18,11 @@ describe('Testing: appointments.controller', () => {
                 "data": {
                     "diastolicBP": "75",
                     "HbA1c": "5.3",
-                    "HDL": "40",
-                    "LDL": "20",
+                    "HDL": "9",
+                    "LDL": "10",
                     "systolicBP": "120",
                     "TG": "2",
-                    "totalCholesterol": "202",
+                    "totalCholesterol": "15",
                     "urineAlbuminToCreatinineRatio": "25",
                     "weight": "60"
                 },
@@ -74,25 +79,25 @@ describe('Testing: appointments.controller', () => {
             "user_id": "test_user_id"
 
         }
-        updateAppointmentBiomarker(request);
+        await updateAppointmentBiomarker(request)
 
         // Assertions
         expect(queries.updateAppointmentForUser).toHaveBeenCalledTimes(1); // Ensure that the mocked function was called
     });
 
-    it('appointments.controller.getAppointmentsForUser', async () => {
+    it('appointments.controller.updateAppointment.invalidInput', async () => {
         let request = {
             "appointment_id": "test_appointment_0",
             "appointment_datetime": "2023-10-12T05:45:00Z",
             "biomarker": {
                 "data": {
-                    "diastolicBP": "75",
+                    "diastolicBP": "9999",
                     "HbA1c": "5.3",
-                    "HDL": "40",
-                    "LDL": "20",
+                    "HDL": "9",
+                    "LDL": "10",
                     "systolicBP": "120",
                     "TG": "2",
-                    "totalCholesterol": "202",
+                    "totalCholesterol": "15",
                     "urineAlbuminToCreatinineRatio": "25",
                     "weight": "60"
                 },
@@ -149,7 +154,15 @@ describe('Testing: appointments.controller', () => {
             "user_id": "test_user_id"
 
         }
-        getAppointmentsForUser(request);
+        await updateAppointmentBiomarker(request)
+
+        // Assertions
+        expect(queries.updateAppointmentForUser).toHaveBeenCalledTimes(0); // The update function shouldn't call on invalid inputs
+    });
+
+    it('appointments.controller.getAppointmentsForUser', async () => {
+
+        getAppointmentsForUser();
 
         // Assertions
         expect(queries.getAppointmentsForUser).toHaveBeenCalledTimes(1); // Ensure that the mocked function was called
