@@ -211,20 +211,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     flexDirection: "row",
   },
-  button: {
-    backgroundColor: "#5398FF",
-    borderRadius: 50,
-    marginHorizontal: 30,
-    marginTop: 5,
-    marginBottom: 35,
-  },
-  buttonText: {
-    color: "white",
-    fontWeight: "bold",
-    fontSize: 16,
-    paddingVertical: 20,
-    textAlign: "center",
-  },
   bar: {
     width: 15,
     height: 4,
@@ -234,7 +220,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     display: "flex",
     alignContent: "center",
-    justifyContent: "center",
     // position: "relative",
   },
   barWrapper: {
