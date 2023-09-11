@@ -8,8 +8,16 @@ jest.mock('aws-sdk', () => {
         DynamoDB: {
             DocumentClient: jest.fn().mockImplementation(() => {
                 return {
-                    put: jest.fn().mockResolvedValue({}),
-                    scan: jest.fn().mockResolvedValue({})
+                    put: jest.fn(() => {
+                        return {
+                            promise: jest.fn().mockResolvedValue({})
+                        }
+                    }),
+                    scan: jest.fn(() => {
+                        return {
+                            promise: jest.fn().mockResolvedValue({})
+                        }
+                    })
                 };
             })
         }

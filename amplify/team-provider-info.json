@@ -15,23 +15,23 @@
       "function": {
         "diabetesmatevalidators": {
           "deploymentBucketName": "amplify-diabetesmate-dev-194045-deployment",
-          "s3Key": "amplify-builds/diabetesmatevalidators-LambdaLayerVersione1eccf68-build.zip"
+          "s3Key": "amplify-builds/diabetesmatevalidators-LambdaLayerVersionac700852-build.zip"
         },
         "diabetesmateauthorisers": {
           "deploymentBucketName": "amplify-diabetesmate-dev-194045-deployment",
-          "s3Key": "amplify-builds/diabetesmateauthorisers-LambdaLayerVersion1e5394ee-build.zip"
+          "s3Key": "amplify-builds/diabetesmateauthorisers-LambdaLayerVersione15710da-build.zip"
         },
         "diabetesmatecontrollers": {
           "deploymentBucketName": "amplify-diabetesmate-dev-194045-deployment",
-          "s3Key": "amplify-builds/diabetesmatecontrollers-LambdaLayerVersion1aaaae47-build.zip"
+          "s3Key": "amplify-builds/diabetesmatecontrollers-LambdaLayerVersion84fb1156-build.zip"
         },
         "diabetesmatequeries": {
           "deploymentBucketName": "amplify-diabetesmate-dev-194045-deployment",
-          "s3Key": "amplify-builds/diabetesmatequeries-LambdaLayerVersion46399c3b-build.zip"
+          "s3Key": "amplify-builds/diabetesmatequeries-LambdaLayerVersion968c4151-build.zip"
         },
         "diabetesmateservices": {
           "deploymentBucketName": "amplify-diabetesmate-dev-194045-deployment",
-          "s3Key": "amplify-builds/diabetesmateservices-LambdaLayerVersion14aa6977-build.zip"
+          "s3Key": "amplify-builds/diabetesmateservices-LambdaLayerVersiond0c46a26-build.zip"
         },
         "usersLambda": {
           "deploymentBucketName": "amplify-diabetesmate-dev-194045-deployment",
@@ -39,7 +39,7 @@
         },
         "appointmentsLambda": {
           "deploymentBucketName": "amplify-diabetesmate-dev-194045-deployment",
-          "s3Key": "amplify-builds/appointmentsLambda-31424367386b42533366-build.zip"
+          "s3Key": "amplify-builds/appointmentsLambda-687a742b6f766d6a5063-build.zip"
         },
         "articlesLambda": {
           "deploymentBucketName": "amplify-diabetesmate-dev-194045-deployment",
