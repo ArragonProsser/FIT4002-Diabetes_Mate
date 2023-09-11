@@ -20,7 +20,7 @@ describe('Testing: appointments.validators', () => {
         expect(results).toEqual([]); // Should be empty array to denote no validation input issues.
     });
 
-    it('appointments.controller.updateAppointment.invalidInput.diastolicBP', async () => {
+    it('appointments.validators.validateBiomarker.invalidInput.diastolicBP', async () => {
         let biomarker = {
             "diastolicBP": "99999999", // High diastolicBP for testing sake
             "HbA1c": "5.3",
