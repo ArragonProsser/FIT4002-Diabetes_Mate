@@ -17,22 +17,23 @@ import ConfirmEmailScreen from "./components/Onboarding/ConfirmEmail";
 
 import { Amplify } from "aws-amplify";
 import config from "./aws-exports";
+import Legal from "./components/NavBar/Legal";
+import UpdateUser from "./components/NavBar/UpdateUser";
 
 Amplify.configure(config);
-
 
 function App() {
   return (
     <NavigationContainer>
-
       <Stack.Navigator
         initialRouteName="details"
-        screenOptions={TransitionPresets.SlideFromRightIOS}>
+        screenOptions={TransitionPresets.SlideFromRightIOS}
+      >
         <Stack.Screen
           name="Details"
           component={DetailsScreen}
           options={{
-            headerTitleAlign: 'center',
+            headerTitleAlign: "center",
             headerShown: false,
             transitionSpec: {
               open: TransitionSpecs.BottomSheetSlideInSpec,
@@ -44,7 +45,7 @@ function App() {
           name="Login"
           component={Login}
           options={{
-            headerTitleAlign: 'center',
+            headerTitleAlign: "center",
             transitionSpec: {
               open: TransitionSpecs.BottomSheetSlideInSpec,
               close: TransitionSpecs.BottomSheetSlideOutSpec,
@@ -52,7 +53,7 @@ function App() {
             headerTintColor: "#25437B",
             headerTitleStyle: {
               fontSize: 20,
-              color: "#25437B"
+              color: "#25437B",
             },
             headerShadowVisible: false,
           }}
@@ -61,8 +62,8 @@ function App() {
           name="SignUp"
           component={SignUpScreen}
           options={{
-            headerTitleAlign: 'center',
-            headerTitle: 'Sign Up',
+            headerTitleAlign: "center",
+            headerTitle: "Sign Up",
             transitionSpec: {
               open: TransitionSpecs.BottomSheetSlideInSpec,
               close: TransitionSpecs.BottomSheetSlideOutSpec,
@@ -70,7 +71,7 @@ function App() {
             headerTintColor: "#25437B",
             headerTitleStyle: {
               fontSize: 20,
-              color: "#25437B"
+              color: "#25437B",
             },
             headerShadowVisible: false,
           }}
@@ -79,8 +80,8 @@ function App() {
           name="ConfirmEmail"
           component={ConfirmEmailScreen}
           options={{
-            headerTitleAlign: 'center',
-            headerTitle: 'Confirm Email',
+            headerTitleAlign: "center",
+            headerTitle: "Confirm Email",
             transitionSpec: {
               open: TransitionSpecs.BottomSheetSlideInSpec,
               close: TransitionSpecs.BottomSheetSlideOutSpec,
@@ -88,7 +89,7 @@ function App() {
             headerTintColor: "#25437B",
             headerTitleStyle: {
               fontSize: 20,
-              color: "#25437B"
+              color: "#25437B",
             },
             headerShadowVisible: false,
           }}
@@ -96,9 +97,8 @@ function App() {
         <Stack.Screen
           name="Choice"
           component={Choice}
-
           options={{
-            headerTitleAlign: 'center',
+            headerTitleAlign: "center",
             headerTitle: "",
             // headerShown:false,
             headerTintColor: "#25437B",
@@ -108,31 +108,33 @@ function App() {
             },
             headerTintColor: "white",
             headerShadowVisible: false,
-            headerTransparent: true
-
+            headerTransparent: true,
           }}
         />
         <Stack.Screen
           name="Home"
           component={NavBar}
-
           options={{
             headerTitle: "",
             headerShown: false,
-
+          }}
+        />
+        <Stack.Screen
+          name="Legal"
+          component={Legal}
+          options={{
+            headerShadowVisible: false,
+          }}
+        />
+        <Stack.Screen
+          name="UpdateUser"
+          component={UpdateUser}
+          options={{
+            headerShadowVisible: false,
           }}
         />
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
-
-{
-  /* <>
-<Choice/>
-<Login/>
-<NavBar/>
-</> */
-}
-
 export default App;

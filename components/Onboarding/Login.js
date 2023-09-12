@@ -17,6 +17,7 @@ async function signIn({ username, password }) {
   try {
     const user = await Auth.signIn(username, password);
     console.log(user);
+    return user;
   } catch (error) {
     console.log("error signing in", error);
   }
@@ -208,8 +209,15 @@ export default function LoginScreen({ navigation }) {
           <TouchableOpacity
             style={styles.button}
             onPress={async () => {
-              await signIn(details);
-              navigation.navigate("Home");
+              const user = await signIn(details);
+              // console.log("USER____________");
+              // console.log(user);
+              if (user) {
+                console.log("LOGIN SIGNIN BUTTON:", user);
+                navigation.navigate("Home");
+              } else {
+                console.log("FAIL LOGIN");
+              }
             }}
           >
             <Text style={styles.buttonText}>Log In</Text>
