@@ -155,7 +155,7 @@ export default function LoginScreen({ navigation }) {
     const unsubscribe = navigation.addListener("focus", () => {
       (async () => {
         try {
-          await Auth.currentAuthenticatedUser();
+          await Auth.currentAuthenticatedUser({bypassCache: true});
           navigation.navigate("Home");
           console.log("Test");
         } catch (e) {

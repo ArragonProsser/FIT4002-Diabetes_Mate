@@ -17,6 +17,11 @@ jest.mock('aws-sdk', () => {
                         return {
                             promise: jest.fn().mockResolvedValue({})
                         }
+                    }),
+                    query: jest.fn(() => {
+                        return {
+                            promise: jest.fn().mockResolvedValue({})
+                        }
                     })
                 };
             })
@@ -93,10 +98,10 @@ describe('Testing: appointments.queries', () => {
                 }
             ],
             "type": "Cardiologist",
-            "user_id": "test_user_id"
+            "user_id": "test_user_id",
 
         }
-        await updateAppointmentForUser(request);
+        await updateAppointmentForUser(request, "test_patient_id");
 
         // Assertions
         expect(docClient.put).toHaveBeenCalledTimes(1); // Ensure that the mocked function was called
@@ -106,6 +111,6 @@ describe('Testing: appointments.queries', () => {
         await getAppointmentsForUser();
 
         // Assertions
-        expect(docClient.scan).toHaveBeenCalledTimes(1); // Ensure that the mocked function was called
+        expect(docClient.query).toHaveBeenCalledTimes(1); // Ensure that the mocked function was called
     });
 });

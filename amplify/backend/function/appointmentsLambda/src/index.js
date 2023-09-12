@@ -13,22 +13,30 @@
     STORAGE_USER_STREAMARN
 Amplify Params - DO NOT EDIT */
 const controller = process.env.NODE_ENV === "test" ? require('../../diabetesmatecontrollers/opt/appointments.controller') : require('/opt/appointments.controller.js');
+const authoriser = process.env.NODE_ENV === "test" ? require('../../diabetesmateauthorisers/opt/main.authorisers') : require('/opt/main.authorisers.js');
 
 /**
  * @type {import('@types/aws-lambda').APIGatewayProxyHandler}
  */
 exports.handler = async (event, context) => {
-    // process.env.AUTH_DIABETESMATE_USERPOOLID
+    const auth = await authoriser.authoriseRequest(event.headers.Authorization);
+    if(!auth){
+        return {
+            statusCode: 401,
+            body: "You are not authorized to access this!"
+        }
+    }
+    const authUserId = auth.sub;
     switch (event?.['pathParameters']?.['action']?.toLowerCase()) {
         case 'get':
-            return await controller.getAppointmentsForUser();
+            return await controller.getAppointmentsForUser(authUserId);
         case 'create':
-            return await controller.createAppointment();
+            return await controller.createAppointment(authUserId);
         case 'update':
             if (event.httpMethod == 'PUT') {
                 return {
                     "statusCode": 200,
-                    "body": JSON.stringify(await controller.updateAppointment(JSON.parse(event.body)))
+                    "body": JSON.stringify(await controller.updateAppointment(JSON.parse(event.body), authUserId))
                 }
             }
             return {
@@ -37,8 +45,11 @@ exports.handler = async (event, context) => {
             }
         case 'test-auth':
             try {
-                const requestContext = event.requestContext;
-                return { body: JSON.stringify({ "requestContext": Object.keys(requestContext), "requestContext.identity": Object.keys(requestContext.identity), "requestContext.accountId": requestContext.accountId, "requestContext.identity.cognitoAuthenticationProvider": requestContext.identity.cognitoAuthenticationProvider }) };
+                return { body:
+                    JSON.stringify({
+                        "authoriser": authUserId
+                    })
+                };
             } catch (e) {
                 return { body: JSON.stringify(e) };
             }

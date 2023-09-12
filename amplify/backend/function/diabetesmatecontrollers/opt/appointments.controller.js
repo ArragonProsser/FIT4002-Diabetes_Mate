@@ -3,15 +3,15 @@ const { validateBiomarker } = process.env.NODE_ENV === "test" ? require('../../d
 
 
 module.exports = {
-    async getAppointmentsForUser() {
-        return await queries.getAppointmentsForUser();
+    async getAppointmentsForUser(authUserId) {
+        return await queries.getAppointmentsForUser(authUserId);
     },
-    async updateAppointment(appointment) {
+    async updateAppointment(appointment, authUserId) {
         // Validate Appointment Fields
 
         let validationErrorArray = validateBiomarker(appointment['biomarker']['data'])
         if (validationErrorArray.length == 0) {
-            return await queries.updateAppointmentForUser(appointment);
+            return await queries.updateAppointmentForUser(appointment, authUserId);
         } else {
             return {
                 "message": "ValidationError",
