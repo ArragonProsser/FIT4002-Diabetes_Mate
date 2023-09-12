@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import { ListItem } from "@rneui/themed";
-import { API } from "aws-amplify";
+import { API, Auth } from "aws-amplify";
 
 const styles = StyleSheet.create({
   listContainer: {
@@ -71,13 +71,38 @@ function AppointmentList(navigation, appointments, clickable) {
   );
 }
 
-function getAppointmentsData() {
+async function getAppointmentsData() {
   const apiName = "Diabetesmate";
   const path = "/appointments/GET";
+  const user = await Auth.currentAuthenticatedUser();
+  const token = user.signInUserSession.idToken.jwtToken;
   const myInit = {
-    headers: {}, // OPTIONAL
+    headers: {
+      Authorization: token
+    },
+    signerServiceInfo: {
+      service: null,
+      region: null
+    }
   };
-  return API.get(apiName, path, myInit);
+  return await API.get(apiName, path, myInit);
+}
+
+async function testAuth() {
+  const apiName = "Diabetesmate";
+  const path = `/appointments/test-auth?${new Date().getTime()}`;
+  const user = await Auth.currentAuthenticatedUser();
+  const token = user.signInUserSession.idToken.jwtToken;
+  const myInit = {
+    headers: {
+      Authorization: token
+    },
+    signerServiceInfo: {
+      service: null,
+      region: null
+    }
+  };
+  return await API.post(apiName, path, myInit);
 }
 
 const datetimeFormats = {
@@ -92,6 +117,7 @@ export function Upcoming({ navigation }) {
   let upcomingAppointments = [];
   const [appointments, setAppointments] = React.useState([]);
   useEffect(() => {
+    testAuth().then(console.log);
     getAppointmentsData().then((response) => {
       console.log("Appointments.js START___");
       console.log(response);
@@ -160,9 +186,9 @@ export function History({ navigation }) {
         return (
           new Date(a.appointment_datetime) - new Date(b.appointment_datetime)
         );
-      });
+      })
       setAppointments(pastAppointments);
-    });
+    }).catch(e=>console.log(e));
   }, []);
   return AppointmentList(navigation, appointments, false);
 }

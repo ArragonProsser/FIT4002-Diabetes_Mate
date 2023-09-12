@@ -15,13 +15,21 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 import { TextInput } from "react-native-gesture-handler";
 import IonIcons from "react-native-vector-icons/Ionicons";
 import { Snackbar } from "react-native-paper";
-import { API } from "aws-amplify";
+import { API, Auth } from "aws-amplify";
 
-export function updateAppointmentsData(appointment) {
+export async function updateAppointmentsData(appointment) {
   const apiName = "Diabetesmate";
   const path = "/appointments/UPDATE";
+  const user = await Auth.currentAuthenticatedUser();
+  const token = user.signInUserSession.idToken.jwtToken;
   const myInit = {
-    headers: {}, // OPTIONAL
+    headers: {
+      Authorization: token
+    },
+    signerServiceInfo: {
+      service: null,
+      region: null
+    },
     body: appointment,
   };
   return API.put(apiName, path, myInit);

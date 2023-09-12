@@ -20,7 +20,7 @@
     }
   },
   "Resources": {
-    "LambdaLayerVersione15710da": {
+    "LambdaLayerVersion696e529e": {
       "Type": "AWS::Lambda::LayerVersion",
       "Properties": {
         "CompatibleRuntimes": {
@@ -51,13 +51,171 @@
       "DeletionPolicy": "Delete",
       "UpdateReplacePolicy": "Retain"
     },
-    "LambdaLayerPermissionPrivatee15710da": {
+    "LambdaLayerPermissionPrivate696e529e": {
       "Type": "AWS::Lambda::LayerVersionPermission",
       "Properties": {
         "Action": "lambda:GetLayerVersion",
         "LayerVersionArn": {
-          "Ref": "LambdaLayerVersione15710da"
+          "Ref": "LambdaLayerVersion696e529e"
         },
+        "Principal": {
+          "Ref": "AWS::AccountId"
+        }
+      }
+    },
+    "LambdaLayerVersion21d77981": {
+      "Type": "AWS::Lambda::LayerVersion",
+      "Properties": {
+        "CompatibleRuntimes": [
+          "nodejs18.x"
+        ],
+        "Content": {
+          "S3Bucket": {
+            "Ref": "deploymentBucketName"
+          },
+          "S3Key": "amplify-builds/diabetesmateauthorisers-LambdaLayerVersion21d77981-build.zip"
+        },
+        "Description": "Updated layer version 2023-09-12T02:00:34.338Z",
+        "LayerName": {
+          "Fn::Sub": [
+            "diabetesmateauthorisers-${env}",
+            {
+              "env": {
+                "Ref": "env"
+              }
+            }
+          ]
+        }
+      },
+      "DeletionPolicy": "Delete",
+      "UpdateReplacePolicy": "Retain"
+    },
+    "LambdaLayerPermissionPrivate21d77981": {
+      "Type": "AWS::Lambda::LayerVersionPermission",
+      "Properties": {
+        "Action": "lambda:GetLayerVersion",
+        "LayerVersionArn": "arn:aws:lambda:ap-southeast-2:144314603306:layer:diabetesmateauthorisers-dev:12",
+        "Principal": {
+          "Ref": "AWS::AccountId"
+        }
+      }
+    },
+    "LambdaLayerVersion8522cacd": {
+      "Type": "AWS::Lambda::LayerVersion",
+      "Properties": {
+        "CompatibleRuntimes": [
+          "nodejs18.x"
+        ],
+        "Content": {
+          "S3Bucket": {
+            "Ref": "deploymentBucketName"
+          },
+          "S3Key": "amplify-builds/diabetesmateauthorisers-LambdaLayerVersion8522cacd-build.zip"
+        },
+        "Description": "Updated layer version 2023-09-12T01:46:04.845Z",
+        "LayerName": {
+          "Fn::Sub": [
+            "diabetesmateauthorisers-${env}",
+            {
+              "env": {
+                "Ref": "env"
+              }
+            }
+          ]
+        }
+      },
+      "DeletionPolicy": "Delete",
+      "UpdateReplacePolicy": "Retain"
+    },
+    "LambdaLayerPermissionPrivate8522cacd": {
+      "Type": "AWS::Lambda::LayerVersionPermission",
+      "Properties": {
+        "Action": "lambda:GetLayerVersion",
+        "LayerVersionArn": "arn:aws:lambda:ap-southeast-2:144314603306:layer:diabetesmateauthorisers-dev:11",
+        "Principal": {
+          "Ref": "AWS::AccountId"
+        }
+      }
+    },
+    "LambdaLayerVersionab28b89a": {
+      "Type": "AWS::Lambda::LayerVersion",
+      "Properties": {
+        "CompatibleRuntimes": [
+          "nodejs18.x"
+        ],
+        "Content": {
+          "S3Bucket": {
+            "Ref": "deploymentBucketName"
+          },
+          "S3Key": "amplify-builds/diabetesmateauthorisers-LambdaLayerVersionab28b89a-build.zip"
+        },
+        "Description": "Updated layer version 2023-09-12T01:40:55.283Z",
+        "LayerName": {
+          "Fn::Sub": [
+            "diabetesmateauthorisers-${env}",
+            {
+              "env": {
+                "Ref": "env"
+              }
+            }
+          ]
+        }
+      },
+      "DeletionPolicy": "Delete",
+      "UpdateReplacePolicy": "Retain"
+    },
+    "LambdaLayerPermissionPrivateab28b89a": {
+      "Type": "AWS::Lambda::LayerVersionPermission",
+      "Properties": {
+        "Action": "lambda:GetLayerVersion",
+        "LayerVersionArn": "arn:aws:lambda:ap-southeast-2:144314603306:layer:diabetesmateauthorisers-dev:10",
+        "Principal": {
+          "Ref": "AWS::AccountId"
+        }
+      }
+    },
+    "LambdaLayerVersion991c5c63": {
+      "Type": "AWS::Lambda::LayerVersion",
+      "Properties": {
+        "CompatibleRuntimes": [
+          "nodejs18.x"
+        ],
+        "Content": {
+          "S3Bucket": {
+            "Ref": "deploymentBucketName"
+          },
+          "S3Key": "amplify-builds/diabetesmateauthorisers-LambdaLayerVersion991c5c63-build.zip"
+        },
+        "Description": "Updated layer version 2023-09-11T12:22:58.371Z",
+        "LayerName": {
+          "Fn::Sub": [
+            "diabetesmateauthorisers-${env}",
+            {
+              "env": {
+                "Ref": "env"
+              }
+            }
+          ]
+        }
+      },
+      "DeletionPolicy": "Delete",
+      "UpdateReplacePolicy": "Retain"
+    },
+    "LambdaLayerPermissionPrivate991c5c63": {
+      "Type": "AWS::Lambda::LayerVersionPermission",
+      "Properties": {
+        "Action": "lambda:GetLayerVersion",
+        "LayerVersionArn": "arn:aws:lambda:ap-southeast-2:144314603306:layer:diabetesmateauthorisers-dev:8",
+        "Principal": {
+          "Ref": "AWS::AccountId"
+        }
+      }
+    },
+    "LambdaLayerPermissionPrivateLegacy3": {
+      "Type": "AWS::Lambda::LayerVersionPermission",
+      "Properties": {
+        "Action": "lambda:GetLayerVersion",
+        "LayerVersionArn": "arn:aws:lambda:ap-southeast-2:144314603306:layer:diabetesmateauthorisers-dev:3",
         "Principal": {
           "Ref": "AWS::AccountId"
         }
@@ -67,7 +225,7 @@
   "Outputs": {
     "Arn": {
       "Value": {
-        "Ref": "LambdaLayerVersione15710da"
+        "Ref": "LambdaLayerVersion696e529e"
       }
     }
   }
