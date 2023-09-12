@@ -93,10 +93,10 @@ describe('Testing: appointments.queries', () => {
                 }
             ],
             "type": "Cardiologist",
-            "user_id": "test_user_id"
+            "user_id": "test_user_id",
 
         }
-        await updateAppointmentForUser(request);
+        await updateAppointmentForUser(request, "test_patient_id");
 
         // Assertions
         expect(docClient.put).toHaveBeenCalledTimes(1); // Ensure that the mocked function was called
