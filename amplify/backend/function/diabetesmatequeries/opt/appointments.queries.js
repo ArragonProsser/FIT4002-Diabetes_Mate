@@ -5,6 +5,11 @@ const TableName = 'Appointment-dev';
 
 module.exports = {
     docClient,
+    /**
+     * Query to retrieve appointments for a given user Id.
+     * @param {string} authUserId User authentication Id.
+     * @returns {Array|Object} Array of appointments for the given user, Error Object if fail
+     */
     async getAppointmentsForUser(authUserId) {
         try {
             const params = {
@@ -22,9 +27,15 @@ module.exports = {
             return { error: err }
         }
     },
+    /**
+     * Query to update appointment a specific appointment document for a given user Id.
+     * @param {Object} appointment Appointment document to be updated
+     * @param {string} authUserId User authentication Id.
+     * @returns {Object} Updated Appointment Return Object, Error object if fail
+     */
     async updateAppointmentForUser(appointment, authUserId) {
         try {
-            if(appointment.patient_id !== authUserId){
+            if (appointment.patient_id !== authUserId) {
                 throw new Error("You do not have permission to update the appointment!");
             }
             const result = await docClient.put({
@@ -37,17 +48,4 @@ module.exports = {
             return { error: err }
         }
     },
-    async getAppointmentForUser(user_id) {
-        try {
-            const data = await docClient.scan({
-                TableName,
-                FilterExpression: 'patient_id = :id',
-                ExpressionAttributeValues: { ':id': user_id }
-            }).promise()
-            return { body: JSON.stringify(data) }
-        } catch (err) {
-            console.log(err)
-            return { error: err }
-        }
-    }
 };

@@ -12,17 +12,19 @@
 	STORAGE_USER_STREAMARN
 Amplify Params - DO NOT EDIT */const controller = require('/opt/users.controller.js');
 
+const { APIGatewayProxyHandler } = require('@types/aws-lambda');
+
 /**
- * @type {import('@types/aws-lambda').APIGatewayProxyHandler}
+ * @type {APIGatewayProxyHandler}
  */
 exports.handler = async (event, context) => {
-    return {
-        "statusCode": 200,
-        "headers": {
-            "Content-Type": "*/*"
-        },
-        "body": JSON.stringify({
-            msg: "Reached",
-        })
-    }
+	return {
+		"statusCode": 200,
+		"headers": {
+			"Content-Type": "*/*"
+		},
+		"body": JSON.stringify({
+			msg: "Reached",
+		})
+	}
 }

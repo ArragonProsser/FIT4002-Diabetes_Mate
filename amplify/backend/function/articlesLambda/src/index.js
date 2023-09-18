@@ -1,13 +1,12 @@
 const awsServerlessExpress = require('aws-serverless-express');
 const app = require('./app');
 
-/**
- * @type {import('http').Server}
- */
+const { APIGatewayProxyHandler } = require('@types/aws-lambda');
+
 const server = awsServerlessExpress.createServer(app);
 
 /**
- * @type {import('@types/aws-lambda').APIGatewayProxyHandler}
+ * @type {APIGatewayProxyHandler}
  */
 exports.handler = (event, context) => {
   console.log(`EVENT: ${JSON.stringify(event)}`);
