@@ -3,20 +3,9 @@ const { validateBiomarker } = process.env.NODE_ENV === "test" ? require('../../d
 
 
 module.exports = {
-    /**
-     * Controller Method to retrieve appointments for user
-     * @param {string} authUserId User authentication Id.
-     * @returns {Array|Object} Array of appointments for the given user, Error Object if fail
-     */
     async getAppointmentsForUser(authUserId) {
         return await queries.getAppointmentsForUser(authUserId);
     },
-    /**
-     * Controller Method to update appointment a specific appointment document for a given user Id.
-     * @param {Object} appointment Appointment document to be updated
-     * @param {string} authUserId User authentication Id.
-     * @returns {Object} Updated Appointment Return Object, Error object if fail
-     */
     async updateAppointment(appointment, authUserId) {
         // Validate Appointment Fields
 
