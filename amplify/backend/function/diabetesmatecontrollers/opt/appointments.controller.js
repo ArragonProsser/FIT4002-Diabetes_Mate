@@ -37,6 +37,14 @@ module.exports = {
      * @returns {Object} Result Return Object, Error object if fail
      */
     async createAppointment(appointment, authUserId) {
-        return await queries.createAppointmentForUser(appointment, authUserId);
+        let validationErrorArray = validateBiomarker(appointment['biomarker']['data'])
+        if (validationErrorArray.length == 0) {
+            return await queries.createAppointmentForUser(appointment, authUserId);
+        } else {
+            return {
+                "message": "ValidationError",
+                "errors": validationErrorArray
+            }
+        }
     }
 };

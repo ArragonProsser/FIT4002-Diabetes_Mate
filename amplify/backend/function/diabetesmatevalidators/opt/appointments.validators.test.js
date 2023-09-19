@@ -2,7 +2,25 @@ const { validateBiomarker } = require('./appointments.validators'); // Replace w
 
 describe('Testing: appointments.validators', () => {
 
-    it('appointments.validators.validateBiomarker.validInput', () => {
+    it('appointments.validators.validateBiomarker.validInput.emptyFields', () => {
+        let biomarker = {
+            "diastolicBP": "",
+            "HbA1c": "",
+            "HDL": "",
+            "LDL": "",
+            "systolicBP": "",
+            "TG": "",
+            "totalCholesterol": "",
+            "urineAlbuminToCreatinineRatio": "",
+            "weight": ""
+        }
+        let results = validateBiomarker(biomarker)
+
+        // Assertions
+        expect(results).toEqual([]); // Should be empty array to denote no validation input issues.
+    });
+
+    it('appointments.validators.validateBiomarker.validInput.filledFields', () => {
         let biomarker = {
             "diastolicBP": "75",
             "HbA1c": "5.3",

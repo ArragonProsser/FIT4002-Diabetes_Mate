@@ -27,6 +27,8 @@ exports.handler = async (event, context) => {
     @returns { Promise } A promise that resolves to the result of the Lambda function.
     */
     const auth = await authoriser.authoriseRequest(event.headers.Authorization);
+    console.log("HERE");
+    console.log(auth);
     if (!auth) {
         return {
             statusCode: 401,
@@ -34,6 +36,8 @@ exports.handler = async (event, context) => {
         }
     }
     const authUserId = auth.sub;
+    console.log("CONTROLLER")
+    console.log(controller);
     switch (event?.['pathParameters']?.['action']?.toLowerCase()) {
         case 'get':
             return await controller.getAppointmentsForUser(authUserId);

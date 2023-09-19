@@ -1,5 +1,5 @@
 
-const { docClient, updateAppointmentForUser, getAppointmentsForUser } = require('../../diabetesmatequeries/opt/appointments.queries');
+const { docClient, createAppointmentForUser, getAppointmentsForUser, updateAppointmentForUser } = require('../../diabetesmatequeries/opt/appointments.queries');
 const AWS = require('aws-sdk');
 
 // Mocking the dynamodb calls.
@@ -31,7 +31,7 @@ jest.mock('aws-sdk', () => {
 
 describe('Testing: appointments.queries', () => {
 
-    it('appointments.queries.updateAppointmentForUser', async () => {
+    it('appointments.queries.createAppointmentForUser', async () => {
 
         let request = {
             "appointment_id": "test_appointment_0",
@@ -101,7 +101,7 @@ describe('Testing: appointments.queries', () => {
             "user_id": "test_user_id",
 
         }
-        await updateAppointmentForUser(request, "test_patient_id");
+        await createAppointmentForUser(request, "test_patient_id");
 
         // Assertions
         expect(docClient.put).toHaveBeenCalledTimes(1); // Ensure that the mocked function was called

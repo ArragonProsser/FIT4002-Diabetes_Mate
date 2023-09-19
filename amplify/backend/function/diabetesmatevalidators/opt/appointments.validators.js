@@ -22,13 +22,18 @@ module.exports = {
         let validationErrorArray = []
 
         for (const key in appointment) {
-            if (isValidNumber(appointment[key])) {
-                const value = Number.parseFloat(appointment[key]);
-                if (value < minMaxTuples[key][0] || value > minMaxTuples[key][1]) {
-                    validationErrorArray.push({
-                        "error": `Invalid ${key}`,
-                        "reason": `Invalid ${key} ${appointment['TG']}, must be between ${minMaxTuples[key][0]} and ${minMaxTuples[key][1]}`
-                    })
+            // This check should allow empty string fields to exist.
+            if (appointment[key].length > 0) {
+                // If length of field's value is more than 0, check is valid number
+                if (isValidNumber(appointment[key])) {
+                    const value = Number.parseFloat(appointment[key]);
+                    // Check whether field exceeds the lower/upper boundaries
+                    if (value < minMaxTuples[key][0] || value > minMaxTuples[key][1]) {
+                        validationErrorArray.push({
+                            "error": `Invalid ${key}`,
+                            "reason": `Invalid ${key} ${appointment['TG']}, must be between ${minMaxTuples[key][0]} and ${minMaxTuples[key][1]}`
+                        })
+                    }
                 }
             }
         }
