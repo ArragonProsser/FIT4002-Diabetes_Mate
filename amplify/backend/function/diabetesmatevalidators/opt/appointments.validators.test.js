@@ -53,7 +53,7 @@ describe('Testing: appointments.validators', () => {
         let results = validateBiomarker(biomarker)
 
         // Assertions
-        expect(results).toEqual([{ "error": "Invalid diastolicBP", "reason": "Invalid diastolicBP 2, must be between 20 and 150" }]); // Corresponding Error in the array
+        expect(results).toEqual([{ "error": "Invalid diastolicBP", "reason": "Invalid diastolicBP 99999999, must be between 20 and 150" }]); // Corresponding Error in the array
     });
 
     // TODO: May help to have test cases for other minMax tuples in validators, but this should be good enough for coverage sake.

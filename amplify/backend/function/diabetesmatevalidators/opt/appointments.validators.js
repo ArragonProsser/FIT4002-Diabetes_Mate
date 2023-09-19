@@ -31,7 +31,7 @@ module.exports = {
                     if (value < minMaxTuples[key][0] || value > minMaxTuples[key][1]) {
                         validationErrorArray.push({
                             "error": `Invalid ${key}`,
-                            "reason": `Invalid ${key} ${appointment['TG']}, must be between ${minMaxTuples[key][0]} and ${minMaxTuples[key][1]}`
+                            "reason": `Invalid ${key} ${appointment[key]}, must be between ${minMaxTuples[key][0]} and ${minMaxTuples[key][1]}`
                         })
                     }
                 }
