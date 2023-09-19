@@ -1,6 +1,13 @@
 import React, { useEffect } from "react";
 
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import Icon from "react-native-vector-icons/Feather";
 import { ListItem } from "@rneui/themed";
 import { API, Auth } from "aws-amplify";
 
@@ -25,6 +32,11 @@ const styles = StyleSheet.create({
     color: "#7A889F",
     fontSize: 12,
   },
+  appointmentOptions: {
+    position: "absolute",
+    top: -10,
+    right: -30,
+  },
 });
 
 function AppointmentList(navigation, appointments, clickable) {
@@ -47,6 +59,16 @@ function AppointmentList(navigation, appointments, clickable) {
           }}
         >
           <ListItem.Content>
+            <View style={styles.appointmentOptions}>
+              <TouchableOpacity>
+                <Icon
+                  name="more-horizontal"
+                  size={25}
+                  color="#7A889F"
+                  style={{}}
+                ></Icon>
+              </TouchableOpacity>
+            </View>
             <Text
               style={{
                 fontSize: 14,
@@ -78,12 +100,12 @@ async function getAppointmentsData() {
   const token = user.signInUserSession.idToken.jwtToken;
   const myInit = {
     headers: {
-      Authorization: token
+      Authorization: token,
     },
     signerServiceInfo: {
       service: null,
-      region: null
-    }
+      region: null,
+    },
   };
   return await API.get(apiName, path, myInit);
 }
@@ -95,12 +117,12 @@ async function testAuth() {
   const token = user.signInUserSession.idToken.jwtToken;
   const myInit = {
     headers: {
-      Authorization: token
+      Authorization: token,
     },
     signerServiceInfo: {
       service: null,
-      region: null
-    }
+      region: null,
+    },
   };
   return await API.post(apiName, path, myInit);
 }
@@ -162,33 +184,36 @@ export function History({ navigation }) {
   const pastAppointments = [];
   const [appointments, setAppointments] = React.useState([]);
   useEffect(() => {
-    getAppointmentsData().then((response) => {
-      let appointments = response.Items;
-      appointments.sort(
-        (d1, d2) =>
-          new Date(d2.appointment_datetime) - new Date(d1.appointment_datetime)
-      );
-
-      let today = new Date();
-      for (let i = 0; i < appointments.length; i++) {
-        let currentAppointment = appointments[i];
-        const datetime = new Date(currentAppointment["appointment_datetime"]);
-        if (datetime <= today) {
-          currentAppointment.dateReminder = "Completed";
-          currentAppointment.dtDisplay = datetime.toLocaleString(
-            "en-US",
-            datetimeFormats
-          );
-          pastAppointments.push(currentAppointment);
-        }
-      }
-      pastAppointments.sort((a, b) => {
-        return (
-          new Date(a.appointment_datetime) - new Date(b.appointment_datetime)
+    getAppointmentsData()
+      .then((response) => {
+        let appointments = response.Items;
+        appointments.sort(
+          (d1, d2) =>
+            new Date(d2.appointment_datetime) -
+            new Date(d1.appointment_datetime)
         );
+
+        let today = new Date();
+        for (let i = 0; i < appointments.length; i++) {
+          let currentAppointment = appointments[i];
+          const datetime = new Date(currentAppointment["appointment_datetime"]);
+          if (datetime <= today) {
+            currentAppointment.dateReminder = "Completed";
+            currentAppointment.dtDisplay = datetime.toLocaleString(
+              "en-US",
+              datetimeFormats
+            );
+            pastAppointments.push(currentAppointment);
+          }
+        }
+        pastAppointments.sort((a, b) => {
+          return (
+            new Date(a.appointment_datetime) - new Date(b.appointment_datetime)
+          );
+        });
+        setAppointments(pastAppointments);
       })
-      setAppointments(pastAppointments);
-    }).catch(e=>console.log(e));
+      .catch((e) => console.log(e));
   }, []);
   return AppointmentList(navigation, appointments, false);
 }

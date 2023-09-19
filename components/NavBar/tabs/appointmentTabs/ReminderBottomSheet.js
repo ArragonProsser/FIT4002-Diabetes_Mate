@@ -2,7 +2,7 @@ import React, { useCallback, useMemo } from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import BottomSheet, {
   BottomSheetFlatList,
-  BottomSheetSectionList,
+  BottomSheetBackdrop,
 } from "@gorhom/bottom-sheet";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
@@ -29,7 +29,7 @@ const DATA_REMINDERS = [
 export default function ReminderBottomSheet({ sheetRef, appointmentData }) {
   let count = -1;
 
-  const snapPoints = useMemo(() => ["90%"], []);
+  const snapPoints = useMemo(() => ["80%"], []);
 
   //callbacks
   const handleClosePress = useCallback(() => {
@@ -158,11 +158,23 @@ export default function ReminderBottomSheet({ sheetRef, appointmentData }) {
     ),
     []
   );
+  const renderBackdrop = useCallback(
+    (props) => (
+      <BottomSheetBackdrop
+        {...props}
+        appearsOnIndex={0}
+        disappearsOnIndex={-1}
+      />
+    ),
+    []
+  );
   return (
     <BottomSheet
       ref={sheetRef}
       snapPoints={snapPoints}
       style={styles.everythingWrapper}
+      backdropComponent={renderBackdrop}
+      enablePanDownToClose
       index={-1}
     >
       <TouchableOpacity style={styles.closeButton}>

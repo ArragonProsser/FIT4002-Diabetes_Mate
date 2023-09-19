@@ -1,59 +1,32 @@
 import React, { useCallback, useMemo, useState } from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
-import BottomSheet, { BottomSheetSectionList } from "@gorhom/bottom-sheet";
+import BottomSheet, {
+  BottomSheetSectionList,
+  BottomSheetBackdrop,
+} from "@gorhom/bottom-sheet";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { updateAppointmentsData } from "./During";
 
-const DATA = [
-  {
-    title: "General Information",
-    data: [
-      "How may diabetes affect my vision?",
-      "How may diabetes affect my driving?",
-      "How may diabetes affect my heart and blood vessels?",
-    ],
-  },
-  {
-    title: "Healthy Eating",
-    data: ["What kind of foods should i avoid?"],
-  },
-  {
-    title: "Being Active",
-    data: [
-      "How does excercise affect my glucose levels?",
-      "Is the type of excercise important in how my glucose levels change?",
-    ],
-  },
-];
-
 export default function QPLBottomSheet({ sheetRef, appointmentData }) {
-  const [isChanged, setIsChanged] = useState(false);
   let count = -1;
-  // console.log("NEW!!!!!!!!!");
+  console.log("QPL BOTTOM SHEET NEW ----");
+  // Adds Sections Separators only for the end of each
   function customSectionSeparator() {
-    if (count >= DATA.length - 1) {
+    // Reset Count to -1
+    if (count >= appointmentData.questions.length - 1) {
       count = -1;
     }
     // console.log("count: " + count);
-    // console.log("Data:" + DATA.length);
-    // console.log(count > DATA.length * 2);
+    // console.log(appointmentData);
     count += 1;
-    return count < DATA.length - 1 ? (
+    //Only render if it is smaller than the appointment quesiton data list
+    return count < appointmentData.questions.length ? (
       <View style={{ height: 10, backgroundColor: "#E8EBF0" }}></View>
     ) : null;
   }
 
-  const snapPoints = useMemo(() => ["90%"], []);
-
-  // const handleSnapPress = useCallback((index) => {
-  //   sheetRef.current?.snapToIndex(index);
-  // }, []);
-  // const handlePresentModalPress = useCallback(() => {
-  //   if (isActive) {
-  //     sheetRef.current?.present();
-  //   }
-  // },);
+  const snapPoints = useMemo(() => ["80%"], []);
 
   //callbacks
   const handleClosePress = useCallback(() => {
@@ -151,17 +124,29 @@ export default function QPLBottomSheet({ sheetRef, appointmentData }) {
     },
     checkboxStyle: { alignSelf: "flex-end" },
   });
-  // console.log(appointmentData["questions"]["data"]);
   renderSeparator = () => {
     return (
       <View style={{ height: 2, backgroundColor: "#E8EBF0", marginLeft: 15 }} />
     );
   };
+  const renderBackdrop = useCallback(
+    (props) => (
+      <BottomSheetBackdrop
+        {...props}
+        appearsOnIndex={0}
+        disappearsOnIndex={-1}
+      />
+    ),
+    []
+  );
   return (
     <BottomSheet
       ref={sheetRef}
       snapPoints={snapPoints}
       style={styles.everythingWrapper}
+      enablePanDownToClose
+      // enableDynamicSizing={"true"}
+      backdropComponent={renderBackdrop}
       index={-1}
     >
       <TouchableOpacity style={styles.closeButton}>
@@ -175,11 +160,6 @@ export default function QPLBottomSheet({ sheetRef, appointmentData }) {
       <BottomSheetSectionList
         // stickySectionHeadersEnabled
         sections={appointmentData.questions}
-        render
-        keyExtractor={(item) => {
-          // item["id"];
-          // console.log(item["id"]);
-        }}
         renderItem={({ item, section, index }) => (
           <View style={styles.sectionItemView}>
             <Text style={styles.sectionListBodyText}>{item["question"]}</Text>
@@ -194,11 +174,6 @@ export default function QPLBottomSheet({ sheetRef, appointmentData }) {
                     !appointmentData["questions"][section["id"]]["data"][index][
                       "checked"
                     ];
-                  // console.log(
-                  //   appointmentData["questions"][section["id"]]["data"][index][
-                  //     "checked"
-                  //   ]
-                  // );
                 }}
                 fillColor="#3DCE66"
                 size={20}
