@@ -16,13 +16,13 @@ Amplify Params - DO NOT EDIT */const controller = require('/opt/users.controller
  * @type {import('@types/aws-lambda').APIGatewayProxyHandler}
  */
 exports.handler = async (event, context) => {
-    return {
-        "statusCode": 200,
-        "headers": {
-            "Content-Type": "*/*"
-        },
-        "body": JSON.stringify({
-            msg: "Reached",
-        })
-    }
+	return {
+		"statusCode": 200,
+		"headers": {
+			"Content-Type": "*/*"
+		},
+		"body": JSON.stringify({
+			msg: "Reached",
+		})
+	}
 }
