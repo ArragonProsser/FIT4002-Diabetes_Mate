@@ -19,8 +19,15 @@ const authoriser = process.env.NODE_ENV === "test" ? require('../../diabetesmate
  * @type {import('@types/aws-lambda').APIGatewayProxyHandler}
  */
 exports.handler = async (event, context) => {
+    /*
+    Lambda that handles all appointment related queries.
+    @param { Object } event - The event object containing information about the event.
+    @param { Object } context - The execution context of the Lambda function.
+    @param { function} callback - The callback function used to return a response.
+    @returns { Promise } A promise that resolves to the result of the Lambda function.
+    */
     const auth = await authoriser.authoriseRequest(event.headers.Authorization);
-    if(!auth){
+    if (!auth) {
         return {
             statusCode: 401,
             body: "You are not authorized to access this!"
@@ -45,10 +52,11 @@ exports.handler = async (event, context) => {
             }
         case 'test-auth':
             try {
-                return { body:
-                    JSON.stringify({
-                        "authoriser": authUserId
-                    })
+                return {
+                    body:
+                        JSON.stringify({
+                            "authoriser": authUserId
+                        })
                 };
             } catch (e) {
                 return { body: JSON.stringify(e) };

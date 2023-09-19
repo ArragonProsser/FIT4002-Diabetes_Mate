@@ -5,6 +5,11 @@ const TableName = 'Appointment-dev';
 
 module.exports = {
     docClient,
+    /**
+     * Query to retrieve appointments for a given user Id.
+     * @param {string} authUserId User authentication Id.
+     * @returns {Array|Object} Array of appointments for the given user, Error Object if fail
+     */
     async getAppointmentsForUser(authUserId) {
         try {
             const params = {
@@ -22,9 +27,15 @@ module.exports = {
             return { error: err }
         }
     },
-    async updateAppointmentForUser(appointment, authUserId) {
+    /**
+     * Query to create appointment document for a given user Id.
+     * @param {Object} appointment Appointment document to be created
+     * @param {string} authUserId User authentication Id.
+     * @returns {Object} Result Return Object, Error object if fail
+     */
+    async createAppointmentForUser(appointment, authUserId) {
         try {
-            if(appointment.patient_id !== authUserId){
+            if (appointment.patient_id !== authUserId) {
                 throw new Error("You do not have permission to update the appointment!");
             }
             const result = await docClient.put({
@@ -37,14 +48,31 @@ module.exports = {
             return { error: err }
         }
     },
-    async getAppointmentForUser(user_id) {
+    /**
+     * Query to update appointment a specific appointment document for a given user Id.
+     * @param {Object} appointment Appointment document to be updated
+     * @param {string} authUserId User authentication Id.
+     * @returns {Object} Result Return Object, Error object if fail
+     */
+    async updateAppointmentForUser(appointment, authUserId) {
         try {
-            const data = await docClient.scan({
-                TableName,
-                FilterExpression: 'patient_id = :id',
-                ExpressionAttributeValues: { ':id': user_id }
-            }).promise()
-            return { body: JSON.stringify(data) }
+            if (appointment.patient_id !== authUserId) {
+                throw new Error("You do not have permission to update the appointment!");
+            }
+            var params = {
+                TableName: TableName,
+                Key: {
+                    appointment_id: appointment["appointment_id"],
+                },
+                UpdateExpression: `set biomarker = :biomarker, questions = :questions, reminders = :reminders, notes = :notes`,
+                ExpressionAttributeValues: {
+                    ':biomarker': appointment["biomarker"],
+                    ':questions': appointment["questions"],
+                    ':reminders': appointment["reminders"],
+                    ':notes': appointment["notes"]
+                },
+            }
+            await docClient.update(params).promise()
         } catch (err) {
             console.log(err)
             return { error: err }

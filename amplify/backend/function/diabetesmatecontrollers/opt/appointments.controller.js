@@ -3,15 +3,43 @@ const { validateBiomarker } = process.env.NODE_ENV === "test" ? require('../../d
 
 
 module.exports = {
+    /**
+     * Controller Method to retrieve appointments for user
+     * @param {string} authUserId User authentication Id.
+     * @returns {Array|Object} Array of appointments for the given user, Error Object if fail
+     */
     async getAppointmentsForUser(authUserId) {
         return await queries.getAppointmentsForUser(authUserId);
     },
+    /**
+     * Controller Method to update appointment a specific appointment document for a given user Id.
+     * @param {Object} appointment Appointment document to be updated
+     * @param {string} authUserId User authentication Id.
+     * @returns {Object} Updated Appointment Return Object, Error object if fail
+     */
     async updateAppointment(appointment, authUserId) {
         // Validate Appointment Fields
 
         let validationErrorArray = validateBiomarker(appointment['biomarker']['data'])
         if (validationErrorArray.length == 0) {
             return await queries.updateAppointmentForUser(appointment, authUserId);
+        } else {
+            return {
+                "message": "ValidationError",
+                "errors": validationErrorArray
+            }
+        }
+    },
+    /**
+     * Controller Method to create appointment
+     * @param {Object} appointment Appointment document to be created
+     * @param {string} authUserId User authentication Id.
+     * @returns {Object} Result Return Object, Error object if fail
+     */
+    async createAppointment(appointment, authUserId) {
+        let validationErrorArray = validateBiomarker(appointment['biomarker']['data'])
+        if (validationErrorArray.length == 0) {
+            return await queries.createAppointmentForUser(appointment, authUserId);
         } else {
             return {
                 "message": "ValidationError",
