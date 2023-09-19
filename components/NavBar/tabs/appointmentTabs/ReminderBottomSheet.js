@@ -35,6 +35,8 @@ export default function ReminderBottomSheet({ sheetRef, appointmentData }) {
   const handleClosePress = useCallback(() => {
     sheetRef.current?.close();
     let updateAppointment = appointmentData;
+    let tempDT = updateAppointment.dtDisplay;
+    let tempDateReminder = updateAppointment.dateReminder;
     delete updateAppointment.dtDisplay;
     delete updateAppointment.dateReminder;
     updateAppointmentsData(updateAppointment)
@@ -44,6 +46,8 @@ export default function ReminderBottomSheet({ sheetRef, appointmentData }) {
       .catch((err) => {
         console.log(err);
       });
+    updateAppointment.dtDisplay = tempDT;
+    updateAppointment.dateReminder = tempDateReminder;
   }, []);
 
   const styles = StyleSheet.create({

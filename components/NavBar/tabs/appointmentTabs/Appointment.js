@@ -48,7 +48,6 @@ function AppointmentList(navigation, appointments, clickable) {
         <ListItem
           containerStyle={styles.itemContainer}
           onPress={() => {
-            // console.log(item);
             if (clickable)
               navigation.navigate("Detail", {
                 type: item.type,

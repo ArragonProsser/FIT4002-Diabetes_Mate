@@ -33,6 +33,8 @@ export default function QPLBottomSheet({ sheetRef, appointmentData }) {
     sheetRef.current?.close();
     //update biomarkers in database
     let updateAppointment = appointmentData;
+    let tempDT = updateAppointment.dtDisplay;
+    let tempDateReminder = updateAppointment.dateReminder;
     delete updateAppointment.dtDisplay;
     delete updateAppointment.dateReminder;
     updateAppointmentsData(updateAppointment)
@@ -42,6 +44,8 @@ export default function QPLBottomSheet({ sheetRef, appointmentData }) {
       .catch((err) => {
         console.log(err);
       });
+    updateAppointment.dtDisplay = tempDT;
+    updateAppointment.dateReminder = tempDateReminder;
   }, []);
 
   const styles = StyleSheet.create({

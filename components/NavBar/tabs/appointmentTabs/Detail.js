@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 
 import {
   View,
@@ -88,7 +88,6 @@ export default function Detail({ route, navigation }) {
         .getParent()
         ?.setOptions({ tabBarStyle: undefined, tabBarVisible: undefined });
   }, [navigation]);
-
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <View style={{ flex: 1, backgroundColor: "white" }}>
