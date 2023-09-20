@@ -10,14 +10,28 @@ import {
 } from "react-native";
 // import Logo from "../../assets/logo/logo_multi_txt_transparent_bg.svg";
 import Logo from "../../assets/logo/logo_white_txt_transparent_bg.svg";
+import { Auth } from "aws-amplify";
 
 export default function ChoiceScreen({ navigation }) {
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      (async () => {
+        try {
+          await Auth.currentAuthenticatedUser({bypassCache: true});
+          navigation.navigate("Home");
+        } catch (e) {}
+      })();
+    });
+
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return unsubscribe;
+  }, [navigation]);
   const styles = StyleSheet.create({
     button: {
       backgroundColor: "#5398FF",
       borderRadius: 50,
       marginHorizontal: 30,
-      marginVertical: 5, //TODO: Altered
+      marginVertical: 5, // TODO: Altered
     },
     buttonText: {
       color: "white",
@@ -90,7 +104,7 @@ export default function ChoiceScreen({ navigation }) {
       // borderWidth: 4,
       // borderColor: "yellow",
       flex: 1,
-      bottom: 0,
+      // bottom: 0,
       // justifyContent:
     },
     displayImageContainer: {
@@ -102,12 +116,12 @@ export default function ChoiceScreen({ navigation }) {
       resizeMode: "contain",
     },
     logoWrapper: {
-      //NOTE: To resize svg you must remove width and height attributes for svg but nto view box
+      // NOTE: To resize svg you must remove width and height attributes for svg but nto view box
       // borderWidth: 4,
       // borderColor: "purple",
       resizeMode: "contain",
       width: 300,
-      height: 200, //TODO: make responsive
+      height: 200, // TODO: make responsive
     },
     backgroundImage: {
       width: "100%",
@@ -147,7 +161,7 @@ export default function ChoiceScreen({ navigation }) {
                 <Text style={styles.heading1alt}>appointments</Text>
               </View>
             </View>
-            <View style={styles.buttonsContainer}>
+            <View style={[styles.buttonsContainer]}>
               <TouchableOpacity
                 style={styles.button}
                 onPress={() => navigation.navigate("Login")}

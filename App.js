@@ -3,7 +3,7 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { TransitionSpecs,TransitionPresets } from "@react-navigation/stack";
+import { TransitionSpecs, TransitionPresets } from "@react-navigation/stack";
 // Enables additional expo debugging messages.
 // import 'expo-dev-client';
 const Stack = createStackNavigator();
@@ -13,39 +13,47 @@ import Choice from "./components/Onboarding/Choice";
 import Login from "./components/Onboarding/Login";
 import DetailsScreen from "./components/Onboarding/Details";
 import SignUpScreen from "./components/Onboarding/Signup";
-export default function App() {
+import ConfirmEmailScreen from "./components/Onboarding/ConfirmEmail";
+
+import { Amplify } from "aws-amplify";
+import config from "./aws-exports";
+import Legal from "./components/NavBar/Legal";
+import UpdateUser from "./components/NavBar/UpdateUser";
+
+Amplify.configure(config);
+
+function App() {
   return (
     <NavigationContainer>
-      
-      <Stack.Navigator 
-      initialRouteName="details"
-      screenOptions={TransitionPresets.SlideFromRightIOS}
+      <Stack.Navigator
+        initialRouteName="details"
+        screenOptions={TransitionPresets.SlideFromRightIOS}
       >
         <Stack.Screen
-            name="Details"
-            component={DetailsScreen}
-            options={{
-              headerTitleAlign: 'center',
-              headerShown:false,
-              transitionSpec: {
-                open: TransitionSpecs.BottomSheetSlideInSpec,
-                close: TransitionSpecs.BottomSheetSlideOutSpec,
-              },
-            }}
-          />
-        <Stack.Screen
-          name="Login"
-          component={Login}
+          name="Details"
+          component={DetailsScreen}
           options={{
-            headerTitleAlign: 'center',
+            headerTitleAlign: "center",
+            headerShown: false,
             transitionSpec: {
               open: TransitionSpecs.BottomSheetSlideInSpec,
               close: TransitionSpecs.BottomSheetSlideOutSpec,
             },
-            headerTintColor:"#25437B",
+          }}
+        />
+        <Stack.Screen
+          name="Login"
+          component={Login}
+          options={{
+            headerTitleAlign: "center",
+            transitionSpec: {
+              open: TransitionSpecs.BottomSheetSlideInSpec,
+              close: TransitionSpecs.BottomSheetSlideOutSpec,
+            },
+            headerTintColor: "#25437B",
             headerTitleStyle: {
-              fontSize:20,
-              color:"#25437B"
+              fontSize: 20,
+              color: "#25437B",
             },
             headerShadowVisible: false,
           }}
@@ -54,16 +62,34 @@ export default function App() {
           name="SignUp"
           component={SignUpScreen}
           options={{
-            headerTitleAlign: 'center',
-            headerTitle: 'Sign Up',
+            headerTitleAlign: "center",
+            headerTitle: "Sign Up",
             transitionSpec: {
               open: TransitionSpecs.BottomSheetSlideInSpec,
               close: TransitionSpecs.BottomSheetSlideOutSpec,
             },
-            headerTintColor:"#25437B",
+            headerTintColor: "#25437B",
             headerTitleStyle: {
-              fontSize:20,
-              color:"#25437B"
+              fontSize: 20,
+              color: "#25437B",
+            },
+            headerShadowVisible: false,
+          }}
+        />
+        <Stack.Screen
+          name="ConfirmEmail"
+          component={ConfirmEmailScreen}
+          options={{
+            headerTitleAlign: "center",
+            headerTitle: "Confirm Email",
+            transitionSpec: {
+              open: TransitionSpecs.BottomSheetSlideInSpec,
+              close: TransitionSpecs.BottomSheetSlideOutSpec,
+            },
+            headerTintColor: "#25437B",
+            headerTitleStyle: {
+              fontSize: 20,
+              color: "#25437B",
             },
             headerShadowVisible: false,
           }}
@@ -71,46 +97,44 @@ export default function App() {
         <Stack.Screen
           name="Choice"
           component={Choice}
-          
           options={{
-            headerTitleAlign: 'center',
-            headerTitle:"",
+            headerTitleAlign: "center",
+            headerTitle: "",
             // headerShown:false,
-            headerTintColor:"#25437B",
+            headerTintColor: "#25437B",
             transitionSpec: {
               open: TransitionSpecs.BottomSheetSlideInSpec,
               close: TransitionSpecs.BottomSheetSlideOutSpec,
             },
-            headerTintColor:"white",
+            headerTintColor: "white",
             headerShadowVisible: false,
-            headerTransparent: true
-
+            headerTransparent: true,
           }}
         />
         <Stack.Screen
           name="Home"
           component={NavBar}
-          
           options={{
-            // headerTitleAlign: 'center',
-            headerTitle:"",
-            headerShown:false,
-            // transitionSpec: {
-            //   open: TransitionSpecs.BottomSheetSlideInSpec,
-            //   close: TransitionSpecs.BottomSheetSlideOutSpec,
-            // },
-
+            headerTitle: "",
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="Legal"
+          component={Legal}
+          options={{
+            headerShadowVisible: false,
+          }}
+        />
+        <Stack.Screen
+          name="UpdateUser"
+          component={UpdateUser}
+          options={{
+            headerShadowVisible: false,
           }}
         />
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
-
-{
-  /* <>
-<Choice/>
-<Login/>
-<NavBar/>
-</> */
-}
+export default App;
