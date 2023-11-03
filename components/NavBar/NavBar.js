@@ -8,9 +8,10 @@ import IonIcons from "react-native-vector-icons/Ionicons";
 
 // Screens
 import AppointmentScreen from "./tabs/AppointmentScreen";
-import BiomarkerScreen from "./tabs/BiomarkerScreen";
+import BiomarkerGraphScreen from "./tabs/BiomarkerGraphScreen";
 import EducationScreen from "./tabs/EducationScreen";
 import ProfileBottomSheet from "./ProfileBottomSheet";
+import AppointmentOptionsBottomSheet from "./AppointmentOptionsBottomSheet";
 
 // Screen Names:
 const appointmentName = "Appointments";
@@ -21,6 +22,7 @@ const Tab = createBottomTabNavigator();
 
 export default function NavBar({ navigation }) {
   const profileRef = useRef(null);
+  const optionsRef = useRef(null);
   return (
     <>
       <Tab.Navigator
@@ -67,12 +69,16 @@ export default function NavBar({ navigation }) {
                     */}
         <Tab.Screen
           name={appointmentName}
-          component={AppointmentScreen}
+          // component={()=>{return <AppointmentScreen {...props} bottomSheetRef={optionsRef}/>}}
           options={{ tabBarLabel: "", headerTitleAlign: "center" }}
-        />
+        >
+          {(props) => (
+            <AppointmentScreen {...props} bottomSheetRef={optionsRef} />
+          )}
+        </Tab.Screen>
         <Tab.Screen
           name={biomarkerName}
-          component={BiomarkerScreen}
+          component={BiomarkerGraphScreen}
           options={{ tabBarLabel: "", headerTitleAlign: "center" }}
         />
         <Tab.Screen
@@ -85,6 +91,10 @@ export default function NavBar({ navigation }) {
         sheetRef={profileRef}
         navigation={navigation}
       ></ProfileBottomSheet>
+      <AppointmentOptionsBottomSheet
+        sheetRef={optionsRef}
+        navigation={navigation}
+      ></AppointmentOptionsBottomSheet>
     </>
   );
 }

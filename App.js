@@ -4,13 +4,13 @@ import { StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { TransitionSpecs, TransitionPresets } from "@react-navigation/stack";
+import { HeaderBackButton } from "@react-navigation/elements";
 // Enables additional expo debugging messages.
-// import 'expo-dev-client';
-const Stack = createStackNavigator();
+import "expo-dev-client";
 
 import NavBar from "./components/NavBar/NavBar";
-import Choice from "./components/Onboarding/Choice";
-import Login from "./components/Onboarding/Login";
+import ChoiceScreen from "./components/Onboarding/Choice";
+import LoginScreen from "./components/Onboarding/Login";
 import DetailsScreen from "./components/Onboarding/Details";
 import SignUpScreen from "./components/Onboarding/Signup";
 import ConfirmEmailScreen from "./components/Onboarding/ConfirmEmail";
@@ -20,6 +20,7 @@ import config from "./aws-exports";
 import Legal from "./components/NavBar/Legal";
 import UpdateUser from "./components/NavBar/UpdateUser";
 
+const Stack = createStackNavigator();
 Amplify.configure(config);
 
 function App() {
@@ -43,8 +44,8 @@ function App() {
         />
         <Stack.Screen
           name="Login"
-          component={Login}
-          options={{
+          component={LoginScreen}
+          options={({ navigation, route }) => ({
             headerTitleAlign: "center",
             transitionSpec: {
               open: TransitionSpecs.BottomSheetSlideInSpec,
@@ -56,7 +57,15 @@ function App() {
               color: "#25437B",
             },
             headerShadowVisible: false,
-          }}
+            headerLeft: (props) => (
+              <HeaderBackButton
+                {...props}
+                onPress={() => {
+                  navigation.navigate("Choice");
+                }}
+              />
+            ),
+          })}
         />
         <Stack.Screen
           name="SignUp"
@@ -96,8 +105,8 @@ function App() {
         />
         <Stack.Screen
           name="Choice"
-          component={Choice}
-          options={{
+          component={ChoiceScreen}
+          options={({ navigation, route }) => ({
             headerTitleAlign: "center",
             headerTitle: "",
             // headerShown:false,
@@ -109,7 +118,15 @@ function App() {
             headerTintColor: "white",
             headerShadowVisible: false,
             headerTransparent: true,
-          }}
+            headerLeft: (props) => (
+              <HeaderBackButton
+                {...props}
+                onPress={() => {
+                  navigation.navigate("Details");
+                }}
+              />
+            ),
+          })}
         />
         <Stack.Screen
           name="Home"
@@ -130,6 +147,8 @@ function App() {
           name="UpdateUser"
           component={UpdateUser}
           options={{
+            headerTitleAlign: "center",
+            headerTitle: "Update Password",
             headerShadowVisible: false,
           }}
         />

@@ -12,7 +12,9 @@
     STORAGE_USER_NAME
     STORAGE_USER_STREAMARN
 Amplify Params - DO NOT EDIT */
+/* istanbul ignore next */
 const controller = process.env.NODE_ENV === "test" ? require('../../diabetesmatecontrollers/opt/appointments.controller') : require('/opt/appointments.controller.js');
+/* istanbul ignore next */
 const authoriser = process.env.NODE_ENV === "test" ? require('../../diabetesmateauthorisers/opt/main.authorisers') : require('/opt/main.authorisers.js');
 
 /**
@@ -31,25 +33,39 @@ exports.handler = async (event, context) => {
         return {
             statusCode: 401,
             body: "You are not authorized to access this!"
-        }
+        };
     }
     const authUserId = auth.sub;
     switch (event?.['pathParameters']?.['action']?.toLowerCase()) {
         case 'get':
             return await controller.getAppointmentsForUser(authUserId);
         case 'create':
-            return await controller.createAppointment(authUserId);
+            if (event.httpMethod == 'POST') {
+                return await controller.createAppointment(JSON.parse(event.body), authUserId);
+            }
+
         case 'update':
             if (event.httpMethod == 'PUT') {
                 return {
                     "statusCode": 200,
                     "body": JSON.stringify(await controller.updateAppointment(JSON.parse(event.body), authUserId))
-                }
+                };
             }
             return {
                 "statusCode": 405,
                 "body": JSON.stringify({ error: "Method Not Allowed" })
+            };
+        case 'delete':
+            if (event.httpMethod == 'DELETE') {
+                return {
+                    "statusCode": 200,
+                    "body": JSON.stringify(await controller.deleteAppointment(JSON.parse(event.body), authUserId))
+                };
             }
+            return {
+                "statusCode": 405,
+                "body": JSON.stringify({ error: "Method Not Allowed" })
+            };
         case 'test-auth':
             try {
                 return {
@@ -64,4 +80,4 @@ exports.handler = async (event, context) => {
         default:
             return JSON.stringify({ error: 'Invalid Path!' });
     }
-}
+};

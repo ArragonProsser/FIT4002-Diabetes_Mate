@@ -1,4 +1,6 @@
+/* istanbul ignore next */
 const queries = process.env.NODE_ENV === "test" ? require('../../diabetesmatequeries/opt/appointments.queries') : require('/opt/appointments.queries.js');
+/* istanbul ignore next */
 const { validateBiomarker } = process.env.NODE_ENV === "test" ? require('../../diabetesmatevalidators/opt/appointments.validators') : require('/opt/appointments.validators.js');
 
 
@@ -46,5 +48,14 @@ module.exports = {
                 "errors": validationErrorArray
             }
         }
-    }
+    },
+    /**
+     * Controller Method to delete appointment
+     * @param {Object} appointment Appointment object with appointment_id to be deleted
+     * @param {string} authUserId User authentication Id.
+     * @returns {Object} Result Return Object, Error object if fail
+     */
+    async deleteAppointment(appointment, authUserId) {
+        return await queries.deleteAppointmentForUser(appointment, authUserId);
+    },
 };

@@ -20,7 +20,7 @@
     }
   },
   "Resources": {
-    "LambdaLayerVersion06a1b1ca": {
+    "LambdaLayerVersion981346b4": {
       "Type": "AWS::Lambda::LayerVersion",
       "Properties": {
         "CompatibleRuntimes": {
@@ -51,60 +51,13 @@
       "DeletionPolicy": "Delete",
       "UpdateReplacePolicy": "Retain"
     },
-    "LambdaLayerPermissionPrivate06a1b1ca": {
+    "LambdaLayerPermissionPrivate981346b4": {
       "Type": "AWS::Lambda::LayerVersionPermission",
       "Properties": {
         "Action": "lambda:GetLayerVersion",
         "LayerVersionArn": {
-          "Ref": "LambdaLayerVersion06a1b1ca"
+          "Ref": "LambdaLayerVersion981346b4"
         },
-        "Principal": {
-          "Ref": "AWS::AccountId"
-        }
-      }
-    },
-    "LambdaLayerVersionbf8178cd": {
-      "Type": "AWS::Lambda::LayerVersion",
-      "Properties": {
-        "CompatibleRuntimes": [
-          "nodejs18.x"
-        ],
-        "Content": {
-          "S3Bucket": {
-            "Ref": "deploymentBucketName"
-          },
-          "S3Key": "amplify-builds/diabetesmateauthorisers-LambdaLayerVersionbf8178cd-build.zip"
-        },
-        "Description": "Updated layer version 2023-09-18T12:49:55.735Z",
-        "LayerName": {
-          "Fn::Sub": [
-            "diabetesmateauthorisers-${env}",
-            {
-              "env": {
-                "Ref": "env"
-              }
-            }
-          ]
-        }
-      },
-      "DeletionPolicy": "Delete",
-      "UpdateReplacePolicy": "Retain"
-    },
-    "LambdaLayerPermissionPrivatebf8178cd": {
-      "Type": "AWS::Lambda::LayerVersionPermission",
-      "Properties": {
-        "Action": "lambda:GetLayerVersion",
-        "LayerVersionArn": "arn:aws:lambda:ap-southeast-2:144314603306:layer:diabetesmateauthorisers-dev:20",
-        "Principal": {
-          "Ref": "AWS::AccountId"
-        }
-      }
-    },
-    "LambdaLayerPermissionPrivateLegacy3": {
-      "Type": "AWS::Lambda::LayerVersionPermission",
-      "Properties": {
-        "Action": "lambda:GetLayerVersion",
-        "LayerVersionArn": "arn:aws:lambda:ap-southeast-2:144314603306:layer:diabetesmateauthorisers-dev:3",
         "Principal": {
           "Ref": "AWS::AccountId"
         }
@@ -114,7 +67,7 @@
   "Outputs": {
     "Arn": {
       "Value": {
-        "Ref": "LambdaLayerVersion06a1b1ca"
+        "Ref": "LambdaLayerVersion981346b4"
       }
     }
   }
