@@ -1,0 +1,16 @@
+{
+    "amplify": {
+      "projectName": "DiabetesMate",
+      "envName": "devenv",
+      "defaultEditor": "code"
+    },
+    "providers": {
+      "awscloudformation": {
+        "configLevel": "project",
+        "useProfile": false,
+        "accessKeyId": "ASIAWA2BPJ7CH7RTWQEW",
+        "secretAccessKey": "puuBhiYyx7XR6rYOV0rV6C2rqiYKK89/FzHLRc6b",
+        "region": "ap-southeast-2"
+      }
+    }
+  }

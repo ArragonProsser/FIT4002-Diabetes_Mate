@@ -1,0 +1,10 @@
+{
+  "resourceName": "Appointment",
+  "tableName": "Appointment",
+  "partitionKey": {
+    "fieldName": "appointment_id",
+    "fieldType": "string"
+  },
+  "gsi": [],
+  "triggerFunctions": []
+}
