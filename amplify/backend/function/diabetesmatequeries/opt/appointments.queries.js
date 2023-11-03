@@ -20,11 +20,11 @@ module.exports = {
                     ':authUserId': authUserId
                 }
             };
-            const data = await docClient.query(params).promise()
-            return { body: JSON.stringify(data) }
+            const data = await docClient.query(params).promise();
+            return { body: JSON.stringify(data) };
         } catch (err) {
-            console.log(err)
-            return { error: err }
+            console.log(err);
+            return { error: err };
         }
     },
     /**
@@ -41,11 +41,11 @@ module.exports = {
             const result = await docClient.put({
                 TableName: TableName,
                 Item: appointment,
-            }).promise()
-            return result
+            }).promise();
+            return result;
         } catch (err) {
-            console.log(err)
-            return { error: err }
+            console.log(err);
+            return { error: err };
         }
     },
     /**
@@ -64,18 +64,44 @@ module.exports = {
                 Key: {
                     appointment_id: appointment["appointment_id"],
                 },
-                UpdateExpression: `set biomarker = :biomarker, questions = :questions, reminders = :reminders, notes = :notes`,
+                UpdateExpression: `set biomarker = :biomarker, questions = :questions, reminders = :reminders, notes = :notes, appointment_type = :appointment_type, appointment_datetime = :appointment_datetime`,
                 ExpressionAttributeValues: {
                     ':biomarker': appointment["biomarker"],
                     ':questions': appointment["questions"],
                     ':reminders': appointment["reminders"],
-                    ':notes': appointment["notes"]
+                    ':notes': appointment["notes"],
+                    ':appointment_type': appointment["appointment_type"],
+                    ':appointment_datetime': appointment["appointment_datetime"]
                 },
-            }
-            await docClient.update(params).promise()
+            };
+            const result = await docClient.update(params).promise();
+            return result;
         } catch (err) {
-            console.log(err)
-            return { error: err }
+            console.log(err);
+            return { error: err };
         }
-    }
+    },
+    /**
+     * Query to update appointment a specific appointment document for a given user Id.
+     * @param {Object} appointment Appointment document to be updated
+     * @param {string} authUserId User authentication Id.
+     * @returns {Object} Result Return Object, Error object if fail
+     */
+    async deleteAppointmentForUser(appointment, authUserId) {
+        try {
+            if (appointment.user_id !== authUserId) {
+                throw new Error("You do not have permission to update the appointment!");
+            }
+            var params = {
+                TableName: TableName,
+                Key: {
+                    appointment_id: appointment["appointment_id"],
+                }
+            };
+            await docClient.delete(params).promise();
+        } catch (err) {
+            console.log(err);
+            return { error: err };
+        }
+    },
 };

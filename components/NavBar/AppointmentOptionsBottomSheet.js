@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback, useState } from "react";
 import {
   StyleSheet,
   View,
@@ -12,43 +12,64 @@ import BottomSheet, {
   BottomSheetBackdrop,
 } from "@gorhom/bottom-sheet";
 import Icon from "react-native-vector-icons/Feather";
-import { Auth } from "aws-amplify";
+import { API, Auth } from "aws-amplify";
 
-export default function ProfileBottomSheet({ sheetRef, navigation }) {
-  async function signOut() {
+export default function AppointmentOptionsBottomSheet({
+  sheetRef,
+  navigation,
+}) {
+  //APPOINTMENT IS STORED IN sheetRef.current.appointment
+  async function deleteAppointment() {
+    if (!sheetRef.current.appointment) {
+      return;
+    }
+    const apiName = "Diabetesmate";
+    const path = "/appointments/DELETE";
+    const user = await Auth.currentAuthenticatedUser();
+    const token = user.signInUserSession.idToken.jwtToken;
+    let appt = {
+      "appointment_id": sheetRef.current.appointment["appointment_id"],
+      "user_id": sheetRef.current.appointment["patient_id"]
+    };
+    console.log("fef", appt);
+    const myInit = {
+      headers: {
+        Authorization: token,
+      },
+      signerServiceInfo: {
+        service: null,
+        region: null,
+      },
+      body: appt,
+    };
+    console.log("Appointment Options Bottom Sheet.js");
     try {
-      await Auth.signOut({ global: true });
-      sheetRef.current?.close();
-      navigation.navigate("Choice");
-      // nav;
-    } catch (error) {
-      console.log("error signing out: ", error);
+      console.log(await API.del(apiName, path, myInit));
+    } catch (e) {
+      console.log('del error', e);
     }
+
+    // try {
+    //   await Auth.signOut({ global: true });
+    //   navigation.navigate("Choice");
+    //   // nav;
+    // } catch (error) {
+    //   console.log("error signing out: ", error);
+    // }
   }
-  async function openFeedback() {
+  function editAppointment() {
+    const appt = sheetRef.current.appointment;
     sheetRef.current?.close();
-    const url = "http://www.google.com";
-    const isSupported = await Linking.canOpenURL(url);
-    console.log(isSupported);
-    if (isSupported) {
-      await Linking.openURL(url);
-      return <WebView source={{ uri: url }} />;
-    }
-    return false;
-  }
-  function changePassword() {
-    sheetRef.current?.close();
-    navigation.navigate("UpdateUser");
-  }
-  function openLegalInfo() {
-    navigation.navigate("Legal");
-    sheetRef.current?.close();
+    navigation.navigate("EditAppointment", {
+      appointment_type: appt.appointment_type,
+      datetime: appt.appointment_datetime,
+      method: "UPDATE",
+      appointment: appt,
+    });
   }
   const sectionData = [
-    { title: "Change Password", data: "edit", action: changePassword },
-    { title: "Feedback", data: "message-square", action: openFeedback },
-    { title: "Legal Information", data: "file-text", action: openLegalInfo },
-    { title: "Log Out", data: "log-out", action: signOut },
+    { title: "Edit Appointment", data: "edit", action: editAppointment },
+    { title: "Delete Appointment", data: "x", action: deleteAppointment },
   ];
   //callbacks
   const handleClosePress = useCallback(() => {

@@ -11,6 +11,13 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import QPLBottomSheet from "./QPLBottomSheet";
 import ReminderBottomSheet from "./ReminderBottomSheet";
 
+/**
+ *
+ * @param route The navigation route
+ * @param navigation
+ * @returns {JSX.Element} The Appointment Detail page
+ * @constructor
+ */
 export default function Detail({ route, navigation }) {
   const spacerHeight = 1000;
   const styles = StyleSheet.create({
@@ -77,7 +84,7 @@ export default function Detail({ route, navigation }) {
   });
   const sheetRefQPL = useRef(null);
   const sheetRefReminder = useRef(null);
-  const { type, datetime, dateReminder, appointment } = route.params;
+  const { appointment_type, datetime, dateReminder, appointment } = route.params;
 
   useEffect(() => {
     navigation
@@ -107,7 +114,7 @@ export default function Detail({ route, navigation }) {
                 paddingTop: 15,
               }}
             >
-              {type}
+              {appointment_type}
             </Text>
             <Text style={{ color: "white", paddingTop: 15 }}>{datetime}</Text>
           </View>

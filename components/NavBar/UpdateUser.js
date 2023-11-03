@@ -1,8 +1,22 @@
 import React from "react";
+import { Auth } from "aws-amplify";
 
-import { View, Text, StyleSheet, KeyboardAvoidingView } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  KeyboardAvoidingView,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
 
-export default function UpdateUser() {
+export default function UpdateUser({ navigation }) {
+  const [details, setDetails] = React.useState({
+    username: "",
+    newPassword: "",
+    oldPassword: "",
+    retypeNewPassword: "",
+  });
   const styles = StyleSheet.create({
     container: {
       flex: 1,
@@ -139,9 +153,45 @@ export default function UpdateUser() {
     },
   });
 
+  async function changePassword(oldPassword, newPassword) {
+    try {
+      const user = await Auth.currentAuthenticatedUser();
+      const data = await Auth.changePassword(user, oldPassword, newPassword);
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+      return false;
+    }
+    return true;
+  }
+
+  const validateRetype = (text, biomarkerName, min, max) => {
+    if (isValidNumber(text)) {
+      const value = Number.parseFloat(text);
+      if (value < min || value > max) {
+        alert(biomarkerName);
+      } else {
+        setVisible(true);
+        return true;
+      }
+    } else {
+      alert(biomarkerName);
+    }
+    return false;
+  };
+
   return (
     <KeyboardAvoidingView>
-      <View style={styles.textEntrySection}>
+      <View
+        style={{
+          display: "flex",
+          height: "100%",
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: "white",
+        }}
+      >
+        {/* <View style={styles.textEntrySection}>
         <Text style={styles.textEntrySectionTitle}>Email Address</Text>
         <TextInput
           style={styles.textEntrySectionInput}
@@ -155,30 +205,77 @@ export default function UpdateUser() {
             })
           }
         ></TextInput>
-      </View>
-      <View style={styles.textEntrySection}>
-        <Text style={styles.textEntrySectionTitle}>Password</Text>
-        <TextInput
-          style={styles.textEntrySectionInput}
-          placeholder="Enter your Password"
-          value={details.password}
-          onChangeText={(text) =>
-            setDetails({
-              ...details,
-              password: text,
-            })
-          }
-        ></TextInput>
-      </View>
-      <View style={styles.buttonsContainer}>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={async () => {
-            // if (await signUp(details, setError)) navigation.navigate("Choice");
-          }}
-        >
-          <Text style={styles.buttonText}>Update</Text>
-        </TouchableOpacity>
+      </View> */}
+        <View style={styles.textEntryContainer}>
+          <View style={styles.textEntrySection}>
+            <Text style={styles.textEntrySectionTitle}>Old Password</Text>
+            <TextInput
+              style={styles.textEntrySectionInput}
+              placeholder="Enter your Old Password"
+              value={details.password}
+              onChangeText={(text) =>
+                setDetails({
+                  ...details,
+                  oldPassword: text,
+                })
+              }
+            ></TextInput>
+          </View>
+          <View style={styles.textEntrySection}>
+            <Text style={styles.textEntrySectionTitle}>New Password</Text>
+            <TextInput
+              style={styles.textEntrySectionInput}
+              placeholder="Enter a New Password"
+              value={details.password}
+              onChangeText={(text) =>
+                setDetails({
+                  ...details,
+                  newPassword: text,
+                })
+              }
+            ></TextInput>
+          </View>
+          <View style={styles.textEntrySection}>
+            <Text style={styles.textEntrySectionTitle}>
+              Retype New Password
+            </Text>
+            <TextInput
+              style={styles.textEntrySectionInput}
+              placeholder="Retype your New Password"
+              value={details.password}
+              onChangeText={(text) =>
+                setDetails({
+                  ...details,
+                  retypeNewPassword: text,
+                })
+              }
+            ></TextInput>
+          </View>
+          <View style={styles.buttonsContainer}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={async () => {
+                // Checks whether new and retyped passwords match
+                if (details.retypeNewPassword == details.newPassword) {
+                  //Uses AWS Amplify Auth to check whether the password can be changed
+                  if (
+                    await changePassword(
+                      details.oldPassword,
+                      details.newPassword
+                    )
+                  ) {
+                    navigation.navigate("Home");
+                  }
+                } else {
+                  console.log("New Passwords do not match");
+                  //TODO: Add alert here
+                }
+              }}
+            >
+              <Text style={styles.buttonText}>Update</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
       </View>
     </KeyboardAvoidingView>
   );

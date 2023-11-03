@@ -17,6 +17,11 @@ import IonIcons from "react-native-vector-icons/Ionicons";
 import { Snackbar } from "react-native-paper";
 import { API, Auth } from "aws-amplify";
 
+/**
+ *
+ * @param appointment Request body of the updated appointment
+ * @returns {Promise<any>} Object that contains the data of the current appointment
+ */
 export async function updateAppointmentsData(appointment) {
   const apiName = "Diabetesmate";
   const path = "/appointments/UPDATE";
@@ -24,11 +29,11 @@ export async function updateAppointmentsData(appointment) {
   const token = user.signInUserSession.idToken.jwtToken;
   const myInit = {
     headers: {
-      Authorization: token
+      Authorization: token,
     },
     signerServiceInfo: {
       service: null,
-      region: null
+      region: null,
     },
     body: appointment,
   };
@@ -243,6 +248,13 @@ const styles = StyleSheet.create({
 });
 
 const Tab = createMaterialTopTabNavigator();
+/**
+ *
+ * @param route The navigation route
+ * @param navigation
+ * @returns {JSX.Element} The During Appointment page
+ * @constructor
+ */
 export default function During({ route, navigation }) {
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
@@ -263,14 +275,14 @@ export default function During({ route, navigation }) {
         }}
       >
         <Tab.Screen
-          name="Biomarkers"
-          component={Biomarkers}
-          initialParams={{ duringRoute: route, duringNavigation: navigation }}
-        />
-        <Tab.Screen
           name="Questions"
           component={Questions}
           initialParams={{ route, navigation }}
+        />
+        <Tab.Screen
+          name="Biomarkers"
+          component={Biomarkers}
+          initialParams={{ duringRoute: route, duringNavigation: navigation }}
         />
         <Tab.Screen
           name="Notes"
@@ -292,6 +304,13 @@ export default function During({ route, navigation }) {
   );
 }
 
+/**
+ *
+ * @param route The navigation route
+ * @param navigation
+ * @returns {JSX.Element} The Biomarkers page
+ * @constructor
+ */
 function Biomarkers({ route, navigation }) {
   let { duringRoute, duringNavigation } = route.params;
   let appointment = duringRoute.params["appointment"];
@@ -301,11 +320,11 @@ function Biomarkers({ route, navigation }) {
   const [visible, setVisible] = React.useState(false);
   const [biomarker, setBiomarker] = React.useState({
     weight: appointmentData["weight"],
+    diastolicBP: appointmentData["diastolicBP"],
+    systolicBP: appointmentData["systolicBP"],
     HbA1c: appointmentData["HbA1c"],
     urineAlbuminToCreatinineRatio:
       appointmentData["urineAlbuminToCreatinineRatio"],
-    diastolicBP: appointmentData["diastolicBP"],
-    systolicBP: appointmentData["systolicBP"],
     totalCholesterol: appointmentData["totalCholesterol"],
     LDL: appointmentData["LDL"],
     HDL: appointmentData["HDL"],
@@ -313,6 +332,9 @@ function Biomarkers({ route, navigation }) {
   });
   let toid = null;
 
+  /**
+   * Handler for updating appointments data
+   */
   function updateAppointmentsDataHandler() {
     // PUT the biomarker update.
     let updateAppointment = appointment;
@@ -327,6 +349,10 @@ function Biomarkers({ route, navigation }) {
       });
   }
 
+  /**
+   *
+   * @param updateObj The biomarker object to be updated
+   */
   function updateBiomarker(updateObj) {
     // Update the biomarker state
     setBiomarker(updateObj);
@@ -350,22 +376,35 @@ function Biomarkers({ route, navigation }) {
     HDLInput,
     TGInput,
   ] = [
-    React.createRef(),
-    React.createRef(),
-    React.createRef(),
-    React.createRef(),
-    React.createRef(),
-    React.createRef(),
-    React.createRef(),
-    React.createRef(),
-    React.createRef(),
-  ];
+      React.createRef(),
+      React.createRef(),
+      React.createRef(),
+      React.createRef(),
+      React.createRef(),
+      React.createRef(),
+      React.createRef(),
+      React.createRef(),
+      React.createRef(),
+    ];
 
+  /**
+   *
+   * @param text The text to be validated
+   * @returns {boolean} Whether the text contains a valid number
+   */
   const isValidNumber = (text) => {
     const regex = /^[1-9]\d*(\.\d+)?$/;
     return regex.test(text);
   };
 
+  /**
+   *
+   * @param text The biomarker input text
+   * @param biomarkerName The name of the biomarker
+   * @param min The lower bound of the biomarker
+   * @param max The upper bound of the biomarker
+   * @returns {boolean} Whether the biomarker input is valid
+   */
   const validateBiomarker = (text, biomarkerName, min, max) => {
     if (isValidNumber(text)) {
       const value = Number.parseFloat(text);
@@ -381,6 +420,11 @@ function Biomarkers({ route, navigation }) {
     return false;
   };
 
+  /**
+   *
+   * @param input The biomarker input
+   * @returns {string|*} The biomarker input, enforced to one decimal place
+   */
   const enforceOneDecimal = (input) => {
     return input.indexOf(".") > 0
       ? input.split(".").length >= 1
@@ -389,6 +433,10 @@ function Biomarkers({ route, navigation }) {
       : input;
   };
 
+  /**
+   * Display an alert for invalid value
+   * @param biomarkerName The name of the biomarker
+   */
   const alert = (biomarkerName) => {
     Alert.alert(
       "Invalid value",
@@ -437,7 +485,77 @@ function Biomarkers({ route, navigation }) {
         </View>
         <View style={styles.biomarkerDivider} />
         <View style={styles.biomarkerContainer}>
-          <Text style={styles.biomarkerTitle}>Blood HbA1c Level</Text>
+          <Text style={styles.biomarkerTitle}>Blood Pressure (mmHg)</Text>
+          <View style={styles.biomarkerRowFlexContainer}>
+            <View style={{ width: "50%" }}>
+              <Text style={styles.biomarkerSubtitle}>Systolic</Text>
+              <TextInput
+                ref={systolicBPInput}
+                style={styles.biomarkerPlaceholder}
+                placeholder="Enter Systolic BP"
+                keyboardType="decimal-pad"
+                value={biomarker.systolicBP}
+                onChangeText={(text) =>
+                  updateBiomarker({
+                    ...biomarker,
+                    systolicBP: enforceOneDecimal(text),
+                  })
+                }
+                onEndEditing={(e) => {
+                  if (
+                    !validateBiomarker(
+                      e.nativeEvent.text,
+                      "Systolic BP",
+                      50,
+                      250
+                    )
+                  ) {
+                    systolicBPInput.current.clear();
+                  }
+                  updateBiomarker({
+                    ...biomarker,
+                    systolicBP: e.nativeEvent.text,
+                  });
+                }}
+              />
+            </View>
+            <View style={{ width: "50%" }}>
+              <Text style={styles.biomarkerSubtitle}>Diastolic</Text>
+              <TextInput
+                ref={diastolicBPInput}
+                style={styles.biomarkerPlaceholder}
+                placeholder="Enter Diastolic BP"
+                keyboardType="decimal-pad"
+                value={biomarker.diastolicBP}
+                onChangeText={(text) =>
+                  updateBiomarker({
+                    ...biomarker,
+                    diastolicBP: enforceOneDecimal(text),
+                  })
+                }
+                onEndEditing={(e) => {
+                  if (
+                    !validateBiomarker(
+                      e.nativeEvent.text,
+                      "Diastolic BP",
+                      20,
+                      150
+                    )
+                  ) {
+                    diastolicBPInput.current.clear();
+                  }
+                  updateBiomarker({
+                    ...biomarker,
+                    diastolicBP: e.nativeEvent.text,
+                  });
+                }}
+              />
+            </View>
+          </View>
+        </View>
+        <View style={styles.biomarkerDivider} />
+        <View style={styles.biomarkerContainer}>
+          <Text style={styles.biomarkerTitle}>HbA1c (%)</Text>
           <TextInput
             ref={HbA1cInput}
             style={styles.biomarkerPlaceholder}
@@ -458,7 +576,7 @@ function Biomarkers({ route, navigation }) {
         <View style={styles.biomarkerDivider} />
         <View style={styles.biomarkerContainer}>
           <Text style={styles.biomarkerTitle}>
-            Urine Albumin to Creatinine Ratio
+            Urine Albumin to Creatinine Ratio (mg/mmol)
           </Text>
           <TextInput
             ref={urineAlbuminToCreatinineRatioInput}
@@ -492,76 +610,7 @@ function Biomarkers({ route, navigation }) {
         </View>
         <View style={styles.biomarkerDivider} />
         <View style={styles.biomarkerContainer}>
-          <Text style={styles.biomarkerTitle}>Blood Pressure (BP)</Text>
-          <View style={styles.biomarkerRowFlexContainer}>
-            <View style={{ width: "50%" }}>
-              <Text style={styles.biomarkerSubtitle}>Diastolic BP</Text>
-              <TextInput
-                ref={diastolicBPInput}
-                style={styles.biomarkerPlaceholder}
-                placeholder="Enter Diastolic BP"
-                keyboardType="decimal-pad"
-                value={biomarker.diastolicBP}
-                onChangeText={(text) =>
-                  updateBiomarker({
-                    ...biomarker,
-                    diastolicBP: enforceOneDecimal(text),
-                  })
-                }
-                onEndEditing={(e) => {
-                  if (
-                    !validateBiomarker(
-                      e.nativeEvent.text,
-                      "Diastolic BP",
-                      20,
-                      150
-                    )
-                  ) {
-                    diastolicBPInput.current.clear();
-                  }
-                  updateBiomarker({
-                    ...biomarker,
-                    diastolicBP: e.nativeEvent.text,
-                  });
-                }}
-              />
-            </View>
-            <View style={{ width: "50%" }}>
-              <Text style={styles.biomarkerSubtitle}>Systolic BP</Text>
-              <TextInput
-                ref={systolicBPInput}
-                style={styles.biomarkerPlaceholder}
-                placeholder="Enter Systolic BP"
-                keyboardType="decimal-pad"
-                value={biomarker.systolicBP}
-                onChangeText={(text) =>
-                  updateBiomarker({
-                    ...biomarker,
-                    systolicBP: enforceOneDecimal(text),
-                  })
-                }
-                onEndEditing={(e) => {
-                  if (
-                    !validateBiomarker(
-                      e.nativeEvent.text,
-                      "Systolic BP",
-                      50,
-                      250
-                    )
-                  ) {
-                    systolicBPInput.current.clear();
-                  }
-                  updateBiomarker({
-                    ...biomarker,
-                    systolicBP: e.nativeEvent.text,
-                  });
-                }}
-              />
-            </View>
-          </View>
-        </View>
-        <View style={styles.biomarkerContainer}>
-          <Text style={styles.biomarkerTitle}>Lipid Profile</Text>
+          <Text style={styles.biomarkerTitle}>Lipid Profile (mmol/L)</Text>
           <View style={styles.biomarkerContainer}>
             <Text style={styles.biomarkerSubtitle}>Total Cholesterol</Text>
             <TextInput
@@ -680,6 +729,13 @@ function Biomarkers({ route, navigation }) {
   );
 }
 
+/**
+ *
+ * @param route The navigation route
+ * @param navigation
+ * @returns {JSX.Element} The Questions Tab
+ * @constructor
+ */
 function Questions({ route, navigation }) {
   const questions = route.params.route.params["appointment"]["questions"];
   const finalQuestionArray = [
@@ -718,13 +774,18 @@ function Questions({ route, navigation }) {
           </View>
         )}
         ItemSeparatorComponent={this.renderSeparator}
-        // contentContainerStyle
+      // contentContainerStyle
       ></SectionList>
       {/* </ScrollView> */}
     </View>
   );
 }
 
+/**
+ *
+ * @returns {JSX.Element} The Recording view
+ * @constructor
+ */
 function Recording() {
   const progressView = useRef();
   const [progress, setProgress] = useState(0);
@@ -765,6 +826,11 @@ function Recording() {
   );
 }
 
+/**
+ *
+ * @returns {JSX.Element} The Notes tab
+ * @constructor
+ */
 function Notes() {
   const [recording, setRecording] = useState(false);
 
