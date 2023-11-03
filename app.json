@@ -6,11 +6,14 @@
     "assetBundlePatterns": [
       "**/*"
     ],
+    "owner": "cheeseball42",
+    "ios": {
+      "bundleIdentifier": "org.name.diabetesmate"
+    },
     "extra": {
       "eas": {
-        "projectId": "d9dc4bf1-edfb-4a80-8379-e2afa56c73bb"
+        "projectId": "e92b23ee-46e1-474a-b195-0345e9f8538a"
       }
-    },
-    "owner": "3drds3hin"
+    }
   }
 }
