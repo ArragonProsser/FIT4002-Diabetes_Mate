@@ -1,4 +1,16 @@
-# diabetes_mate
+# Diabetes Mate
+
+This application was built as part of a university project to address the challenges of patient engagement and communication within limited consultation time. It provides users with a convenient and user friendly platform to manage their health appointments, track their biomarkers and prompts them to ask the right questions in their consultations. The app offers doctors valuable insights into their patients health status enabling them to run consultations more effectively.
+
+![](/Onboarding.png)
+![](/Biomarkers-Graph.png)
+
+![](/Appointment-Questions.png)
+
+![](/Appointment-Record-Data.png)
+![](/Education-Resources.png)
+
+![](/System-Architecture.png)
 
 ## How to run
 
